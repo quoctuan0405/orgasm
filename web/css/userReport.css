@@ -1,0 +1,182 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Sep 12, 2021, 5:33:58 AM
+    Author     : Admin
+*/
+
+body {
+    background: #F4F4F4;
+}
+
+.main {
+    padding-left: 90px;
+    padding-right: 90px;
+}
+
+.banner {
+    background: #62B13E;
+    width: 100%;
+    height: 180px;
+    position: relative;
+}
+
+.banner .title {
+    position: absolute;
+    left: 87px;
+    top: 47px;
+    color: white;
+    font-weight: bold;
+    font-size: 35px;
+    line-height: 41px;
+}
+
+.generate-button {
+    border: none;
+    background: white;
+    cursor: pointer;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 29px;
+    text-align: center;
+    color: #62B13E;
+    box-shadow: 0 0 3px #444;
+}
+
+.banner .generate-button {
+    position: absolute;
+    top: 44px;
+    right: 90px;
+    width: 238px;
+    height: 53px;
+}
+
+.generate-button:hover {
+    transition: .3s;
+    box-shadow: 0 0 7px #444;
+}
+
+.generate-button:active {
+    transition: .3s;
+    box-shadow: 0 0 0px #444;
+}
+
+.chart {
+    width: 100%;
+    margin-top: -54px;
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.highcharts-figure-revenue, .highcharts-data-table table {
+    min-width: 700px;
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+    margin: 0;
+}
+
+.highcharts-figure-category {
+    max-height: 425px;
+    margin: 0;
+    margin-left: auto;
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+}
+
+#revenue-container, #category-container {
+    max-height: 425px;
+}
+
+.highcharts-data-table table {
+    font-family: Verdana, sans-serif;
+    border-collapse: collapse;
+    border: 1px solid #EBEBEB;
+    margin: 10px auto;
+    text-align: center;
+    width: 100%;
+    max-width: 500px;
+}
+
+.highcharts-data-table caption {
+    padding: 1em 0;
+    font-size: 1.2em;
+    color: #555;
+}
+.highcharts-data-table th {
+    font-weight: 600;
+    padding: 0.5em;
+}
+.highcharts-data-table td, .highcharts-data-table th, .highcharts-data-table caption {
+    padding: 0.5em;
+}
+.highcharts-data-table thead tr, .highcharts-data-table tr:nth-child(even) {
+    background: #f8f8f8;
+}
+.highcharts-data-table tr:hover {
+    background: #f1f7ff;
+}
+
+.download-earning-report {
+    width: 700px;
+    height: 90px;
+    margin-top: 22px;
+    background: #62B13E;
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.download-earning-report p {
+    font-weight: bold;
+    font-size: 25px;
+    line-height: 29px;
+    color: #FFFFFF;
+    margin-left: 47px;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.download-earning-report .generate-button {
+    margin-left: auto;
+    width: 214.41px;
+    height: 53px;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-right: 27px;
+}
+
+.revenue-products {
+    background: white;
+    margin-top: 41px;
+    padding-top: 23px;
+    padding-left: 53px;
+    padding-right: 53px;
+    padding-bottom: 38px;
+    margin-bottom: 25px;
+}
+
+.revenue-products p {
+    font-weight: bold;
+    font-size: 25px;
+    line-height: 29px;
+    margin: 0;
+    padding: 0;
+    margin-bottom: 17px;
+}
+
+table thead tr th {
+    color: #62B13E;
+}
+
+table tbody tr td {
+    border-bottom: 1px solid #eee;
+}
+
+.dataTable-info {
+    color: #8c8c8c;
+}
+
+.dataTable-wrapper.no-footer .dataTable-container {
+    border-bottom: none;
+}
