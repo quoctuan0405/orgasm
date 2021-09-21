@@ -1,0 +1,212 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Sep 12, 2021, 8:52:45 PM
+    Author     : Administrator
+*/
+
+.container{
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.category-header {
+    text-align: center;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 30px;
+    line-height: 35px;
+    color: #FFFFFF;
+    background: #62B13E;
+    height: 70px;
+    left: 70px;
+    top: 150px;
+    padding-top: 18px
+}
+
+.category ul {
+    list-style-type: none;
+    text-decoration: none;
+    border: 1px solid #BFBFBF;
+    box-sizing: border-box;
+    width: 274px;
+    height: 372px;
+    left: 70px;
+    top: 150px;
+    padding: 0;
+    margin: 0;
+}
+
+.category ul li {
+    padding-top: 24px;
+    text-align: center;
+    font-size: 20px;
+    line-height: 23px;
+}
+
+.category ul li a {
+    text-decoration: none;
+    font-family: Roboto;
+    font-style: normal;
+    color: black;
+}
+
+.input{
+    width: 564px;
+    height: 50px;
+    font-size: 20px;
+    line-height: 23px;
+    padding-left: 22px;
+}
+
+div .search {
+    width: 890px;
+}
+
+.btn{
+    text-align: center;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 30px;
+    line-height: 35px;
+    color: #FFFFFF;
+    background: #62B13E;
+    border: none;
+    box-shadow: 0 0 3px #444;
+    cursor: pointer;
+}
+
+.btn:hover {
+    transition: .3s;
+    box-shadow: 0 0 7px #444;
+}
+
+.btn:active {
+    transition: .3s;
+    box-shadow: 0 0 0px #444;
+}
+
+.he1{
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 50px;
+    text-align: center;
+    padding-bottom: 9px;
+}
+
+.search{
+    width: 890px;
+    padding-left: 105px;
+    flex: 1;
+}
+
+.ban{
+    position: relative;
+    width: 100%;
+    max-width: 968px;
+    padding-top: 40px;
+}
+
+.ban img{
+    width: 889px;
+    height: 456px;
+    object-fit: fill;
+}
+
+.ban .btn{
+    position: absolute;
+    bottom: 41px;
+    left: 67px;
+    height: 68px;
+    width: 266px;
+    padding: 0;
+    border-radius: 0;
+}
+
+body .container{
+    padding-top: 50px;
+    padding-left: 70px;
+    padding-bottom: 83px;
+}
+
+div .category {
+    width: 274px;
+}
+
+.picture{
+    padding-top: 30px;
+    padding-left: 30px;
+    padding-right: 30px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 123px;
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.product {
+    width: 301px;
+    margin-right: 20px;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    padding-left: 13px;
+    padding-right: 13px;
+    text-decoration: none;
+    box-shadow: 0 0 10px #ccc;
+}
+
+.product:hover {
+    transition: .2s;
+    box-shadow: 0 0 5px #999;
+
+}
+
+.product:active {
+    transition: .2s;
+    box-shadow: 0 0 2px #999;
+}
+
+.picture .product:first-child {
+    margin-left: auto;
+}
+
+.picture .product:last-child {
+    margin-right: auto;
+}
+
+.de{
+    padding-top: 34px;
+}
+
+.de h3 {
+    color: black;
+}
+
+.pr{
+    padding-top: 17px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 25px;
+    line-height: 29px;
+
+    color: #000000;
+}
+
+.pp{
+    text-align: center;
+    font-family: Roboto;
+    font-style: normal;
+}
+
+.pp img {
+    width: 100%;
+    height: 255px;
+    display: block;
+}
