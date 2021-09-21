@@ -1,0 +1,133 @@
+body {
+    background-color: #8080801a;
+}
+
+.bio {
+    margin: 30px;
+    background-color: white;
+    padding-left: 44px;
+    padding-right: 100px;
+    padding-top: 46px;
+    padding-bottom: 46px;
+}
+
+.bio p{
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 30px;
+    line-height: 35px;
+    color: #62B13E;
+}
+
+.bio-table {
+    padding-top: 34px;
+    padding-left: 20px;
+}
+
+table {
+    width: 100%;
+    border: 1px solid #C5C5C5;
+    border-collapse: collapse;
+}
+
+tr {
+    width: 100%;
+    height: 53px;
+}
+
+td {
+    border-top: 1px solid #C5C5C5;
+}
+
+table tr td:first-child {
+    width: 300px;
+    font-weight: bold;
+    padding-left: 45px;
+    padding-bottom: 36px;
+    padding-top: 36px;
+    font-size: 22px;
+    line-height: 26px;
+    color: #464646;
+}
+
+table tr td:nth-child(2) {
+    padding-right: 45px;
+}
+
+table tr td:nth-child(2) input {
+    border: 1px solid #E5E5E5;
+    width: 100%;
+    height: 57px;
+    font-size: 22px;
+    line-height: 26px;
+    color: #8C8C8C;
+    padding-left: 25px;
+}
+
+.text {
+    padding-top: 30px;
+    padding-left: 20px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 43px;
+}
+
+.profile {
+    margin: 30px;
+    background-color: white;
+    padding-left: 44px;
+    padding-right: 100px;
+    padding-top: 46px;
+    padding-bottom: 46px;
+}
+
+.profile p:first-child {
+    font-size: 25px;
+    height: 24px;
+    color: #62b13e;
+    font-weight: bold;
+    margin-bottom: 38px;
+}
+
+.profile .tus {
+    margin: 0 auto 30px 20px;
+}
+
+.profile .tus input{
+    color: #747070;
+    width: 100%;
+    height: 80px;
+    border: 1px solid #C5C5C5;
+    font-size: 20px;
+    padding-left: 30px;
+}
+
+.save-button {
+    border: none;
+    display: block;
+    margin-left: auto;
+    cursor: pointer;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 29px;
+    width: 200px;
+    height: 53px;
+    text-align: center;
+    background-color: #62B13E;
+    color: white;
+    box-shadow: 0 0 3px #444;
+}
+
+.save-button:hover {
+    transition: .3s;
+    box-shadow: 0 0 7px #444;
+}
+
+.save-button:active {
+    transition: .3s;
+    box-shadow: 0 0 0px #444;
+}
