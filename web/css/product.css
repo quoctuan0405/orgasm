@@ -1,0 +1,147 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Sep 11, 2021, 3:20:12 PM
+    Author     : dangd
+*/
+.category{
+    padding-top: 50px;
+    text-decoration: none;
+}
+
+.category ul {
+    list-style-type: none;
+    text-decoration: none;
+    border: 1px solid #BFBFBF;
+    box-sizing: border-box;
+    width: 274px;
+    height: 372px;
+    left: 70px;
+    top: 150px;
+    padding: 0;
+    margin: 0;
+}
+
+.picture{
+    padding-top: 30px;
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.container{
+    padding-left: 70px;
+    display: flex;
+    flex-flow: row wrap;
+    margin-bottom: 36px;
+}
+
+.category ul li {
+    padding-top: 24px;
+    text-align: center;
+    font-size: 20px;
+    line-height: 23px;
+    text-decoration: none;
+}
+
+.category ul li a {
+    width: 100px;
+    height: 23px;
+    left: 134px;
+    top: 241px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 23px;
+    text-decoration: none;
+
+    color: #000000;
+}
+
+.category-header{
+    padding-top: 18px;
+    text-align: center;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 30px;
+    line-height: 35px;
+    color: #FFFFFF;
+    background: #62B13E;
+    height: 70px;
+    left: 70px;
+    top: 150px;
+}
+
+.search{
+    padding-top: 50px;
+    padding-left: 107px;
+    flex: 1;
+}
+
+.input{
+    width: 564px;
+    height: 50px;
+    font-size: 20px;
+    line-height: 23px;
+    padding-left: 22px;
+}
+
+.product {
+    width: 301px;
+    text-decoration: none;
+    box-shadow: 0 0 10px #ccc;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    padding-left: 13px;
+    padding-right: 13px;
+    margin-right: 20px;
+}
+
+.product:hover {
+    transition: .2s;
+    box-shadow: 0 0 5px #999;
+
+}
+
+.product:active {
+    transition: .2s;
+    box-shadow: 0 0 2px #999;
+}
+
+.image{
+    width: 100%;
+    height: 255px;
+}
+
+.card-body {
+    padding-top: 34px;
+}
+
+.card-body h3 {
+    font-family: Roboto;
+    font-style: normal;
+    line-height: 29px;
+    text-align: center;
+    color: black;
+}
+
+.price{
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 25px;
+    line-height: 29px;
+    padding-top: 17px;
+    color: #000000;
+    text-align: center;
+}
+
+.color{
+    color: #000000;
+    text-decoration: none;
+}
