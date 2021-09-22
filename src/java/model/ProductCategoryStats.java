@@ -10,13 +10,13 @@ package model;
  *
  * @author Admin
  */
-public class CategoryProductStats {
+public class ProductCategoryStats {
     private String name;
     private int totalItems;
 
-    public CategoryProductStats() {}
+    public ProductCategoryStats() {}
 
-    public CategoryProductStats(String name, int totalItems) {
+    public ProductCategoryStats(String name, int totalItems) {
         this.name = name;
         this.totalItems = totalItems;
     }
