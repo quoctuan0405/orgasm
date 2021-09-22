@@ -13,31 +13,13 @@ import java.util.List;
 
 /**
  *
- * @author Administrator
+ * @author Admin
  */
 public class ProductCategories {
-    static public List<ProductCategory> allCategory() {
-        List<ProductCategory> list = new ArrayList<ProductCategory>();
-
-        String query = "SELECT * FROM ProductCategories";
-
-        try {
-            Connection conn = Model.getConnection();
-            PreparedStatement ps = conn.prepareStatement(query);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                list.add(new ProductCategory(rs.getInt("id"), rs.getString("name")));
-            }
-        } catch (Exception e) {
-        }
-
-        return list;
-    }
-     
     static public List<Product> getProductByCategory(String cid) {
         List<Product> list = new ArrayList<Product>();
 
-        String query = "SELECT * FROM Products "
+        String query = "SELECT id, name, quantity, price, category, thumbnail, description, unit, creatorId FROM Products\n"
                         + "WHERE category = ?";
 
         try {
@@ -55,11 +37,65 @@ public class ProductCategories {
                     rs.getString("thumbnail"), 
                     rs.getString("description"), 
                     rs.getString("unit"), 
-                    rs.getInt("creatorId")
-                ));
+                    rs.getInt("creatorId"))
+                );
             }
+            
         } catch (Exception e) {}
 
         return list;
+    }
+    
+    static public List<ProductCategoryStats> getCategoryProductStats(int userId) {
+        List<ProductCategoryStats> list = new ArrayList<ProductCategoryStats>();
+    
+        String query = "SELECT ProductCategories.name AS name, SUM(OrderProduct.quantity) AS totalItems " +
+                        "FROM Orders " +
+                        "JOIN OrderProduct ON Orders.id = OrderProduct.orderId " +
+                        "JOIN Products ON Products.id = OrderProduct.productId " +
+                        "JOIN ProductCategories ON ProductCategories.id = Products.category " +
+                        "JOIN Users ON Products.creatorId = Users.id " +
+                        "WHERE Orders.status = 2 AND Users.id = ? " +
+                        "GROUP BY ProductCategories.id, ProductCategories.name;";
+
+        try {
+            Connection conn = Model.getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            
+            ps.setInt(1, userId);
+            
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new ProductCategoryStats(rs.getString("name"), rs.getInt("totalItems")));
+            }
+        } catch (Exception e) {}
+        
+        return list;
+    }
+    
+    static public List<ProductCategory> allCategory() {
+        List<ProductCategory> list = new ArrayList<ProductCategory>();
+
+        String query = "SELECT * FROM ProductCategories";
+
+        try {
+            Connection conn = Model.getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new ProductCategory(rs.getInt("id"), rs.getString("name")));
+            }
+        } catch (Exception e) {
+        }
+
+        return list;
+    }
+    
+    public static void main(String[] args) {
+        List<ProductCategoryStats> list = ProductCategories.getCategoryProductStats(1);
+        
+        for (int i = 0; i < list.size(); i++) {
+            System.out.println(list.get(i).getName() + ": " + list.get(i).getTotalItems());
+        }
     }
 }
