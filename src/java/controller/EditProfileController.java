@@ -20,8 +20,8 @@ import model.Users;
  *
  * @author Administrator
  */
-@WebServlet(name = "EditUserController", urlPatterns = {"/profile/edit"})
-public class EditUserController extends HttpServlet {
+@WebServlet(name = "EditProfileController", urlPatterns = {"/profile/edit"})
+public class EditProfileController extends HttpServlet {
     /**
      * Handles the HTTP <code>GET</code> method.
      *
