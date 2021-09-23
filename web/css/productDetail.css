@@ -1,0 +1,138 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Sep 19, 2021, 5:07:25 PM
+    Author     : LAPTOP D&N
+*/
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-family: Roboto;
+}
+
+body {
+  line-height: 1.5;  
+}
+
+.product {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+img {
+  width: 100%;
+  display: block;
+}
+
+.img-display {
+  overflow: hidden;
+}
+
+.img-showcase {
+  display: flex;
+  width: 100%;
+  transition: all 0.5s ease;
+  height: 423px;
+  overflow: hidden;
+}
+.img-showcase img {
+  width: 100%;
+}
+
+.product-name {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 35px;
+  line-height: 41px;
+  /* identical to box height */
+
+  color: #000000;
+}
+
+.product-price {
+  margin: 1rem 0;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 30px;
+  line-height: 35px;
+
+  color: #62b13e;
+  margin-top: 27px;
+}
+
+.product-price span {
+  font-weight: 400;
+}
+
+.product-description p {
+  padding: 0.3rem;
+  opacity: 0.8;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 35px;
+  /* or 175% */
+
+  color: #8c8c8c;
+}
+
+.purchase-info {
+  margin: 1.5rem 0;
+}
+
+.purchase-info .btn {
+  cursor: pointer;
+  color: #ffff;
+}
+
+.purchase-info input,
+.purchase-info .btn {
+  border: 1.5px solid #ddd;
+  border-radius: 25px;
+  text-align: center;
+  padding: 0.45rem 0.8rem;
+  outline: 0;
+  margin-right: 0.2rem;
+  margin-bottom: 1rem;
+}
+
+.purchase-info input {
+  width: 100px;
+  height: 43px;
+  margin-left: 150px;
+  margin-right: 40px;
+
+  
+}
+
+.purchase-box {
+  margin-right: auto;
+}
+
+.purchase-info .btn {
+  background: #62b13e;
+  width: 200px;
+  height: 43px;
+  
+}
+
+.purchase-info .btn:hover {
+  opacity: 0.9;
+}
+
+@media screen and (min-width: 1227px) {
+  .card {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 1.5rem;
+    margin-top: 45px;
+    margin-bottom: 64px;
+  }
+}
