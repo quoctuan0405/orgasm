@@ -15,9 +15,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.ProductCategoryStats;
-import model.ProductCategories;
 import model.OrderStats;
 import model.Orders;
+import model.ProductCategories;
 import model.ProductStats;
 import model.Products;
 import model.Users;
@@ -57,9 +57,9 @@ public class UserReportController extends HttpServlet {
         }
         /***** End Authentication *****/
         
-        List<OrderStats> revenueByMonth = Orders.revenueByMonth(1);
-        List<ProductCategoryStats> productsSoldByCategory = ProductCategories.getCategoryProductStats(1);
-        List<ProductStats> productsReport = Products.getProductStats(1); 
+        List<OrderStats> revenueByMonth = Orders.revenueByMonth(userId);
+        List<ProductCategoryStats> productsSoldByCategory = ProductCategories.getCategoryProductStats(userId);
+        List<ProductStats> productsReport = Products.getProductStats(userId); 
         
         request.setAttribute("revenueByMonth", revenueByMonth);
         request.setAttribute("productsSoldByCategory", productsSoldByCategory);
