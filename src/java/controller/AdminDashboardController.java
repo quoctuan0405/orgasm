@@ -14,20 +14,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import model.ProductCategoryStats;
-import model.OrderStats;
-import model.Orders;
-import model.ProductCategories;
-import model.ProductStats;
-import model.Products;
+import model.User;
 import model.Users;
 
 /**
  *
  * @author Admin
  */
-@WebServlet(name = "UserReport", urlPatterns = {"/user/report"})
-public class UserReportController extends HttpServlet {
+@WebServlet(name = "AdminDashboardController", urlPatterns = {"/admin/dashboard"})
+public class AdminDashboardController extends HttpServlet {
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -51,21 +46,18 @@ public class UserReportController extends HttpServlet {
 
         int userId = (int) session.getAttribute("acc");
         
-        if (Users.findById(userId) == null) {
-            response.sendRedirect(request.getContextPath() + "signup");
+        User user = Users.findById(userId);
+        if (user == null || !user.getRole().equals("admin")) {
+            response.sendRedirect(request.getContextPath() + "/signup");
             return;
         }
         /***** End Authentication *****/
         
-        List<OrderStats> revenueByMonth = Orders.revenueByMonth(userId);
-        List<ProductCategoryStats> productsSoldByCategory = ProductCategories.getCategoryProductStats(userId);
-        List<ProductStats> productsReport = Products.getProductStats(userId); 
+        List<User> users = Users.all();
         
-        request.setAttribute("revenueByMonth", revenueByMonth);
-        request.setAttribute("productsSoldByCategory", productsSoldByCategory);
-        request.setAttribute("productsReport", productsReport);
+        request.setAttribute("users", users);
         
-        request.getRequestDispatcher("/UserReport.jsp").forward(request, response);
+        request.getRequestDispatcher("/AdminDashboard.jsp").forward(request, response);
     }
 
     /**
@@ -79,6 +71,35 @@ public class UserReportController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        try {
+            /***** Authentication *****/
+            HttpSession session = request.getSession();
+
+            if (session == null || session.getAttribute("acc") == null) {
+                response.sendRedirect(request.getContextPath() + "/signup");
+                return;
+            }
+
+            int userId = (int) session.getAttribute("acc");
+
+            User user = Users.findById(userId);
+            if (user == null || !user.getRole().equals("admin")) {
+                response.sendRedirect(request.getContextPath() + "/signup");
+                return;
+            }
+            /***** End Authentication *****/
+
+            int deleteUserId = Integer.parseInt(request.getParameter("userId"));
+            
+            Users.delete(deleteUserId);
+
+            List<User> users = Users.all();
+
+            request.setAttribute("users", users);
+            
+        } catch(Exception e) {}
+        
+        request.getRequestDispatcher("/AdminDashboard.jsp").forward(request, response);
     }
 
     /**

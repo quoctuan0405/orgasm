@@ -1,24 +1,31 @@
-package model;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package model;
 
 /**
  *
  * @author Admin
  */
-public class CategoryProductStats {
+public class Role {
+    private int id;
     private String name;
-    private int totalItems;
 
-    public CategoryProductStats() {}
+    public Role() {}
 
-    public CategoryProductStats(String name, int totalItems) {
+    public Role(int id, String name) {
+        this.id = id;
         this.name = name;
-        this.totalItems = totalItems;
+    }
+    
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -28,12 +35,6 @@ public class CategoryProductStats {
     public void setName(String name) {
         this.name = name;
     }
-
-    public int getTotalItems() {
-        return totalItems;
-    }
-
-    public void setTotalItems(int totalItems) {
-        this.totalItems = totalItems;
-    }
+    
+    
 }

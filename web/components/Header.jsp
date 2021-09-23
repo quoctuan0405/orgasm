@@ -4,7 +4,7 @@
 <header>
     <nav>
         <div class="header-logo">
-            <a href="home">Orgasm</a>
+            <a href="${pageContext.request.contextPath}/home">Orgasm</a>
         </div>
         <div class="header-links">
             <ul>
