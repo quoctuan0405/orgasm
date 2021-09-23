@@ -66,7 +66,7 @@ public class SignupController extends HttpServlet {
             HttpSession session = request.getSession();
             session.setAttribute("acc", user.getId());
 
-            response.sendRedirect("home");
+            response.sendRedirect(request.getContextPath() + "/profile/edit");
 
         } catch (Exception e) {
             e.printStackTrace();
