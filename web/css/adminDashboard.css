@@ -81,6 +81,36 @@ body {
     border-bottom: 1px solid #eee;
 }
 
+.user-management .user-list .user a {
+    font-weight: bold;
+    font-size: 18px;
+    color: #444;
+    border-bottom: 1px solid #c5c5c5;
+    text-decoration: none;
+}
+
 .user-management .user-list .user form {
     margin-left: auto;
+}
+
+.user-management .user-list .user form button {
+    background: none;
+    border: none;
+    box-shadow: none;
+    cursor: pointer;
+}
+
+.user-management .user-list .user form button img {
+    border-radius: 100px;
+    box-shadow: 0 0 5px #666;
+}
+
+.user-management .user-list .user form button img:hover {
+    transition: .2s;
+    box-shadow: 0 0 3px #666;
+}
+
+.user-management .user-list .user form button img:active {
+    transition: .2s;
+    box-shadow: 0 0 2px #666;
 }

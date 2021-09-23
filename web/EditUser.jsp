@@ -22,6 +22,8 @@
             
             <div class="bio-table">
                 <table> 
+                    <input type="hidden" value="${user.id}" name="userId">
+                    
                     <tr>
                         <td>Avatar</td>
                         <td><input type="text" value="${user.avatar}" name="avatar">
@@ -58,8 +60,13 @@
             </div>
                     
             <div class="text">
-                <span>Need to change your password?</span>
-                <a href="#">Click there!</a>
+                <c:if test="${admin == null}">
+                    <span>Need to change your password?</span>
+                    <a href="#">Click there!</a>
+                </c:if>
+                <c:if test="${admin != null}">
+                    <a href="#">Reset user password</a>
+                </c:if>
             </div>
 
             <button class="save-button" type="action">Save</button>

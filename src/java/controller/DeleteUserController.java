@@ -21,8 +21,8 @@ import model.Users;
  *
  * @author Admin
  */
-@WebServlet(name = "AdminDashboardController", urlPatterns = {"/admin/dashboard"})
-public class AdminDashboardController extends HttpServlet {
+@WebServlet(name = "DeleteUserController", urlPatterns = {"/admin/user/delete"})
+public class DeleteUserController extends HttpServlet {
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -34,30 +34,6 @@ public class AdminDashboardController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        
-        /***** Authentication *****/
-        HttpSession session = request.getSession();
-
-        if (session == null || session.getAttribute("acc") == null) {
-            response.sendRedirect(request.getContextPath() + "/signup");
-            return;
-        }
-
-        int userId = (int) session.getAttribute("acc");
-        
-        User user = Users.findById(userId);
-        if (user == null || !user.getRole().equals("admin")) {
-            response.sendRedirect(request.getContextPath() + "/signup");
-            return;
-        }
-        /***** End Authentication *****/
-        
-        List<User> users = Users.all();
-        
-        request.setAttribute("users", users);
-        
-        request.getRequestDispatcher("/AdminDashboard.jsp").forward(request, response);
     }
 
     /**
@@ -71,7 +47,38 @@ public class AdminDashboardController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+
         
+        try {
+            /***** Authentication *****/
+            HttpSession session = request.getSession();
+
+            if (session == null || session.getAttribute("acc") == null) {
+                response.sendRedirect(request.getContextPath() + "/signup");
+                return;
+            }
+
+            int userId = (int) session.getAttribute("acc");
+
+            User user = Users.findById(userId);
+            if (user == null || !user.getRole().equals("admin")) {
+                response.sendRedirect(request.getContextPath() + "/signup");
+                return;
+            }
+            /***** End Authentication *****/
+
+            int deleteUserId = Integer.parseInt(request.getParameter("userId"));
+            
+            Users.delete(deleteUserId);
+
+            List<User> users = Users.all();
+
+            request.setAttribute("users", users);
+            
+        } catch(Exception e) {}
+        
+        request.getRequestDispatcher("/AdminDashboard.jsp").forward(request, response);
     }
 
     /**

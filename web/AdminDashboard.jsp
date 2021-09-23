@@ -34,8 +34,8 @@
                 <div class="user-list">
                     <c:forEach items="${users}" var="user">
                         <div class="user">
-                            <p>${user.username}</p>
-                            <form action="" method="POST">
+                            <p><a href="${pageContext.request.contextPath}/admin/user/edit?userId=${user.id}">${user.username}</a></p>
+                            <form action="${pageContext.request.contextPath}/admin/user/delete" method="POST">
                                 <input value="${user.id}" name="userId" type="hidden"/>
                                 <button>
                                     <img src="${pageContext.request.contextPath}/assets/images/Remove.svg"/>
