@@ -33,28 +33,13 @@ public class Blogs {
         return list;
     }
     
-    static public List<Blog> getBlogbyCategory(String category){
+    static public List<Blog> getBlogbyCategory(String id){
         List<Blog> list = new ArrayList<>();
         String query = "SELECT * FROM Blogs WHERE category = ?";
         try {
             Connection conn = Model.getConnection();
             PreparedStatement ps = conn.prepareStatement(query);
-            ps.setString(1, category);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                list.add(new Blog(rs.getInt("id"), rs.getString("image"),rs.getString("title"),rs.getDate("createdAt"),rs.getString("content"),rs.getInt("category"),rs.getInt("authorid")));
-            }
-        } catch (Exception e) {}
-        
-        return list;
-    }
-    static public List<Blog> getBlogbyUser(int user){
-        List<Blog> list = new ArrayList<>();
-        String query = "SELECT * FROM Blogs WHERE authorId = ?";
-        try {
-            Connection conn = Model.getConnection();
-            PreparedStatement ps = conn.prepareStatement(query);
-            ps.setInt(1, user);
+            ps.setString(1, id);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 list.add(new Blog(rs.getInt("id"), rs.getString("image"),rs.getString("title"),rs.getDate("createdAt"),rs.getString("content"),rs.getInt("category"),rs.getInt("authorid")));
@@ -112,6 +97,28 @@ public class Blogs {
         
         return list;
     } 
+    
+    static public Blog getBlogByID(String id){
+        String query = "select * from Blogs \n"
+                     + "where id=?";
+        try {
+            Connection conn = Model.getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                return new Blog(rs.getInt("id"), 
+                                  rs.getString("image"), 
+                                  rs.getString("title"),
+                                  rs.getDate("createdAt"),
+                                  rs.getString("content"),
+                                  rs.getInt("category"),
+                                  rs.getInt("authorid"));
+            }
+        } catch (Exception e) {
+        }
+        return null;
+    }
     
     public static void main(String[] args) {
         List<Blog> list = Blogs.all();
