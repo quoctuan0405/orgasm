@@ -15,7 +15,7 @@
         <link href="${pageContext.request.contextPath}/css/common.css" rel="stylesheet">
         
         <!-- Specific CSS file -->
-        <link href="css/blog.css" rel="stylesheet" type="text/css" />
+        <link href="${pageContext.request.contextPath}/css/blog.css" rel="stylesheet" type="text/css" />
             
     </head>
     <body>
@@ -53,7 +53,7 @@
             <div class="boxBorder">
                 <div class="row">
                     <c:forEach items = "${listBlog}" var ="o">
-                        <a class="box1" href="${pageContext.request.contextPath}/product?id=${o.id}">
+                        <a class="box1" href="${pageContext.request.contextPath}/blogdetail?id=${o.id}">
                             <div>
                                 <div class="image1" style="background-image: url('${o.image}')">
                                 </div>
