@@ -3,7 +3,7 @@
 
 This project is to build a website for merchants to sell their organic product online.
 
-Develop by Group 4. Members: quoctuan0405, ILongI, DucTho2502, putaa1, Xjodia.
+Develop by Group 4. Members: quoctuan0405, longDT, thoDD, thangNP, tungNPH.
 
 ## How we worked on this project
 

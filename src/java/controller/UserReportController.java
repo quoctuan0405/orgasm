@@ -52,7 +52,7 @@ public class UserReportController extends HttpServlet {
         int userId = (int) session.getAttribute("acc");
         
         if (Users.findById(userId) == null) {
-            response.sendRedirect(request.getContextPath() + "signup");
+            response.sendRedirect(request.getContextPath() + "/signup");
             return;
         }
         /***** End Authentication *****/

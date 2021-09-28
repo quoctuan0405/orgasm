@@ -8,13 +8,14 @@
 <!DOCTYPE html>
 <html>
     <head>
-
-        <link href="${pageContext.request.contextPath}/css/common.css" rel="stylesheet">
-        <link href="${pageContext.request.contextPath}/css/product.css" rel="stylesheet">
-        <!-- Specific CSS file -->
-        <link href="${pageContext.request.contextPath}/css/authForm.css" rel="stylesheet">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Our Products</title>
+        
+        <!-- Common CSS file -->
+        <link href="${pageContext.request.contextPath}/css/common.css" rel="stylesheet">
+        
+        <!-- Specific CSS file -->
+        <link href="${pageContext.request.contextPath}/css/product.css" rel="stylesheet">
     </head>
     <body>
         <%@include file="components/Header.jsp"%>
