@@ -62,7 +62,6 @@ public class Users extends Model {
             
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                System.out.println(rs.getString("username"));
                 return new User(rs.getInt("id"), 
                         rs.getString("email"), 
                         rs.getString("username"), 
@@ -190,6 +189,27 @@ public class Users extends Model {
         }
     }
     
+    static public User changePassword(String username, String password) {
+        try {
+            PasswordAuthentication passwordAuthentication = new PasswordAuthentication();
+            String hashedPassword = passwordAuthentication.hash(password.toCharArray());
+            
+            String query = "UPDATE Users SET password = ? WHERE username = ?";
+            
+            Connection conn = Model.getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, hashedPassword);
+            ps.setString(2, username);
+            
+            ps.executeUpdate();
+            
+            return Users.findByUsername(username);
+            
+        } catch (Exception e) {}
+        
+        return null;
+    }
+    
     public static void main(String[] args) {
 //        List<User> list = Users.all();
 //        
@@ -210,5 +230,9 @@ public class Users extends Model {
 //        System.out.println(user4.getRole());
 
 //        Users.delete(3);
+
+//        Users.changePassword("username", "password1");
+//        User user5 = Users.verify("username", "password1");
+//        System.out.println(user5.getAddress());
     }
 }
