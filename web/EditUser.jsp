@@ -62,7 +62,7 @@
             <div class="text">
                 <c:if test="${admin == null}">
                     <span>Need to change your password?</span>
-                    <a href="#">Click there!</a>
+                    <a href="${pageContext.request.contextPath}/password/change">Click there!</a>
                 </c:if>
                 <c:if test="${admin != null}">
                     <a href="#">Reset user password</a>
