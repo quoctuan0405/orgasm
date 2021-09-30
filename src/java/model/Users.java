@@ -21,7 +21,7 @@ public class Users extends Model {
     static public List<User> all() {
         List<User> list = new ArrayList<User>();
     
-        String query = "SELECT Users.id AS id, email, username, password, avatar, shortDescription, profile, address, phone, gender, status, Roles.name AS role " +
+        String query = "SELECT Users.id AS id, email, username, password, avatar, shortDescription, profile, address, phone, gender, status, emailVerified, verifyToken, Roles.name AS role " +
                         "FROM Users " +
                         "JOIN Roles ON Users.role = Roles.id";
 
@@ -41,7 +41,9 @@ public class Users extends Model {
                         rs.getString("status"), 
                         rs.getString("password"),
                         rs.getString("avatar"),
-                        rs.getString("shortDescription")
+                        rs.getString("shortDescription"),
+                        rs.getBoolean("emailVerified"),
+                        rs.getString("verifyToken")
                 ));
             }
         } catch (Exception e) {}
@@ -50,7 +52,7 @@ public class Users extends Model {
     }
     
     static public User findByUsername(String username) {
-        String query = "SELECT Users.id AS id, email, username, password, avatar, shortDescription, profile, address, phone, gender, status, Roles.name AS role " +
+        String query = "SELECT Users.id AS id, email, username, password, avatar, shortDescription, profile, address, phone, gender, status, emailVerified, verifyToken, Roles.name AS role " +
                         "FROM Users " +
                         "JOIN Roles ON Users.role = Roles.id " +
                         "WHERE username = ?";
@@ -73,7 +75,9 @@ public class Users extends Model {
                         rs.getString("status"), 
                         rs.getString("password"),
                         rs.getString("avatar"),
-                        rs.getString("shortDescription")
+                        rs.getString("shortDescription"),
+                        rs.getBoolean("emailVerified"),
+                        rs.getString("verifyToken")
                 );
             }
         } catch (Exception e) {}
@@ -82,7 +86,7 @@ public class Users extends Model {
     }
     
     static public User findById(int id) {
-        String query = "SELECT Users.id AS id, email, username, password, profile, avatar, shortDescription, address, phone, gender, status, Roles.name AS role " +
+        String query = "SELECT Users.id AS id, email, username, password, profile, avatar, shortDescription, address, phone, gender, status, emailVerified, verifyToken, Roles.name AS role " +
                         "FROM Users " +
                         "JOIN Roles ON Users.role = Roles.id " +
                         "WHERE Users.id = ?";
@@ -105,7 +109,9 @@ public class Users extends Model {
                         rs.getString("status"), 
                         rs.getString("password"),
                         rs.getString("avatar"),
-                        rs.getString("shortDescription")
+                        rs.getString("shortDescription"),
+                        rs.getBoolean("emailVerified"),
+                        rs.getString("verifyToken")
                 );
             }
         } catch (Exception e) {}
@@ -127,12 +133,12 @@ public class Users extends Model {
         }
     }
     
-    public static User add(String email, String username, String password, int role) {
+    public static User add(String email, String username, String password, int role, String verifyToken) {
         try {
             PasswordAuthentication passwordAuthentication = new PasswordAuthentication();
             String hashedPassword = passwordAuthentication.hash(password.toCharArray());
             
-            String query = "INSERT INTO Users (email, username, password, role) VALUES (?, ?, ?, ?)";
+            String query = "INSERT INTO Users (email, username, password, role, verifyToken) VALUES (?, ?, ?, ?, ?)";
             
             Connection conn = Model.getConnection();
             PreparedStatement ps = conn.prepareStatement(query);
@@ -140,12 +146,15 @@ public class Users extends Model {
             ps.setString(2, username);
             ps.setString(3, hashedPassword);
             ps.setInt(4, role);
+            ps.setString(5, verifyToken);
             
             ps.executeUpdate();
             
             return Users.findByUsername(username);
             
-        } catch (Exception e) {}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         
         return null;
     }
@@ -210,6 +219,32 @@ public class Users extends Model {
         return null;
     }
     
+    static public User verifyEmail(int id, String token) {
+        try {
+            User user = Users.findById(id);
+            
+            if (!user.getVerifyToken().equals(token)) {
+                return null;
+            }
+            
+            String query = "UPDATE Users SET emailVerified = 1, verifyToken = null WHERE id = ?";
+            
+            Connection conn = Model.getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setInt(1, id);
+            
+            ps.executeUpdate();
+            
+            user.setEmailVerified(true);
+            user.setVerifyToken(null);
+
+            return user;
+            
+        } catch (Exception e) {}
+        
+        return null;
+    }
+    
     public static void main(String[] args) {
 //        List<User> list = Users.all();
 //        
@@ -226,7 +261,7 @@ public class Users extends Model {
 //        User user3 = Users.verify("username", "password");
 //        System.out.println(user3.getHashedPassword());
         
-//        User user4 = Users.add("someoneElse@email.com", "username1", "password", 1);
+//        User user4 = Users.add("someoneElse@email.com", "username1", "password", 1, "myverytoken");
 //        System.out.println(user4.getRole());
 
 //        Users.delete(3);

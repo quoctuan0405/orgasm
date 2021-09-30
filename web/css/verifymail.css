@@ -1,0 +1,80 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Sep 30, 2021, 12:52:04 AM
+    Author     : Admin
+*/
+
+.container {
+    width: 100%;
+    height: 710px;
+    background-image: url('https://i.postimg.cc/k5Ws9R7G/pexels-rauf-allahverdiyev-1367243.jpg');
+    background-size: 100vw;
+    background-repeat: no-repeat;
+    background-position-x: 0;
+    background-position-y: 0;
+    padding-top: 149px;
+    padding-bottom: 187px;
+}
+
+.card {
+    display: block;
+    margin: auto;
+    padding-top: 35px;
+    padding-bottom: 35px;
+    width: max-content;
+    padding-left: 61px;
+    padding-right: 61px;
+    background: white;
+    box-shadow: 0 0 10px black;
+}
+
+.card img {
+    width: 108px;
+    height: 108px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.card .title {
+    font-weight: bold;
+    font-size: 30px;
+    line-height: 35px;
+    text-align: center;
+    color: #62B13E;
+    margin-top: 14px;
+}
+
+.card .error {
+    color: red;
+}
+
+.card .thanks-text {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 23px;
+    text-align: center;
+    color: #8C8C8C;
+    margin-top: 36px;
+}
+
+.card hr {
+    width: 711px;
+    border: 1px solid #4A7F2E;
+    margin-top: 52px;
+    margin-bottom: 26px;
+}
+
+.card .help-text {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 27px;
+    text-align: center;
+    color: #8C8C8C;
+}

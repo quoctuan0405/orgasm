@@ -7,6 +7,14 @@ package controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Properties;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,14 +24,13 @@ import javax.servlet.http.HttpSession;
 import model.User;
 import model.Users;
 import utility.Mail;
-import utility.Token;
 
 /**
  *
  * @author Admin
  */
-@WebServlet(name = "SignupController", urlPatterns = {"/signup"})
-public class SignupController extends HttpServlet {
+@WebServlet(name = "CheckMailController", urlPatterns = {"/mail/verify"})
+public class VerifyMailController extends HttpServlet {
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -37,7 +44,25 @@ public class SignupController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
-        request.getRequestDispatcher("Signup.jsp").forward(request, response);
+        try {
+            int userId = Integer.parseInt(request.getParameter("userId"));
+            String token = request.getParameter("token");
+            
+            User user = Users.verifyEmail(userId, token);
+            if (user == null) {
+                request.setAttribute("invalidToken", "invalidToken");
+                request.getRequestDispatcher("/VerifyMail.jsp").forward(request, response);
+            }
+            
+            HttpSession session = request.getSession();
+            session.setAttribute("acc", user.getId());
+
+            response.sendRedirect(request.getContextPath() + "/profile/edit");
+            
+        } catch (Exception e) {
+            request.setAttribute("invalidToken", "invalidToken");
+            request.getRequestDispatcher("/VerifyMail.jsp").forward(request, response);
+        }
     }
 
     /**
@@ -51,39 +76,6 @@ public class SignupController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        
-        String email = request.getParameter("email");
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        
-        if (email == null || username == null || password == null || email.isEmpty() || username.isEmpty() || password.isEmpty()) {
-            request.setAttribute("error", "Password and username must not be empty.");
-            request.getRequestDispatcher("Signup.jsp").forward(request, response);
-        }
-
-        try {
-            String token = Token.generateToken();
-
-            User user = Users.add(email, username, password, 1, token); // 1 means user role
-            if (user == null) {
-                request.setAttribute("error", "Username already exists.");
-                request.getRequestDispatcher("Signup.jsp").forward(request, response);
-            }
-
-            HttpSession session = request.getSession();
-            session.setAttribute("acc", user.getId());
-            
-            Mail.sendVerifyEmail("http://localhost:8080" + request.getContextPath() + "/mail/verify?token=" + token + "&userId=" + user.getId(), email);
-
-            request.getRequestDispatcher("/VerifyMail.jsp").forward(request, response);
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-
-            request.setAttribute("error", "Username already exists.");
-            request.getRequestDispatcher("Signup.jsp").forward(request, response);
-        }
     }
 
     /**

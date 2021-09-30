@@ -22,10 +22,28 @@ public class User {
     private String hashedPassword;
     private String avatar;
     private String shortDescription;
+    private boolean emailVerified;
+
+    public boolean isEmailVerified() {
+        return emailVerified;
+    }
+
+    public void setEmailVerified(boolean emailVerified) {
+        this.emailVerified = emailVerified;
+    }
+
+    public String getVerifyToken() {
+        return verifyToken;
+    }
+
+    public void setVerifyToken(String verifyToken) {
+        this.verifyToken = verifyToken;
+    }
+    private String verifyToken;
 
     public User() {}
 
-    public User(int id, String email, String username, String profile, String role, String address, String phone, String gender, String status, String hashedPassword, String avatar, String shortDescription) {
+    public User(int id, String email, String username, String profile, String role, String address, String phone, String gender, String status, String hashedPassword, String avatar, String shortDescription, boolean emailVerified, String verifyToken) {
         this.id = id;
         this.email = email;
         this.username = username;
@@ -38,6 +56,8 @@ public class User {
         this.hashedPassword = hashedPassword;
         this.avatar = avatar;
         this.shortDescription = shortDescription;
+        this.emailVerified = emailVerified;
+        this.verifyToken = verifyToken;
     }
     
     public int getId() {
