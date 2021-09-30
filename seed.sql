@@ -20,6 +20,8 @@ CREATE TABLE Users (
 	profile nvarchar(500),
 	avatar nvarchar(200),
 	shortDescription nvarchar(25),
+	emailVerified bit,
+	verifyToken nvarchar(200),
 	role int not null FOREIGN KEY REFERENCES Roles(id),
 );
 
@@ -103,8 +105,8 @@ CREATE TABLE Comments (
 INSERT INTO Roles (name) VALUES ('user');
 INSERT INTO Roles (name) VALUES ('admin');
 
-INSERT INTO Users (username, email, profile, role, address, phone, gender, status, shortDescription, password, avatar) 
-VALUES ('username', 'someone@email.com', 'Im proud to the first user in this software!', 2, '192 Avenue Street', '0933 485 222', 'Female', 'Married', 'Hi there!', '$31$16$RV53nD3fRxSFviE0HWVqV0Z4hOMb4QBM3iE3Vvu5Gmc', 'https://i.postimg.cc/BZmgq0fT/pexels-dmitriy-ganin-7538060.jpg');
+INSERT INTO Users (username, email, profile, role, address, phone, gender, status, shortDescription, emailVerified, password, avatar) 
+VALUES ('username', 'someone@email.com', 'Im proud to the first user in this software!', 2, '192 Avenue Street', '0933 485 222', 'Female', 'Married', 'Hi there!', 1, '$31$16$RV53nD3fRxSFviE0HWVqV0Z4hOMb4QBM3iE3Vvu5Gmc', 'https://i.postimg.cc/BZmgq0fT/pexels-dmitriy-ganin-7538060.jpg');
 
 INSERT INTO ProductCategories (name) VALUES ('Fresh Meat');
 INSERT INTO ProductCategories (name) VALUES ('Vegetable');
