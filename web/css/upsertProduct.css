@@ -1,0 +1,258 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Oct 2, 2021, 10:14:56 PM
+    Author     : dangd
+*/
+.banner {
+    height: 14vw;
+    background-image: url(https://i.postimg.cc/6B3P4MH6/pexels-rajesh-tp-1633525.jpg);
+    text-align: center;
+    margin: 0%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.banner .te {
+    padding: 5%;
+}
+
+.banner span {
+    color: white;
+    font-size: 50px;
+    font-weight: bold;
+}
+
+.father{
+    padding-left: 114px;
+    padding-top: 49px;
+    padding-right: 102px;
+}
+
+.table-product {
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+}
+
+.table-product table {
+    width: 100%;
+}
+
+.table-product thead th {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 25px;
+    padding-top: 30px;
+    padding-bottom: 25px;
+}
+
+.table-product td{
+    height: 157px;
+    text-align: center;
+}
+
+.table-product th:first-child{
+    width: 275px;
+    text-align: left;
+    padding-left: 61px;
+}
+
+.table-product th:nth-child(2) {
+    padding-left: 20px;
+}
+
+.table-product th:nth-child(3) {
+    padding-left: 5px;
+}
+
+.table-product td:first-child{
+    width: 275px;
+    text-align: left;    
+    padding-left: 61px;
+    display: flex;
+    flex-flow: row wrap;
+    padding-top: 28px;
+}
+
+hr {
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-left: 61px;
+    margin-right: 69px;
+    border: 1px solid #eee;
+}
+
+.head-price{
+    padding-left: 24px;
+    width: 410px;
+}
+
+.head-quantity{
+    text-align: left;
+}
+
+.image{
+    height: 100px;
+    width: 100px;
+}
+
+.container {
+    width: 100%;
+    margin: 0;
+    padding-left: 61px;
+    padding-right: 69px;
+    padding-bottom: 40px;
+    background: #FFFFFF;
+}
+
+.container ul {
+    padding-left: 0;
+}
+
+.headboard ul {
+    display: flex;
+    flex-flow: row wrap;
+    list-style-type: none;
+}
+
+.headboard ul li:nth-child(2) {
+    padding-left: 55px;
+}
+
+.headboard ul li:nth-child(3) {
+    padding-left: 55px;
+}
+
+.headboard ul li:nth-child(4) {
+    margin-left: auto;
+    display: block;
+}
+
+input, textarea, select {
+    font-size: 20px;
+    color: #333;
+}
+
+.name-box input{
+    width: 341px;
+    height: 50px;
+    background: #FFFFFF;
+    border: 1px solid #CACACA;
+    padding-left: 31px;
+    padding-top: 5px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 43px;
+}
+
+.price-box input{
+    border: 1px solid #A8A8A8;
+    box-sizing: border-box;
+    width: 185px;
+    height: 50px;
+    padding-left: 31px;
+    padding-top: 5px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 43px;
+}
+
+.quantity-box input{
+    border: 1px solid #A8A8A8;
+    box-sizing: border-box;
+    width: 185px;
+    height: 50px;
+    padding-left: 31px;
+    padding-top: 5px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 43px;
+}
+
+.type-box select{
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 43px;
+    padding-left: 31px;
+    cursor: pointer;
+}
+
+.type-box option{
+    width: 125px;
+    height: 43px;
+}
+
+.picture-box{
+    list-style-type: none;
+}
+
+.picture-box input{
+    width: 100%;
+    height: 50px;
+    border: 1px solid #A8A8A8;
+    padding-left: 31px;
+    padding-top: 5px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 43px;
+}
+
+.descriptions-box textarea{
+    border: 1px solid #A8A8A8;
+    width: 100%;
+    height: 185px;
+    padding-left: 31px;
+    padding-top: 5px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 43px;
+}
+
+.descriptions-box{
+    list-style-type: none;
+}
+
+.buttons{
+    padding-top: 49px;
+    padding-bottom: 89px;
+    width: 285px;
+    margin-left: auto;
+    margin-right: 102px;
+}
+
+.buttons button{
+    height: 53px;
+    width: 285px;
+    text-align: center;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 25px;
+    color: #FFFFFF;
+    background: #62B13E;
+    border: none;
+    box-shadow: 0 0 3px #444;
+    cursor: pointer;
+    margin-left: auto;
+}
+
+.buttons button:hover {
+    transition: .3s;
+    box-shadow: 0 0 7px #444;
+}
+
+.buttons button:active {
+    transition: .3s;
+    box-shadow: 0 0 0px #444;
+}
