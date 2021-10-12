@@ -91,14 +91,20 @@ public class Blog {
     }
 
     public String getContentPre() {
-        return this.content.substring(0,120);
+        if (this.content == null) return this.content;
+        if (this.content.length() < 120)
+        {
+                return this.content;
+        }
+        else
+        {
+            return this.content.substring(0, 120);
+        }
     }
 
     public void setContentPre(String contentPre) {
         this.contentPre = contentPre;
     }
-    
-    
     
 }
 

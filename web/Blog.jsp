@@ -42,7 +42,7 @@
                 </ul>
                 
                 <c:if test="${sessionScope.acc != null}">
-                    <span>My Blog</span>
+                    <span class="username">${user.username}'s Blog</span>
                     <ul>
                         <li><a href="addblog">New Blog</a></li>
                         <li><a href="myblog">My Blog</a></li>
