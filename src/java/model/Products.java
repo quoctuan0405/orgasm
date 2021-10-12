@@ -134,16 +134,115 @@ public class Products extends Model {
         return null;
     }
     
-    public static void main(String[] args) {
-        List<ProductStats> list = Products.getProductStats(1);
+    public static void deleteProduct(int deleteID) {
+        String deleteAssociatedOrderProductQuery = "delete from OrderProduct "
+                                                    + "where productId = ?";
         
-        for (int i = 0; i < list.size(); i++) {
-            System.out.println(list.get(i).getName());
+        String deleteAssociatedFeedbackQuery = "delete from ProductFeedbacks "
+                                                    + "where productId = ?";
+        
+        String deleteProductQuery = "delete from Products "
+                                                    + "where id = ?";
+        
+        System.out.println(deleteID);
+        
+        try {
+            Connection conn = Model.getConnection();
+            
+            PreparedStatement orderProductPS = conn.prepareStatement(deleteAssociatedOrderProductQuery);
+            PreparedStatement feedbackPS = conn.prepareStatement(deleteAssociatedFeedbackQuery);
+            PreparedStatement productPS = conn.prepareStatement(deleteProductQuery);
+            
+            orderProductPS.setInt(1, deleteID);
+            feedbackPS.setInt(1, deleteID);
+            productPS.setInt(1, deleteID);
+            
+            orderProductPS.executeUpdate();
+            feedbackPS.executeUpdate();
+            productPS.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+    }
+
+    public static void addProduct(String name, String price, String quantity, String category, String thumbnail, String description) {
+        String query = "INSERT INTO Products (name, price, quantity, category, thumbnail, description, creatorId)\n"
+                + "VALUES (?, ?, ?, ?, ?, ?, 1)";
+        try {
+            Connection conn = Model.getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, name);
+            ps.setString(2, price);
+            ps.setString(3, quantity);
+            ps.setString(4, category);
+            ps.setString(5, thumbnail);
+            ps.setString(6, description);
+            ps.executeUpdate();
+        } catch (Exception e) {
+        }
+
+    }
+
+    public static void editProduct(String name, String quantity, String price, String category, String thumbnail, String description, String id) {
+        String query = "update Products\n"
+                + "set [name] = ?, [quantity] = ?, [price] = ?,\n"
+                + "[category] = ?, [thumbnail] = ?, [description] = ?\n"
+                + "where id = ?";
+        try {
+            Connection conn = Model.getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, name);
+            ps.setString(2, quantity);
+            ps.setString(3, price);
+            ps.setString(4, category);
+            ps.setString(5, thumbnail);
+            ps.setString(6, description);
+            ps.setString(7, id);
+            ps.executeUpdate();
+        } catch (Exception e) {
+        }
+    }
+    
+    public static List<Product> getProductByCreatorID() {
+        List<Product> list = new ArrayList<Product>();
+        String query = "select * from Products";
+//                + "\n" +"where creatorId = ?";
+
+        try {
+            Connection conn = Model.getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+//            ps.setString(1, creatorId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Product(rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getInt("quantity"),
+                        rs.getDouble("price"),
+                        rs.getInt("category"),
+                        rs.getString("thumbnail"),
+                        rs.getString("description"),
+                        rs.getString("unit"),
+                        rs.getInt("creatorId")));
+            }
+        } catch (Exception e) {
+        }
+
+        return list;
+    }
+    
+    public static void main(String[] args) {
+//        List<ProductStats> list = Products.getProductStats(1);
+//        
+//        for (int i = 0; i < list.size(); i++) {
+//            System.out.println(list.get(i).getName());
+//        }
         
 //        List<Product> list1 = Products.getPremiumProduct();
 //        for (int i = 0; i < list.size(); i++)  {
 //            System.out.println(list.get(i).getName());
 //        }
+
+//        Products.deleteProduct(1);
     }
 }

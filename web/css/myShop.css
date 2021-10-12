@@ -1,0 +1,146 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Oct 2, 2021, 5:18:46 PM
+    Author     : dangd
+*/
+.banner {
+    height: 14vw;
+    background-image: url(https://i.postimg.cc/sgkmt4db/pexels-rajesh-tp-1633525.jpg);
+    text-align: center;
+    margin: 0%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.banner .te {
+    padding: 5%;
+}
+
+.banner span {
+    color: white;
+    font-size: 50px;
+    font-weight: bold;
+}
+
+.table-product {
+    padding-top: 49px;
+    padding-left: 111px;  
+    padding-right: 111px;
+}
+
+.table-product table {
+    list-style-type: none;
+    text-decoration: none;
+    border: 1px solid #BFBFBF;
+    box-sizing: border-box;
+    width: 1218px;
+}
+
+.table-product thead th {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 30px;
+    padding-top: 61px;
+    padding-bottom: 61px;
+
+}
+
+.table-product td{
+    height: 157px;
+    text-align: center;
+}
+
+.table-product th:first-child{
+    width: 500px;
+    text-align: left;
+    padding-left: 61px;
+}
+
+.table-product td:first-child{
+    width: 500px;
+    text-align: left;    
+    padding-left: 61px;
+    display: flex;
+    flex-flow: row wrap;
+    padding-top: 28px;
+}
+
+.image{
+    height: 100px;
+    width: 100px;
+}
+
+.table-product tbody span{
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 25px;
+    padding-left: 22px;
+
+}
+
+.table-product tbody tr td {
+    border-top: 1px solid #CACACA;
+}
+
+.table-product tbody p{
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 30px;
+}
+
+.product-name{
+    padding-top: 30px;
+    padding-left: 10px;
+}
+
+.delete-product-form button {
+    background: none;
+    box-shadow: none;
+    border: none;
+    cursor: pointer;
+}
+
+.buttons{
+    padding-top: 49px;
+    padding-bottom: 89px;
+    width: 1218px;
+}
+
+.buttons a {
+    text-decoration: none;
+}
+
+.buttons button {
+    height: 53px;
+    width: 285px;
+    text-align: center;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 25px;
+    color: #FFFFFF;
+    background: #62B13E;
+    border: none;
+    box-shadow: 0 0 3px #444;
+    cursor: pointer;
+    margin-left: auto;
+    display: block;
+}
+
+.buttons button:hover {
+    transition: .3s;
+    box-shadow: 0 0 7px #444;
+}
+
+.buttons button:active {
+    transition: .3s;
+    box-shadow: 0 0 0px #444;
+}
