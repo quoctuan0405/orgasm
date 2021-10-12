@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import model.Blog;
 import model.BlogCategories;
 import model.BlogCategory;
 import model.Blogs;
@@ -25,8 +24,8 @@ import model.Users;
  *
  * @author Administrator
  */
-@WebServlet(name = "BlogController", urlPatterns = {"/blog"})
-public class BlogController extends HttpServlet {
+@WebServlet(name = "NewBlogController", urlPatterns = {"/addblog"})
+public class NewBlogController extends HttpServlet {
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -38,40 +37,26 @@ public class BlogController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        /* Pass user's information to jsp file if that user is logged in */
-        try {
-            HttpSession session = request.getSession();
+        HttpSession session = request.getSession();
 
-            int userId = (int) session.getAttribute("acc");
+        if (session == null || session.getAttribute("acc") == null) {
+            response.sendRedirect(request.getContextPath() + "/signup");
+            return;
+        }
 
-            User user = Users.findById(userId);
-            request.setAttribute("user", user);
-            
-        } catch (Exception e) {}
+        int userId = (int) session.getAttribute("acc");
         
-        /* Pagination */
-        String page = request.getParameter("page");
-        if (page == null){
-            page="1";
+        User user = Users.findById(userId);
+        if (user == null) {
+            response.sendRedirect(request.getContextPath() + "/signup");
+            return;
         }
-        int indexPage = Integer.parseInt(page);
-        
-        int count = Blogs.total();
-        int endPage = count / 4;
-        if (count % 2 != 0){
-            endPage++;
-        }
-        
-        List<Blog> listBlog = Blogs.paging(indexPage);
-        request.setAttribute("listBlog", listBlog);
         
         List<BlogCategory> listBlogCategory = BlogCategories.all();
         
         request.setAttribute("listBlogCategory", listBlogCategory);
-        request.setAttribute("endPage", endPage);
-        request.setAttribute("currentPage", page);
-        
-        request.getRequestDispatcher("/Blog.jsp").forward(request, response);
+        request.setAttribute("user", user);
+        request.getRequestDispatcher("/UpsertBlog.jsp").forward(request, response);
     }
 
     /**
@@ -85,6 +70,19 @@ public class BlogController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String title = request.getParameter("title");
+        String image = request.getParameter("image");
+        String category = request.getParameter("category");
+        String content = request.getParameter("content");
+        
+        long millis = System.currentTimeMillis();   
+        java.sql.Date date=new java.sql.Date(millis);
+        HttpSession session = request.getSession();
+        
+        int userId = (int) session.getAttribute("acc");
+        
+        Blogs.addBlog(image, title, date, content, category, userId);
+        response.sendRedirect("myblog");
     }
 
     /**

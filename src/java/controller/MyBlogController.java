@@ -25,8 +25,8 @@ import model.Users;
  *
  * @author Administrator
  */
-@WebServlet(name = "BlogController", urlPatterns = {"/blog"})
-public class BlogController extends HttpServlet {
+@WebServlet(name = "MyBlogController", urlPatterns = {"/myblog"})
+public class MyBlogController extends HttpServlet {
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -38,40 +38,29 @@ public class BlogController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        /* Pass user's information to jsp file if that user is logged in */
-        try {
-            HttpSession session = request.getSession();
+        HttpSession session = request.getSession();
 
-            int userId = (int) session.getAttribute("acc");
-
-            User user = Users.findById(userId);
-            request.setAttribute("user", user);
-            
-        } catch (Exception e) {}
-        
-        /* Pagination */
-        String page = request.getParameter("page");
-        if (page == null){
-            page="1";
+        if (session == null || session.getAttribute("acc") == null) {
+            response.sendRedirect(request.getContextPath() + "/signup");
+            return;
         }
-        int indexPage = Integer.parseInt(page);
+
+        int userId = (int) session.getAttribute("acc");
         
-        int count = Blogs.total();
-        int endPage = count / 4;
-        if (count % 2 != 0){
-            endPage++;
+        User user = Users.findById(userId);
+        if (user == null) {
+            response.sendRedirect(request.getContextPath() + "/signup");
+            return;
         }
         
-        List<Blog> listBlog = Blogs.paging(indexPage);
-        request.setAttribute("listBlog", listBlog);
-        
+        List<Blog> listBlog = Blogs.getBlogbyAuthorID(userId);
         List<BlogCategory> listBlogCategory = BlogCategories.all();
         
+        request.setAttribute("listBlog", listBlog);
         request.setAttribute("listBlogCategory", listBlogCategory);
-        request.setAttribute("endPage", endPage);
-        request.setAttribute("currentPage", page);
+        request.setAttribute("user", user);
         
-        request.getRequestDispatcher("/Blog.jsp").forward(request, response);
+        request.getRequestDispatcher("Blog.jsp").forward(request, response);
     }
 
     /**

@@ -6,6 +6,7 @@
 package model;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -117,6 +118,44 @@ public class Blogs {
             }
         } catch (Exception e) {
         }
+        return null;
+    }
+    
+    static public List<Blog> getBlogbyAuthorID(int id){
+        List<Blog> list = new ArrayList<>();
+        String query = "SELECT * FROM Blogs WHERE authorId = ? ORDER BY id DESC";
+        try {
+            Connection conn = Model.getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Blog(rs.getInt("id"), rs.getString("image"),rs.getString("title"),rs.getDate("createdAt"),rs.getString("content"),rs.getInt("category"),rs.getInt("authorid")));
+            }
+        } catch (Exception e) {}
+        
+        return list;
+    }
+    
+    static public Blog addBlog(String image, String title, Date createdAt, String content, String category, int authorId) {
+        try {
+            
+            String query = "INSERT INTO Blogs (image, title, createdAt, content, category, authorId) VALUES (?, ?, ?, ?, ?, ?)";
+            
+            Connection conn = Model.getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, image);
+            ps.setString(2, title);
+            ps.setDate(3, createdAt);
+            ps.setString(4, content);
+            ps.setString(5, category);
+            ps.setInt(6, authorId);
+            
+            ps.executeUpdate();
+            
+            
+        } catch (Exception e) {}
+        
         return null;
     }
     
