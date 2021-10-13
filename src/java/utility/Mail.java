@@ -59,6 +59,25 @@ public class Mail {
         }
     }
     
+    static public void sendChangePasswordEmail(String verificationLink, String email) {
+        Session session = Mail.prepare();
+        
+        // compose message
+        try {
+            MimeMessage message = new MimeMessage(session);
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
+            message.setSubject("Orgasm Website - Change your password");
+            message.setText("Please click the following link to change your password: " + verificationLink);
+ 
+            // send message
+            Transport.send(message);
+ 
+            System.out.println("Message sent successfully");
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
     public static void main(String[] args) {
         Mail.sendVerifyEmail("asdf", "asdjfasd@baksdf.casoduf");
     }
