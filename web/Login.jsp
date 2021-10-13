@@ -32,6 +32,7 @@
                             <input id="password" name="password" placeholder="Password" type="password">
                         </div>
                         <p class="error">${error}</p>
+                        <p class="forgot-password"><a href="${pageContext.request.contextPath}/password/forgot">Forgot your password?</a></p>
                         <p class="description">Don't have an account? <a href="signup">Sign up!</a></p>
                     </div>
                     <div class="actions">
