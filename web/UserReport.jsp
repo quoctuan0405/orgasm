@@ -57,7 +57,7 @@
             </div>
 
             <div class="revenue-products">
-                <p>Top selling products</p>
+                <p>Selling products</p>
                 <table id="revenue-products-table">
                     
                 </table>
@@ -82,7 +82,7 @@
             const productsReportHeader = ["Name", "Price", "Sold", "Remained", "Total"];
             let productsReport = [];
             <c:forEach items="${productsReport}" var="product">
-                productsReport.unshift(["${product.name}", "${product.price}", "${product.sold}", "${product.remained}", "${product.total}"]);
+                productsReport.push(["${product.name}", "${product.price}", "${product.sold}", "${product.remained}", "${product.total}"]);
             </c:forEach>
         </script>
     </body>

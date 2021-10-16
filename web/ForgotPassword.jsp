@@ -1,6 +1,6 @@
 <%-- 
-    Document   : Login
-    Created on : Sep 9, 2021, 8:17:03 AM
+    Document   : ForgotPassword
+    Created on : Sep 30, 2021, 11:53:31 AM
     Author     : Admin
 --%>
 
@@ -23,20 +23,15 @@
         <div class="login">
             <div class="form">
                 <form method="POST">
-                    <p class="title">Welcome to Orgasm</p>
+                    <p class="title">Reset your password</p>
                     <div class="inputs">
                         <div>
-                            <input id="username" name="username" placeholder="Username" type="text">
-                        </div>
-                        <div>
-                            <input id="password" name="password" placeholder="Password" type="password">
+                            <input id="email" name="email" placeholder="Email" type="text">
                         </div>
                         <p class="error">${error}</p>
-                        <p class="forgot-password"><a href="${pageContext.request.contextPath}/password/forgot">Forgot your password?</a></p>
-                        <p class="description">Don't have an account? <a href="signup">Sign up!</a></p>
                     </div>
                     <div class="actions">
-                        <button>Login</button>
+                        <button>Send email verification</button>
                     </div>
                 </form>
             </div>
