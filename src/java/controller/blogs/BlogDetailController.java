@@ -42,7 +42,7 @@ public class BlogDetailController extends HttpServlet {
         HttpSession session = request.getSession();
         
         try {
-            String id = request.getParameter("id");
+            int id = Integer.parseInt(request.getParameter("id"));
             Blog blog = Blogs.getBlogByID(id);
             
             List<BlogCategory> listBlogCategory = BlogCategories.all();
