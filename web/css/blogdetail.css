@@ -33,7 +33,6 @@ and open the template in the editor.
     padding-bottom: 75px;
     display: flex;
     flex-flow: row wrap;
-    float: left;
 }
 
 .menu {
@@ -82,11 +81,6 @@ and open the template in the editor.
     color: black;
 }
 
-.image {
-    margin-top: 40px;
-    margin-left: 11cm;
-}
-
 .image img {
     width: 100%;
 }
@@ -94,13 +88,12 @@ and open the template in the editor.
 .detail{
     margin-right: 50px;
     margin-left: 50px;
-    
+    flex: 1;
 }
 .title {
     display: flex;
     flex-flow: row wrap;
     text-align: left;
-    padding-left: 11cm;
     margin-top: 45px;
     font-family: Roboto;
     font-style: normal;
@@ -111,12 +104,39 @@ and open the template in the editor.
 }
 
 .title h1 {
-    width: calc(100% - 60px);
 }
 
-.title .edit-button-block {
+.button-group {
     margin-left: auto;
-    width: min-content;
+    width: max-content;
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.delete-product-form button {
+    background: none;
+    box-shadow: 0 0 5px #999;
+    border: none;
+    cursor: pointer;
+    width: 51px;
+    height: 51px;
+    border-radius: 100px;
+    padding: 0;
+    margin-left: 10px;
+}
+
+.delete-product-form button img{
+    width: 51px;
+}
+
+.delete-product-form button:hover {
+    transition: .2s;
+    box-shadow: 0 0 3px #999;
+}
+
+.delete-product-form button:active {
+    transition: .2s;
+    box-shadow: 0 0 2px #999;
 }
 
 .edit-button {
@@ -145,9 +165,6 @@ and open the template in the editor.
 .content {
     margin-top: 25px;
     text-align: left;
-    padding-left: 400px;
-    padding-right: 200px;
-    padding-left: 11cm;
     color: #8c8c8c;
     font-family: Roboto;
     font-style: normal;
