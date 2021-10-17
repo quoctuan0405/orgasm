@@ -15,7 +15,9 @@ public class OrderStats {
     private Date date;
     private double total;
 
-    public OrderStats() {}
+    public OrderStats() {
+        // Comment
+    }
 
     public OrderStats(Date date, double total) {
         this.date = date;

@@ -6,8 +6,10 @@
 package controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,7 +18,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.ProductCategories;
 import model.ProductCategory;
-import model.Product;
 import model.Products;
 import model.Users;
 
@@ -47,13 +48,23 @@ public class AddProductController extends HttpServlet {
 
         int userId = (int) session.getAttribute("acc");
         
-        if (Users.findById(userId) == null) {
-            response.sendRedirect(request.getContextPath() + "/signup");
-            return;
+        try {
+            if (Users.findById(userId) == null) {
+                response.sendRedirect(request.getContextPath() + "/signup");
+                return;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AddProductController.class.getName()).log(Level.SEVERE, null, ex);
         }
         /***** End Authentication *****/
         
-        List<ProductCategory> categoryList = ProductCategories.allCategory();        
+        List<ProductCategory> categoryList = null;        
+        try {
+            categoryList = ProductCategories.allCategory();
+        } catch (SQLException ex) {
+            Logger.getLogger(AddProductController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         request.setAttribute("categoryList", categoryList);        
         request.getRequestDispatcher("/UpsertProduct.jsp").forward(request, response);
     }
@@ -79,9 +90,13 @@ public class AddProductController extends HttpServlet {
 
         int userId = (int) session.getAttribute("acc");
         
-        if (Users.findById(userId) == null) {
-            response.sendRedirect(request.getContextPath() + "/signup");
-            return;
+        try {
+            if (Users.findById(userId) == null) {
+                response.sendRedirect(request.getContextPath() + "/signup");
+                return;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AddProductController.class.getName()).log(Level.SEVERE, null, ex);
         }
         /***** End Authentication *****/
         
@@ -92,7 +107,11 @@ public class AddProductController extends HttpServlet {
         String description = request.getParameter("description");
         String category = request.getParameter("type");
         
-        Products.addProduct(name, price, quantity, category, thumbnail, description);
+        try {
+            Products.addProduct(name, price, quantity, category, thumbnail, description);
+        } catch (SQLException ex) {
+            Logger.getLogger(AddProductController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         response.sendRedirect(request.getContextPath() + "/shop");    
     }
 

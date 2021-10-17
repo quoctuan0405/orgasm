@@ -6,14 +6,15 @@
 package controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import static java.util.Collections.list;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Product;
 import model.Products;
 import model.ProductCategories;
@@ -38,18 +39,24 @@ public class SearchProductController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+
         String txtSearch = request.getParameter("search");
-        
-        List<Product> productList = Products.searchByName(txtSearch);
-        List<ProductCategory> categoryList = ProductCategories.allCategory();
-        
+
+        List<Product> productList = null;
+        List<ProductCategory> categoryList = null;
+        try {
+            productList = Products.searchByName(txtSearch);
+            categoryList = ProductCategories.allCategory();
+        } catch (SQLException ex) {
+            Logger.getLogger(SearchProductController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         request.setAttribute("listP", productList);
         request.setAttribute("listC", categoryList);
-        
+
         request.getRequestDispatcher("Product.jsp").forward(request, response);
     }
-    
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

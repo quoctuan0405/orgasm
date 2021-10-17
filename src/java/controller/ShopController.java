@@ -6,7 +6,6 @@
 package controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,6 +13,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Product;
 import model.ProductCategories;
 import model.ProductCategory;
@@ -50,12 +52,43 @@ public class ShopController extends HttpServlet {
             User user = Users.findById(userId);
             request.setAttribute("user", user);
             
-        } catch (Exception e) {}
+        } catch (Exception e) {
+            Logger.getLogger(ShopController.class.getName()).log(Level.SEVERE, "Unauthorized", e);
+        }
         
-        List<ProductCategory> categoryList = ProductCategories.allCategory();
+        String page = request.getParameter("page");
+        if (page == null){
+            page="1";
+        }
+        int indexPage = Integer.parseInt(page);
         
-//        request.setAttribute("listP", productList);
+        int count=0;
+        try {
+            count = Products.total();
+        } catch (SQLException ex) {
+            Logger.getLogger(ShopController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        int endPage = count / 4;
+        if (count % 4 != 0){
+            endPage++;
+        }
+        
+        List<Product> productList = null;
+        List<ProductCategory> categoryList = null;
+        try {
+            productList = Products.paging(indexPage);
+            categoryList = ProductCategories.allCategory();
+        } catch (SQLException ex) {
+            Logger.getLogger(ShopController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+//        List<Product> productList = Products.getProductByCreatorID();
+        
+        request.setAttribute("listP", productList);
         request.setAttribute("listC", categoryList);
+        request.setAttribute("endPage", endPage);
+        request.setAttribute("currentPage", page);
+        
         request.getRequestDispatcher("/Shop.jsp").forward(request, response);
     }
 
@@ -70,6 +103,7 @@ public class ShopController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //comment
     }
 
     /**

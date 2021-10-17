@@ -6,13 +6,15 @@
 package controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.User;
 import model.Users;
 
@@ -41,15 +43,20 @@ public class EditProfileController extends HttpServlet {
         }
 
         int userId = (int) session.getAttribute("acc");
-        
-        User user = Users.findById(userId);
+
+        User user = null;
+        try {
+            user = Users.findById(userId);
+        } catch (SQLException ex) {
+            Logger.getLogger(EditProfileController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         if (user == null) {
             response.sendRedirect(request.getContextPath() + "/signup");
             return;
         }
-        
+
         request.setAttribute("user", user);
-        
+
         request.getRequestDispatcher("/EditUser.jsp").forward(request, response);
     }
 
@@ -66,7 +73,6 @@ public class EditProfileController extends HttpServlet {
             throws ServletException, IOException {
         try {
             HttpSession session = request.getSession();
-        
             int userId = (int) session.getAttribute("acc");
 
             String avatar = request.getParameter("avatar");
@@ -79,7 +85,9 @@ public class EditProfileController extends HttpServlet {
 
             Users.updateProfile(phone, gender, status, shortDescription, profile, avatar, address, userId);
             
-        } catch(Exception e) {}
+        } catch(Exception e) {
+         e.printStackTrace();
+        }
         
         response.sendRedirect(request.getContextPath() + "/profile");        
     }

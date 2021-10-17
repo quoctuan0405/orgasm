@@ -6,7 +6,9 @@
 package controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -43,8 +45,13 @@ public class ChangePasswordController extends HttpServlet {
         }
 
         int userId = (int) session.getAttribute("acc");
-        
-        User user = Users.findById(userId);
+
+        User user = null;
+        try {
+            user = Users.findById(userId);
+        } catch (SQLException ex) {
+            Logger.getLogger(ChangePasswordController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         if (user == null) {
             response.sendRedirect(request.getContextPath() + "/signup");
             return;
@@ -74,8 +81,13 @@ public class ChangePasswordController extends HttpServlet {
         }
 
         int userId = (int) session.getAttribute("acc");
-        
-        User user = Users.findById(userId);
+
+        User user = null;
+        try {
+            user = Users.findById(userId);
+        } catch (SQLException ex) {
+            Logger.getLogger(ChangePasswordController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         if (user == null) {
             response.sendRedirect(request.getContextPath() + "/signup");
             return;
@@ -96,6 +108,7 @@ public class ChangePasswordController extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/profile");
             
         } catch (Exception e) {
+            e.printStackTrace();
             request.setAttribute("error", "Incorrect password");
             request.getRequestDispatcher("/ChangePassword.jsp").forward(request, response);
         }

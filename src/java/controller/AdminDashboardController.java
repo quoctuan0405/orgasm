@@ -6,8 +6,10 @@
 package controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -35,8 +37,10 @@ public class AdminDashboardController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
-        /***** Authentication *****/
+
+        /**
+         * *** Authentication ****
+         */
         HttpSession session = request.getSession();
 
         if (session == null || session.getAttribute("acc") == null) {
@@ -45,18 +49,30 @@ public class AdminDashboardController extends HttpServlet {
         }
 
         int userId = (int) session.getAttribute("acc");
-        
-        User user = Users.findById(userId);
+
+        User user = null;
+        try {
+            user = Users.findById(userId);
+        } catch (SQLException ex) {
+            Logger.getLogger(AdminDashboardController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         if (user == null || !user.getRole().equals("admin")) {
             response.sendRedirect(request.getContextPath() + "/signup");
             return;
         }
-        /***** End Authentication *****/
-        
-        List<User> users = Users.all();
-        
+        /**
+         * *** End Authentication ****
+         */
+
+        List<User> users = null;
+        try {
+            users = Users.all();
+        } catch (SQLException ex) {
+            Logger.getLogger(AdminDashboardController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         request.setAttribute("users", users);
-        
+
         request.getRequestDispatcher("/AdminDashboard.jsp").forward(request, response);
     }
 
@@ -71,7 +87,7 @@ public class AdminDashboardController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+        //comment
     }
 
     /**

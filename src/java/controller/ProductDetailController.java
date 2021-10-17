@@ -6,12 +6,14 @@
 package controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Product;
 import model.Products;
 
@@ -34,12 +36,17 @@ public class ProductDetailController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+
         String id = request.getParameter("id");
-        
-        Product product = Products.getProductByID(id);
+
+        Product product = null;
+        try {
+            product = Products.getProductByID(id);
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDetailController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         request.setAttribute("detail", product);
-        
+
         request.getRequestDispatcher("ProductDetail.jsp").forward(request, response);
     }
 

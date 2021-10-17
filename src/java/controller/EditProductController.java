@@ -6,8 +6,10 @@
 package controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -47,15 +49,30 @@ public class EditProductController extends HttpServlet {
 
         int userId = (int) session.getAttribute("acc");
         
-        if (Users.findById(userId) == null) {
-            response.sendRedirect(request.getContextPath() + "/signup");
-            return;
+        try {
+            if (Users.findById(userId) == null) {
+                response.sendRedirect(request.getContextPath() + "/signup");
+                return;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(EditProductController.class.getName()).log(Level.SEVERE, null, ex);
         }
         /***** End Authentication *****/
         
         String productId = request.getParameter("id");       
-        Product product = Products.getProductByID(productId);
-        List<ProductCategory> categoryList = ProductCategories.allCategory();     
+        Product product=null;
+        try {
+            product = Products.getProductByID(productId);
+        } catch (SQLException ex) {
+            Logger.getLogger(EditProductController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        List<ProductCategory> categoryList = null;     
+        try {
+            categoryList = ProductCategories.allCategory();
+        } catch (SQLException ex) {
+            Logger.getLogger(EditProductController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         request.setAttribute("product", product);
         request.setAttribute("categoryList", categoryList);
@@ -83,9 +100,13 @@ public class EditProductController extends HttpServlet {
 
         int userId = (int) session.getAttribute("acc");
         
-        if (Users.findById(userId) == null) {
-            response.sendRedirect(request.getContextPath() + "/signup");
-            return;
+        try {
+            if (Users.findById(userId) == null) {
+                response.sendRedirect(request.getContextPath() + "/signup");
+                return;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(EditProductController.class.getName()).log(Level.SEVERE, null, ex);
         }
         /***** End Authentication *****/
         
@@ -97,7 +118,11 @@ public class EditProductController extends HttpServlet {
         String category = request.getParameter("type");
         String id = request.getParameter("id");
             
-        Products.editProduct(name, quantity, price, category, thumbnail, description, id);
+        try {
+            Products.editProduct(name, quantity, price, category, thumbnail, description, id);
+        } catch (SQLException ex) {
+            Logger.getLogger(EditProductController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         response.sendRedirect(request.getContextPath() + "/shop");
     }
 

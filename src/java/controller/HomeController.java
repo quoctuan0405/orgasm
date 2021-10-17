@@ -6,13 +6,15 @@
 package controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Product;
 import model.ProductCategory;
 import model.Products;
@@ -36,12 +38,22 @@ public class HomeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        List<Product> premiumProductList = Products.getPremiumProduct();
+        List<Product> premiumProductList = null;
+        try {
+            premiumProductList = Products.getPremiumProduct();
+        } catch (SQLException ex) {
+            Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         request.setAttribute("listPP", premiumProductList);
-        
-        List<ProductCategory> categoryList = ProductCategories.allCategory();
+
+        List<ProductCategory> categoryList = null;
+        try {
+            categoryList = ProductCategories.allCategory();
+        } catch (SQLException ex) {
+            Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         request.setAttribute("listC", categoryList);
-        
+
         request.getRequestDispatcher("Home.jsp").forward(request, response);
     }
 
@@ -56,6 +68,7 @@ public class HomeController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //comment
     }
 
     /**

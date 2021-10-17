@@ -6,8 +6,10 @@
 package controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -47,7 +49,9 @@ public class BlogController extends HttpServlet {
             User user = Users.findById(userId);
             request.setAttribute("user", user);
             
-        } catch (Exception e) {}
+        } catch (Exception ex) {
+            Logger.getLogger(BlogController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         /* Pagination */
         String page = request.getParameter("page");
@@ -56,17 +60,27 @@ public class BlogController extends HttpServlet {
         }
         int indexPage = Integer.parseInt(page);
         
-        int count = Blogs.total();
+        int count = 0;
+        try {
+            count = Blogs.total();
+        } catch (SQLException ex) {
+            Logger.getLogger(BlogController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         int endPage = count / 4;
-        if (count % 2 != 0){
+        if (count % 4 != 0){
             endPage++;
         }
         
-        List<Blog> listBlog = Blogs.paging(indexPage);
+        List<Blog> listBlog = null;
+        List<BlogCategory> listBlogCategory = null;
+        try {
+            listBlog = Blogs.paging(indexPage);
+            listBlogCategory = BlogCategories.all();
+        } catch (SQLException ex) {
+            Logger.getLogger(BlogController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         request.setAttribute("listBlog", listBlog);
-        
-        List<BlogCategory> listBlogCategory = BlogCategories.all();
-        
         request.setAttribute("listBlogCategory", listBlogCategory);
         request.setAttribute("endPage", endPage);
         request.setAttribute("currentPage", page);
@@ -85,6 +99,7 @@ public class BlogController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        // comment
     }
 
     /**

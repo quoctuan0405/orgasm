@@ -6,13 +6,15 @@
 package controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.User;
 import model.Users;
 
@@ -44,8 +46,13 @@ public class EditUserController extends HttpServlet {
         }
 
         int userLoggedInId = (int) session.getAttribute("acc");
-        
-        User userLoggedIn = Users.findById(userLoggedInId);
+
+        User userLoggedIn = null;
+        try {
+            userLoggedIn = Users.findById(userLoggedInId);
+        } catch (SQLException ex) {
+            Logger.getLogger(EditUserController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         if (userLoggedIn == null || !userLoggedIn.getRole().equals("admin")) {
             response.sendRedirect(request.getContextPath() + "/login");
             return;
@@ -89,8 +96,13 @@ public class EditUserController extends HttpServlet {
         }
 
         int userLoggedInId = (int) session.getAttribute("acc");
-        
-        User userLoggedIn = Users.findById(userLoggedInId);
+
+        User userLoggedIn = null;
+        try {
+            userLoggedIn = Users.findById(userLoggedInId);
+        } catch (SQLException ex) {
+            Logger.getLogger(EditUserController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         if (userLoggedIn == null || userLoggedIn.getRole().equals("admin")) {
             response.sendRedirect(request.getContextPath() + "/login");
             return;

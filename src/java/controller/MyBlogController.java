@@ -6,7 +6,6 @@
 package controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,6 +13,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Blog;
 import model.BlogCategories;
 import model.BlogCategory;
@@ -46,21 +48,32 @@ public class MyBlogController extends HttpServlet {
         }
 
         int userId = (int) session.getAttribute("acc");
-        
-        User user = Users.findById(userId);
+
+        User user = null;
+        try {
+            user = Users.findById(userId);
+        } catch (SQLException ex) {
+            Logger.getLogger(MyBlogController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         if (user == null) {
             response.sendRedirect(request.getContextPath() + "/signup");
             return;
         }
-        
-        List<Blog> listBlog = Blogs.getBlogbyAuthorID(userId);
-        List<BlogCategory> listBlogCategory = BlogCategories.all();
-        
+
+        List<Blog> listBlog = null;
+        List<BlogCategory> listBlogCategory = null;
+        try {
+            listBlog = Blogs.getBlogbyAuthorID(userId);
+            listBlogCategory = BlogCategories.all();
+        } catch (SQLException ex) {
+            Logger.getLogger(MyBlogController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         request.setAttribute("listBlog", listBlog);
         request.setAttribute("listBlogCategory", listBlogCategory);
         request.setAttribute("user", user);
-        
-        request.getRequestDispatcher("Blog.jsp").forward(request, response);
+
+        request.getRequestDispatcher("/Blog.jsp").forward(request, response);
     }
 
     /**
@@ -74,6 +87,7 @@ public class MyBlogController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //comment
     }
 
     /**

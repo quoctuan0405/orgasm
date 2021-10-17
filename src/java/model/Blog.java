@@ -22,6 +22,7 @@ public class Blog {
     private String contentPre;
     
     public Blog() {
+        //comment
     }
 
     public Blog(int id, String image, String title, Date createdAt, String content, int category, int authorid) {
@@ -91,7 +92,9 @@ public class Blog {
     }
 
     public String getContentPre() {
-        if (this.content == null) return this.content;
+        if (this.content == null) {
+            return this.content;
+        }
         if (this.content.length() < 120)
         {
                 return this.content;

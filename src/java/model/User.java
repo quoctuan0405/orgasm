@@ -41,7 +41,9 @@ public class User {
     }
     private String verifyToken;
 
-    public User() {}
+    public User() {
+    //comment
+    }
 
     public User(int id, String email, String username, String profile, String role, String address, String phone, String gender, String status, String hashedPassword, String avatar, String shortDescription, boolean emailVerified, String verifyToken) {
         this.id = id;

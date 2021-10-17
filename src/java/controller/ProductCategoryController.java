@@ -6,8 +6,10 @@
 package controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -39,8 +41,14 @@ public class ProductCategoryController extends HttpServlet {
 
         String cateID = request.getParameter("id");
         
-        List<ProductCategory> listC = ProductCategories.allCategory();
-        List<Product> list = ProductCategories.getProductByCategory(cateID);
+        List<ProductCategory> listC = null;
+        List<Product> list = null;
+        try {
+            listC = ProductCategories.allCategory();
+            list = ProductCategories.getProductByCategory(cateID);
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductCategoryController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         request.setAttribute("listC", listC);
         request.setAttribute("listP", list);

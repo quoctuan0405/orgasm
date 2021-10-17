@@ -14,7 +14,9 @@ public class ProductCategoryStats {
     private String name;
     private int totalItems;
 
-    public ProductCategoryStats() {}
+    public ProductCategoryStats() {
+        // Comment
+    }
 
     public ProductCategoryStats(String name, int totalItems) {
         this.name = name;

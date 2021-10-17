@@ -8,6 +8,7 @@ package model;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,86 +17,124 @@ import java.util.List;
  * @author Admin
  */
 public class ProductCategories {
-    static public List<Product> getProductByCategory(String cid) {
+
+    static public List<Product> getProductByCategory(String cid) throws SQLException {
         List<Product> list = new ArrayList<Product>();
 
         String query = "SELECT id, name, quantity, price, category, thumbnail, description, unit, creatorId FROM Products\n"
-                        + "WHERE category = ?";
+                + "WHERE category = ?";
+
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Connection conn = null;
 
         try {
-            Connection conn = Model.getConnection();
-            PreparedStatement ps = conn.prepareStatement(query);
+            conn = Model.getConnection();
+            ps = conn.prepareStatement(query);
             ps.setString(1, cid);
-            ResultSet rs = ps.executeQuery();           
+            rs = ps.executeQuery();
             while (rs.next()) {
                 list.add(new Product(
-                    rs.getInt("id"), 
-                    rs.getString("name"), 
-                    rs.getInt("quantity"), 
-                    rs.getDouble("price"), 
-                    rs.getInt("category"), 
-                    rs.getString("thumbnail"), 
-                    rs.getString("description"), 
-                    rs.getString("unit"), 
-                    rs.getInt("creatorId"))
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getInt("quantity"),
+                        rs.getDouble("price"),
+                        rs.getInt("category"),
+                        rs.getString("thumbnail"),
+                        rs.getString("description"),
+                        rs.getString("unit"),
+                        rs.getInt("creatorId"))
                 );
             }
-            
-        } catch (Exception e) {}
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
 
         return list;
     }
-    
-    static public List<ProductCategoryStats> getCategoryProductStats(int userId) {
+
+    static public List<ProductCategoryStats> getCategoryProductStats(int userId) throws SQLException {
         List<ProductCategoryStats> list = new ArrayList<ProductCategoryStats>();
-    
-        String query = "SELECT ProductCategories.name AS name, SUM(OrderProduct.quantity) AS totalItems " +
-                        "FROM Orders " +
-                        "JOIN OrderProduct ON Orders.id = OrderProduct.orderId " +
-                        "JOIN Products ON Products.id = OrderProduct.productId " +
-                        "JOIN ProductCategories ON ProductCategories.id = Products.category " +
-                        "JOIN Users ON Products.creatorId = Users.id " +
-                        "WHERE Orders.status = 2 AND Users.id = ? " +
-                        "GROUP BY ProductCategories.id, ProductCategories.name;";
+
+        String query = "SELECT ProductCategories.name AS name, SUM(OrderProduct.quantity) AS totalItems "
+                + "FROM Orders "
+                + "JOIN OrderProduct ON Orders.id = OrderProduct.orderId "
+                + "JOIN Products ON Products.id = OrderProduct.productId "
+                + "JOIN ProductCategories ON ProductCategories.id = Products.category "
+                + "JOIN Users ON Products.creatorId = Users.id "
+                + "WHERE Orders.status = 2 AND Users.id = ? "
+                + "GROUP BY ProductCategories.id, ProductCategories.name;";
+
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Connection conn = null;
 
         try {
-            Connection conn = Model.getConnection();
-            PreparedStatement ps = conn.prepareStatement(query);
-            
+            conn = Model.getConnection();
+            ps = conn.prepareStatement(query);
             ps.setInt(1, userId);
-            
-            ResultSet rs = ps.executeQuery();
+            rs = ps.executeQuery();
             while (rs.next()) {
                 list.add(new ProductCategoryStats(rs.getString("name"), rs.getInt("totalItems")));
             }
-        } catch (Exception e) {}
-        
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+
         return list;
     }
-    
-    static public List<ProductCategory> allCategory() {
+
+    static public List<ProductCategory> allCategory() throws SQLException {
         List<ProductCategory> list = new ArrayList<ProductCategory>();
 
         String query = "SELECT * FROM ProductCategories";
 
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Connection conn = null;
+
         try {
-            Connection conn = Model.getConnection();
-            PreparedStatement ps = conn.prepareStatement(query);
-            ResultSet rs = ps.executeQuery();
+            conn = Model.getConnection();
+            ps = conn.prepareStatement(query);
+            rs = ps.executeQuery();
             while (rs.next()) {
                 list.add(new ProductCategory(rs.getInt("id"), rs.getString("name")));
             }
         } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
         }
 
         return list;
-    }
-    
-    public static void main(String[] args) {
-        List<ProductCategoryStats> list = ProductCategories.getCategoryProductStats(1);
-        
-        for (int i = 0; i < list.size(); i++) {
-            System.out.println(list.get(i).getName() + ": " + list.get(i).getTotalItems());
-        }
     }
 }

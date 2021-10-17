@@ -6,7 +6,6 @@
 package controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,6 +13,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.BlogCategories;
 import model.BlogCategory;
 import model.Blogs;
@@ -45,15 +47,25 @@ public class NewBlogController extends HttpServlet {
         }
 
         int userId = (int) session.getAttribute("acc");
-        
-        User user = Users.findById(userId);
+
+        User user = null;
+        try {
+            user = Users.findById(userId);
+        } catch (SQLException ex) {
+            Logger.getLogger(NewBlogController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         if (user == null) {
             response.sendRedirect(request.getContextPath() + "/signup");
             return;
         }
-        
-        List<BlogCategory> listBlogCategory = BlogCategories.all();
-        
+
+        List<BlogCategory> listBlogCategory = null;
+        try {
+            listBlogCategory = BlogCategories.all();
+        } catch (SQLException ex) {
+            Logger.getLogger(NewBlogController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         request.setAttribute("listBlogCategory", listBlogCategory);
         request.setAttribute("user", user);
         request.getRequestDispatcher("/UpsertBlog.jsp").forward(request, response);
@@ -70,18 +82,42 @@ public class NewBlogController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        /***** Authentication *****/
+        HttpSession session = request.getSession();
+
+        if (session == null || session.getAttribute("acc") == null) {
+            response.sendRedirect(request.getContextPath() + "/signup");
+            return;
+        }
+
+        int userId = (int) session.getAttribute("acc");
+
+        try {
+            if (Users.findById(userId) == null) {
+                response.sendRedirect(request.getContextPath() + "/signup");
+                return;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(NewBlogController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        /**
+         * *** End Authentication ****
+         */
+
         String title = request.getParameter("title");
         String image = request.getParameter("image");
         String category = request.getParameter("category");
         String content = request.getParameter("content");
+
+        long millis = System.currentTimeMillis();
+        java.sql.Date date = new java.sql.Date(millis);
+
+        try {
+            Blogs.addBlog(image, title, date, content, category, userId);
+        } catch (SQLException ex) {
+            Logger.getLogger(NewBlogController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
-        long millis = System.currentTimeMillis();   
-        java.sql.Date date=new java.sql.Date(millis);
-        HttpSession session = request.getSession();
-        
-        int userId = (int) session.getAttribute("acc");
-        
-        Blogs.addBlog(image, title, date, content, category, userId);
         response.sendRedirect("myblog");
     }
 

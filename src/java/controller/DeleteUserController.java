@@ -6,7 +6,6 @@
 package controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -34,6 +33,7 @@ public class DeleteUserController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //comment
     }
 
     /**
@@ -76,7 +76,9 @@ public class DeleteUserController extends HttpServlet {
 
             request.setAttribute("users", users);
             
-        } catch(Exception e) {}
+        } catch(Exception e) {
+             e.printStackTrace();
+        }
         
         request.getRequestDispatcher("/AdminDashboard.jsp").forward(request, response);
     }

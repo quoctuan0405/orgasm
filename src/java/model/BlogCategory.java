@@ -14,6 +14,7 @@ public class BlogCategory {
     private String name;
 
     public BlogCategory() {
+        // Comment
     }
 
     public BlogCategory(int id, String name) {

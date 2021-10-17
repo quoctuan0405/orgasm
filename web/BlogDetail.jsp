@@ -34,6 +34,14 @@
                         <li><a href="blogcategory?id=${o.id}">${o.name}</a></li>
                     </c:forEach>
                 </ul>
+                
+                <c:if test="${sessionScope.acc != null}">
+                    <span class="username">${user.username}'s Blog</span>
+                    <ul>
+                        <li><a href="addblog">New Blog</a></li>
+                        <li><a href="myblog">My Blog</a></li>
+                    </ul>
+                </c:if>
             </div>          
         </div>
         

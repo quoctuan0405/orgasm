@@ -17,7 +17,9 @@ public class ProductStats {
     private int remained;
     private double total;
 
-    public ProductStats() {}
+    public ProductStats() {
+        // Comment
+    }
 
     public ProductStats(int id, String name, double price, int sold, int remained, double total) {
         this.id = id;

@@ -6,7 +6,6 @@
 package controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -57,7 +56,9 @@ public class BlogDetailController extends HttpServlet {
             
             request.setAttribute("user", user);
             
-        } catch(Exception e) {}
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
         
         request.getRequestDispatcher("BlogDetail.jsp").forward(request, response);
     }
@@ -73,6 +74,7 @@ public class BlogDetailController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //comment   
     }
 
     /**

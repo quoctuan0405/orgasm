@@ -6,17 +6,22 @@
 package controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import model.Blog;
 import model.BlogCategories;
 import model.BlogCategory;
 import model.Blogs;
+import model.User;
+import model.Users;
 
 /**
  *
@@ -35,10 +40,29 @@ public class BlogCategoryController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        /* Pass user's information to jsp file if that user is logged in */
+        try {
+            HttpSession session = request.getSession();
+
+            int userId = (int) session.getAttribute("acc");
+
+            User user = Users.findById(userId);
+            request.setAttribute("user", user);
+            
+        } catch (Exception ex) {
+            Logger.getLogger(BlogCategoryController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         String id = request.getParameter("id");
         
-        List<Blog> listBlog = Blogs.getBlogbyCategory(id);
-        List<BlogCategory> listBlogCategory = BlogCategories.all();
+        List<Blog> listBlog = null;
+        List<BlogCategory> listBlogCategory = null;
+        try {
+            listBlog = Blogs.getBlogbyCategory(id);
+            listBlogCategory = BlogCategories.all();
+        } catch (SQLException ex) {
+            Logger.getLogger(BlogCategoryController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         request.setAttribute("listBlog", listBlog);
         request.setAttribute("listBlogCategory", listBlogCategory);
@@ -57,6 +81,7 @@ public class BlogCategoryController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //comment
     }
 
     /**

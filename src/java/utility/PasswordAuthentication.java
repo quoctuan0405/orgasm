@@ -71,8 +71,9 @@ public final class PasswordAuthentication
 
   private static int iterations(int cost)
   {
-    if ((cost < 0) || (cost > 30))
+    if ((cost < 0) || (cost > 30)) {
       throw new IllegalArgumentException("cost: " + cost);
+    }
     return 1 << cost;
   }
 
@@ -101,15 +102,17 @@ public final class PasswordAuthentication
   public boolean authenticate(char[] password, String token)
   {
     Matcher m = layout.matcher(token);
-    if (!m.matches())
+    if (!m.matches()) {
       throw new IllegalArgumentException("Invalid token format");
+    }
     int iterations = iterations(Integer.parseInt(m.group(1)));
     byte[] hash = Base64.getUrlDecoder().decode(m.group(2));
     byte[] salt = Arrays.copyOfRange(hash, 0, SIZE / 8);
     byte[] check = pbkdf2(password, salt, iterations);
     int zero = 0;
-    for (int idx = 0; idx < check.length; ++idx)
+    for (int idx = 0; idx < check.length; ++idx) {
       zero |= hash[salt.length + idx] ^ check[idx];
+    }
     return zero == 0;
   }
 

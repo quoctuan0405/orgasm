@@ -6,7 +6,6 @@
 package controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,6 +13,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.ProductCategoryStats;
 import model.OrderStats;
 import model.Orders;
@@ -50,21 +52,34 @@ public class UserReportController extends HttpServlet {
         }
 
         int userId = (int) session.getAttribute("acc");
-        
-        if (Users.findById(userId) == null) {
-            response.sendRedirect(request.getContextPath() + "/signup");
-            return;
+
+        try {
+            if (Users.findById(userId) == null) {
+                response.sendRedirect(request.getContextPath() + "/signup");
+                return;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserReportController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        /***** End Authentication *****/
-        
-        List<OrderStats> revenueByMonth = Orders.revenueByMonth(userId);
-        List<ProductCategoryStats> productsSoldByCategory = ProductCategories.getCategoryProductStats(userId);
-        List<ProductStats> productsReport = Products.getProductStats(userId); 
-        
+        /**
+         * *** End Authentication ****
+         */
+
+        List<OrderStats> revenueByMonth = null;
+        List<ProductCategoryStats> productsSoldByCategory = null;
+        List<ProductStats> productsReport = null;
+        try {
+            revenueByMonth = Orders.revenueByMonth(userId);
+            productsSoldByCategory = ProductCategories.getCategoryProductStats(userId);
+            productsReport = Products.getProductStats(userId);
+        } catch (SQLException ex) {
+            Logger.getLogger(UserReportController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         request.setAttribute("revenueByMonth", revenueByMonth);
         request.setAttribute("productsSoldByCategory", productsSoldByCategory);
         request.setAttribute("productsReport", productsReport);
-        
+
         request.getRequestDispatcher("/UserReport.jsp").forward(request, response);
     }
 
@@ -79,7 +94,9 @@ public class UserReportController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //comment
     }
+    
 
     /**
      * Returns a short description of the servlet.

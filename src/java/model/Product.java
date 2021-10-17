@@ -21,6 +21,7 @@ public class Product {
     private int creatorId;
 
     public Product() {
+        // Comment
     }
 
     public Product(int id, String name, int quantity, double price, int category, String thumbnail, String description, String unit, int creatorId) {

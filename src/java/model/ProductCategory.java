@@ -14,6 +14,7 @@ public class ProductCategory {
     private String name;
 
     public ProductCategory() {
+        // Comment
     }
 
     public ProductCategory(int id, String name) {

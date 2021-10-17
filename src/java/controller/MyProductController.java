@@ -6,8 +6,6 @@
 package controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import static java.util.Collections.list;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,6 +13,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Product;
 import model.Products;
 import model.Users;
@@ -45,16 +46,26 @@ public class MyProductController extends HttpServlet {
         }
 
         int userId = (int) session.getAttribute("acc");
-        
-        if (Users.findById(userId) == null) {
-            response.sendRedirect(request.getContextPath() + "/signup");
-            return;
+
+        try {
+            if (Users.findById(userId) == null) {
+                response.sendRedirect(request.getContextPath() + "/signup");
+                return;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(MyProductController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        /***** End Authentication *****/
-        
-        
-        List<Product> myProductList = Products.getProductByCreatorID();
-        
+        /**
+         * *** End Authentication ****
+         */
+
+        List<Product> myProductList = null;
+        try {
+            myProductList = Products.getProductByCreatorID(userId);
+        } catch (SQLException ex) {
+            Logger.getLogger(MyProductController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         request.setAttribute("myProductList", myProductList);
         request.getRequestDispatcher("MyShop.jsp").forward(request, response);
     }
@@ -70,6 +81,7 @@ public class MyProductController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //comment
     }
 
     /**
