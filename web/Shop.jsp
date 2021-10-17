@@ -9,7 +9,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Our Products</title>
-        
+
         <link href="${pageContext.request.contextPath}/css/common.css" rel="stylesheet">
         <!-- Specific CSS file -->
         <link href="${pageContext.request.contextPath}/css/shop.css" rel="stylesheet">
@@ -30,7 +30,7 @@
                     <ul>
                         <c:forEach items="${listC}" var="o">
                             <li class="Head"><a class="cate" href="productCategory?id=${o.id}">${o.name}</a></li>
-                        </c:forEach>    
+                            </c:forEach>    
                     </ul>
                 </div>
                 <c:if test="${sessionScope.acc != null}">
@@ -68,12 +68,13 @@
                         </a>
                     </c:forEach>
                 </div>
+                <div class="pagination row">
+                    <c:forEach begin="1" end="${endPage}" var="o">
+                        <a href="shop?page=${o}" <c:if test="${currentPage == o}">class="current"</c:if>>${o}</a>
+                    </c:forEach>
+                </div>
             </div>
-            <div class="pagination row">
-                <c:forEach begin="1" end="${endPage}" var="o">
-                    <a href="blog?page=${o}" <c:if test="${currentPage == o}">class="current"</c:if>>${o}</a>
-                </c:forEach>
-            </div>
+
         </div>
         <%@include file="components/Footer.jsp"%>
     </body>
