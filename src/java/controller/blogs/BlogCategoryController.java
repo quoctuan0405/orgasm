@@ -3,30 +3,32 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controller;
+package controller.blogs;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import model.entity.Product;
-import model.entity.ProductCategory;
-import model.Products;
-import model.ProductCategories;
+import javax.servlet.http.HttpSession;
+import model.entity.Blog;
+import model.BlogCategories;
+import model.entity.BlogCategory;
+import model.Blogs;
+import model.entity.User;
+import model.Users;
 
 /**
  *
  * @author Administrator
  */
-@WebServlet(name = "HomeController", urlPatterns = {"/home"})
-public class HomeController extends HttpServlet {
-
+@WebServlet(name = "BlogCategoryController", urlPatterns = {"/blogcategory"})
+public class BlogCategoryController extends HttpServlet {
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -38,23 +40,34 @@ public class HomeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        List<Product> premiumProductList = null;
+        /* Pass user's information to jsp file if that user is logged in */
         try {
-            premiumProductList = Products.getPremiumProduct();
-        } catch (SQLException ex) {
-            Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        request.setAttribute("listPP", premiumProductList);
+            HttpSession session = request.getSession();
 
-        List<ProductCategory> categoryList = null;
+            int userId = (int) session.getAttribute("acc");
+
+            User user = Users.findById(userId);
+            request.setAttribute("user", user);
+            
+        } catch (Exception ex) {
+            Logger.getLogger(BlogCategoryController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        String id = request.getParameter("id");
+        
+        List<Blog> listBlog = null;
+        List<BlogCategory> listBlogCategory = null;
         try {
-            categoryList = ProductCategories.allCategory();
+            listBlog = Blogs.getBlogbyCategory(id);
+            listBlogCategory = BlogCategories.all();
         } catch (SQLException ex) {
-            Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BlogCategoryController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        request.setAttribute("listC", categoryList);
-
-        request.getRequestDispatcher("Home.jsp").forward(request, response);
+        
+        request.setAttribute("listBlog", listBlog);
+        request.setAttribute("listBlogCategory", listBlogCategory);
+        
+        request.getRequestDispatcher("Blog.jsp").forward(request, response);
     }
 
     /**

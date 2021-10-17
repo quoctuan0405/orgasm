@@ -3,30 +3,24 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controller;
+package controller.auth;
 
 import java.io.IOException;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import model.entity.Product;
-import model.entity.ProductCategory;
-import model.Products;
-import model.ProductCategories;
+import javax.servlet.http.HttpSession;
+import model.entity.User;
+import model.Users;
 
 /**
  *
- * @author Administrator
+ * @author Admin
  */
-@WebServlet(name = "HomeController", urlPatterns = {"/home"})
-public class HomeController extends HttpServlet {
-
+@WebServlet(name = "CheckMailController", urlPatterns = {"/mail/verify"})
+public class VerifyMailController extends HttpServlet {
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -38,23 +32,27 @@ public class HomeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        List<Product> premiumProductList = null;
+        response.setContentType("text/html;charset=UTF-8");
+        
         try {
-            premiumProductList = Products.getPremiumProduct();
-        } catch (SQLException ex) {
-            Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        request.setAttribute("listPP", premiumProductList);
+            int userId = Integer.parseInt(request.getParameter("userId"));
+            String token = request.getParameter("token");
+            
+            User user = Users.verifyEmail(userId, token);
+            if (user == null) {
+                request.setAttribute("invalidToken", "invalidToken");
+                request.getRequestDispatcher("/VerifyMail.jsp").forward(request, response);
+            }
+            
+            HttpSession session = request.getSession();
+            session.setAttribute("acc", user.getId());
 
-        List<ProductCategory> categoryList = null;
-        try {
-            categoryList = ProductCategories.allCategory();
-        } catch (SQLException ex) {
-            Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
+            response.sendRedirect(request.getContextPath() + "/profile/edit");
+            
+        } catch (Exception e) {
+            request.setAttribute("invalidToken", "invalidToken");
+            request.getRequestDispatcher("/VerifyMail.jsp").forward(request, response);
         }
-        request.setAttribute("listC", categoryList);
-
-        request.getRequestDispatcher("Home.jsp").forward(request, response);
     }
 
     /**

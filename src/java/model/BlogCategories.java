@@ -5,6 +5,7 @@
  */
 package model;
 
+import model.entity.BlogCategory;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

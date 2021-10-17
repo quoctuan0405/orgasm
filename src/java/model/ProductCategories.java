@@ -5,6 +5,9 @@
  */
 package model;
 
+import model.entity.Product;
+import model.entity.ProductCategory;
+import model.entity.ProductCategoryStats;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

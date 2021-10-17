@@ -5,6 +5,7 @@
  */
 package model;
 
+import model.entity.Blog;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;

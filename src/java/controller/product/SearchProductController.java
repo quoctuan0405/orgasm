@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controller;
+package controller.product;
 
 import java.io.IOException;
 import java.util.List;
@@ -16,17 +16,48 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.entity.Product;
-import model.entity.ProductCategory;
 import model.Products;
 import model.ProductCategories;
+import model.entity.ProductCategory;
 
 /**
  *
- * @author Administrator
+ * @author dangd
  */
-@WebServlet(name = "HomeController", urlPatterns = {"/home"})
-public class HomeController extends HttpServlet {
+@WebServlet(name = "SearchController", urlPatterns = {"/productSearch"})
+public class SearchProductController extends HttpServlet {
 
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+
+        String txtSearch = request.getParameter("search");
+
+        List<Product> productList = null;
+        List<ProductCategory> categoryList = null;
+        try {
+            productList = Products.searchByName(txtSearch);
+            categoryList = ProductCategories.allCategory();
+        } catch (SQLException ex) {
+            Logger.getLogger(SearchProductController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        request.setAttribute("listP", productList);
+        request.setAttribute("listC", categoryList);
+
+        request.getRequestDispatcher("Product.jsp").forward(request, response);
+    }
+
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -38,23 +69,7 @@ public class HomeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        List<Product> premiumProductList = null;
-        try {
-            premiumProductList = Products.getPremiumProduct();
-        } catch (SQLException ex) {
-            Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        request.setAttribute("listPP", premiumProductList);
-
-        List<ProductCategory> categoryList = null;
-        try {
-            categoryList = ProductCategories.allCategory();
-        } catch (SQLException ex) {
-            Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        request.setAttribute("listC", categoryList);
-
-        request.getRequestDispatcher("Home.jsp").forward(request, response);
+        processRequest(request, response);
     }
 
     /**
@@ -68,7 +83,7 @@ public class HomeController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //comment
+        processRequest(request, response);
     }
 
     /**

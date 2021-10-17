@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controller;
+package controller.user;
 
 import java.io.IOException;
 import java.util.List;
@@ -12,21 +12,16 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import model.entity.Product;
-import model.entity.ProductCategory;
-import model.Products;
-import model.ProductCategories;
+import javax.servlet.http.HttpSession;
+import model.entity.User;
+import model.Users;
 
 /**
  *
- * @author Administrator
+ * @author Admin
  */
-@WebServlet(name = "HomeController", urlPatterns = {"/home"})
-public class HomeController extends HttpServlet {
-
+@WebServlet(name = "DeleteUserController", urlPatterns = {"/admin/user/delete"})
+public class DeleteUserController extends HttpServlet {
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -38,23 +33,7 @@ public class HomeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        List<Product> premiumProductList = null;
-        try {
-            premiumProductList = Products.getPremiumProduct();
-        } catch (SQLException ex) {
-            Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        request.setAttribute("listPP", premiumProductList);
-
-        List<ProductCategory> categoryList = null;
-        try {
-            categoryList = ProductCategories.allCategory();
-        } catch (SQLException ex) {
-            Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        request.setAttribute("listC", categoryList);
-
-        request.getRequestDispatcher("Home.jsp").forward(request, response);
+        //comment
     }
 
     /**
@@ -68,7 +47,40 @@ public class HomeController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //comment
+        response.setContentType("text/html;charset=UTF-8");
+
+        
+        try {
+            /***** Authentication *****/
+            HttpSession session = request.getSession();
+
+            if (session == null || session.getAttribute("acc") == null) {
+                response.sendRedirect(request.getContextPath() + "/signup");
+                return;
+            }
+
+            int userId = (int) session.getAttribute("acc");
+
+            User user = Users.findById(userId);
+            if (user == null || !user.getRole().equals("admin")) {
+                response.sendRedirect(request.getContextPath() + "/signup");
+                return;
+            }
+            /***** End Authentication *****/
+
+            int deleteUserId = Integer.parseInt(request.getParameter("userId"));
+            
+            Users.delete(deleteUserId);
+
+            List<User> users = Users.all();
+
+            request.setAttribute("users", users);
+            
+        } catch(Exception e) {
+             e.printStackTrace();
+        }
+        
+        request.getRequestDispatcher("/AdminDashboard.jsp").forward(request, response);
     }
 
     /**

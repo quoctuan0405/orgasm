@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controller;
+package controller.blogs;
 
 import java.io.IOException;
 import java.util.List;
@@ -15,18 +15,17 @@ import javax.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import model.entity.Product;
-import model.entity.ProductCategory;
-import model.Products;
-import model.ProductCategories;
+import model.entity.Blog;
+import model.BlogCategories;
+import model.entity.BlogCategory;
+import model.Blogs;
 
 /**
  *
  * @author Administrator
  */
-@WebServlet(name = "HomeController", urlPatterns = {"/home"})
-public class HomeController extends HttpServlet {
-
+@WebServlet(name = "SearchBlogController", urlPatterns = {"/searchblog"})
+public class SearchBlogController extends HttpServlet {
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -38,23 +37,23 @@ public class HomeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        List<Product> premiumProductList = null;
+        response.setContentType("text/html;charset=UTF-8");
+        
+        String search = request.getParameter("search");
+        
+        List<Blog> listBlog = null;
+        List<BlogCategory> listBlogCategory = null;
         try {
-            premiumProductList = Products.getPremiumProduct();
+            listBlog = Blogs.search(search);
+            listBlogCategory = BlogCategories.all();
         } catch (SQLException ex) {
-            Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SearchBlogController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        request.setAttribute("listPP", premiumProductList);
-
-        List<ProductCategory> categoryList = null;
-        try {
-            categoryList = ProductCategories.allCategory();
-        } catch (SQLException ex) {
-            Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        request.setAttribute("listC", categoryList);
-
-        request.getRequestDispatcher("Home.jsp").forward(request, response);
+        
+        request.setAttribute("listBlog", listBlog);
+        request.setAttribute("listBlogCategory", listBlogCategory);
+        
+        request.getRequestDispatcher("Blog.jsp").forward(request, response);
     }
 
     /**
@@ -68,7 +67,7 @@ public class HomeController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //comment
+        // Comment
     }
 
     /**

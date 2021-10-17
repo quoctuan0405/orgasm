@@ -5,6 +5,8 @@
  */
 package model;
 
+import model.entity.Product;
+import model.entity.ProductStats;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

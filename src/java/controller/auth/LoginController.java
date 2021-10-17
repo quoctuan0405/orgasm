@@ -3,30 +3,27 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controller;
+package controller.auth;
 
 import java.io.IOException;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import model.entity.Product;
-import model.entity.ProductCategory;
-import model.Products;
-import model.ProductCategories;
+import model.entity.User;
+import model.Users;
 
 /**
  *
- * @author Administrator
+ * @author Admin
  */
-@WebServlet(name = "HomeController", urlPatterns = {"/home"})
-public class HomeController extends HttpServlet {
-
+@WebServlet(name = "LoginController", urlPatterns = {"/login"})
+public class LoginController extends HttpServlet {
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -38,23 +35,9 @@ public class HomeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        List<Product> premiumProductList = null;
-        try {
-            premiumProductList = Products.getPremiumProduct();
-        } catch (SQLException ex) {
-            Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        request.setAttribute("listPP", premiumProductList);
-
-        List<ProductCategory> categoryList = null;
-        try {
-            categoryList = ProductCategories.allCategory();
-        } catch (SQLException ex) {
-            Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        request.setAttribute("listC", categoryList);
-
-        request.getRequestDispatcher("Home.jsp").forward(request, response);
+        response.setContentType("text/html;charset=UTF-8");
+        
+        request.getRequestDispatcher("/Login.jsp").forward(request, response);
     }
 
     /**
@@ -68,7 +51,32 @@ public class HomeController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //comment
+        response.setContentType("text/html;charset=UTF-8");
+        
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        
+        if (username == null || password == null || password.isEmpty() || username.isEmpty()) {
+            request.setAttribute("error", "Password and username must not be empty.");
+            request.getRequestDispatcher("Login.jsp").forward(request, response);
+        }
+
+        User user = null;
+        try {
+            user = Users.verify(username, password);
+        } catch (SQLException ex) {
+            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        if (user == null) {
+            request.setAttribute("error", "Invalid credentials.");
+            request.getRequestDispatcher("Login.jsp").forward(request, response);
+        }
+
+        HttpSession session = request.getSession();
+        session.setAttribute("acc", user.getId());
+
+        response.sendRedirect("home");
     }
 
     /**
