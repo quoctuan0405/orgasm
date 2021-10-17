@@ -210,7 +210,7 @@ public class Blogs {
         return list;
     }
 
-    static public Blog getBlogByID(String id) throws SQLException {
+    static public Blog getBlogByID(int id) throws SQLException {
         String query = "select * from Blogs \n"
                 + "where id=?";
 
@@ -221,7 +221,7 @@ public class Blogs {
         try {
             conn = Model.getConnection();
             ps = conn.prepareStatement(query);
-            ps.setString(1, id);
+            ps.setInt(1, id);
             rs = ps.executeQuery();
             while (rs.next()) {
                 return new Blog(rs.getInt("id"),
@@ -230,7 +230,7 @@ public class Blogs {
                         rs.getDate("createdAt"),
                         rs.getString("content"),
                         rs.getInt("category"),
-                        rs.getInt("authorid"));
+                        rs.getInt("authorId"));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -288,9 +288,7 @@ public class Blogs {
     }
 
     static public Blog addBlog(String image, String title, Date createdAt, String content, String category, int authorId) throws SQLException {
-
         PreparedStatement ps = null;
-
         Connection conn = null;
 
         try {
@@ -323,4 +321,72 @@ public class Blogs {
         return null;
     }
 
+    static public void updateBlog(String image, String title, String content, String category, String id) throws SQLException {
+        String query="UPDATE Blogs set  image=?, title=?, content=?, category=?  where id = ?";
+        
+        Connection conn = null;
+        PreparedStatement ps = null;
+        
+        try {
+            conn = Model.getConnection();
+            ps = conn.prepareStatement(query);
+            
+            ps.setString(1, image);
+            ps.setString(2, title);
+            ps.setString(3, content);
+            ps.setString(4, category);
+            ps.setString(5, id);
+            ps.executeUpdate();
+           
+        } catch (Exception e){
+            e.printStackTrace();
+            
+        } finally {
+            if (ps != null) {
+                ps.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+    }
+    
+    public static boolean delete(String id) throws SQLException {
+        Connection conn = null;
+        PreparedStatement psBlog = null;
+        PreparedStatement psComment = null;
+            
+        try {
+            String deleteAssociatedCommentQuery = "DELETE FROM BlogComments WHERE blogId = ?";
+            String deleteBlogQuery = "DELETE FROM Blogs WHERE id = ?";
+            
+            conn = Model.getConnection();
+            psBlog = conn.prepareStatement(deleteBlogQuery);
+            psComment = conn.prepareStatement(deleteAssociatedCommentQuery);
+            psBlog.setString(1, id);
+            psComment.setString(1, id);
+            
+            psComment.executeUpdate();
+            psBlog.executeUpdate();
+            
+            return true;
+            
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+            
+        } finally {
+            if (psBlog != null) {
+                psBlog.close();
+            }
+            
+            if (psComment != null) {
+                psComment.close();
+            }
+            
+            if (conn != null) {
+                conn.close();
+            }
+        }
+    }
 }

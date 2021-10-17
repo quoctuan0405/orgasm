@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import model.entity.Blog;
 import model.BlogCategories;
 import model.entity.BlogCategory;
 import model.Blogs;
@@ -25,10 +26,10 @@ import model.Users;
 
 /**
  *
- * @author Administrator
+ * @author Puta
  */
-@WebServlet(name = "NewBlogController", urlPatterns = {"/addblog"})
-public class NewBlogController extends HttpServlet {
+@WebServlet(name = "EditBlogController", urlPatterns = {"/editblog"})
+public class EditBlogController extends HttpServlet {
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -53,24 +54,30 @@ public class NewBlogController extends HttpServlet {
         try {
             user = Users.findById(userId);
         } catch (SQLException ex) {
-            Logger.getLogger(NewBlogController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(EditBlogController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
         if (user == null) {
             response.sendRedirect(request.getContextPath() + "/signup");
             return;
         }
         
+        int id = Integer.parseInt(request.getParameter("id"));
+        
+        Blog blog = null;
         List<BlogCategory> listBlogCategory = null;
         try {
             listBlogCategory = BlogCategories.all();
+            blog = Blogs.getBlogByID(id);
         } catch (SQLException ex) {
-            Logger.getLogger(NewBlogController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(EditBlogController.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         request.setAttribute("listBlogCategory", listBlogCategory);
-        request.setAttribute("user", user);
-        request.setAttribute("type", "add");
-        request.getRequestDispatcher("/ManageBlog.jsp").forward(request, response);
+        request.setAttribute("blog", blog);
+        request.setAttribute("type", "edit");
+        
+        request.getRequestDispatcher("ManageBlog.jsp").forward(request, response);
     }
 
     /**
@@ -84,22 +91,19 @@ public class NewBlogController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String title = request.getParameter("title");
         String image = request.getParameter("image");
-        String category = request.getParameter("category");
+        String title = request.getParameter("title");
         String content = request.getParameter("content");
-        
-        long millis = System.currentTimeMillis();   
-        java.sql.Date date=new java.sql.Date(millis);
-        HttpSession session = request.getSession();
-        
-        int userId = (int) session.getAttribute("acc");
+        String category = request.getParameter("category");
+        String id = request.getParameter("id");
+            
         try {
-            Blogs.addBlog(image, title, date, content, category, userId);
+            Blogs.updateBlog(image, title, content, category, id);
         } catch (SQLException ex) {
-            Logger.getLogger(NewBlogController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(EditBlogController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        response.sendRedirect("myblog");
+        
+        response.sendRedirect(request.getContextPath() + "/blogdetail?id=" + id);  
     }
 
     /**
