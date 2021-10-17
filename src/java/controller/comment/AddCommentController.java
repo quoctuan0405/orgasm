@@ -3,22 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controller.blogs;
+package controller.comment;
 
 import java.io.IOException;
-import java.util.List;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import model.Blogs;
-import model.entity.Blog;
-import model.BlogCategories;
-import model.Comment;
 import model.Comments;
-import model.entity.BlogCategory;
 import model.entity.User;
 import model.Users;
 
@@ -26,8 +23,8 @@ import model.Users;
  *
  * @author LAPTOP D&N
  */
-@WebServlet(name = "BlogDetail", urlPatterns = {"/blogdetail"})
-public class BlogDetailController extends HttpServlet {
+@WebServlet(name = "AddCommentController", urlPatterns = {"/add_comment"})
+public class AddCommentController extends HttpServlet {
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -39,44 +36,8 @@ public class BlogDetailController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        
+        //comment
 
-        HttpSession session = request.getSession();
-
-        try {
-
-            int id = Integer.parseInt(request.getParameter("id"));
-            System.out.println(id);
-            Blog blog = Blogs.getBlogByID(id);
-
-            List<Comment> commentList = Comments.getCommentByBlogID(id);
-            
-            commentList.forEach((o) -> {
-                System.out.println(o);
-                System.out.println("Ass");
-            });              
-            
-            List<BlogCategory> listBlogCategory = BlogCategories.all();
-
-            request.setAttribute("blogdetail", blog);
-
-            request.setAttribute("blogcomment", commentList);
-
-            request.setAttribute("listBlogCategory", listBlogCategory);
-
-            /* Pass the logged in user to the jsp */
-            int userId = (int) session.getAttribute("acc");
-
-            User user = Users.findById(userId);
-
-            request.setAttribute("user", user);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        request.getRequestDispatcher("BlogDetail.jsp").forward(request, response);
     }
 
     /**
@@ -90,7 +51,34 @@ public class BlogDetailController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //comment   
+
+        response.setContentType("text/html;charset=UTF-8");
+        HttpSession session = request.getSession();
+
+        int userId = (int) session.getAttribute("acc");
+        User user = null;
+        try {
+            user = Users.findById(userId);
+        } catch (SQLException ex) {
+            Logger.getLogger(AddCommentController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        request.setAttribute("user", user);
+
+        int authorId = Integer.parseInt(request.getParameter("authorId"));
+        int blogId = Integer.parseInt(request.getParameter("blogId"));
+        
+        long millis = System.currentTimeMillis();
+        java.sql.Date createdAt = new java.sql.Date(millis);
+        
+        String content = request.getParameter("content");
+
+        try {
+            Comments.insertComment(authorId, blogId, createdAt, content);
+        } catch (SQLException e) {
+            Logger.getLogger(AddCommentController.class.getName()).log(Level.SEVERE, null, e);
+        }
+
+        response.sendRedirect("blogdetail?id=" + blogId);
     }
 
     /**

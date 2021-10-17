@@ -1,0 +1,76 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Sep 30, 2021, 4:48:42 PM
+    Author     : LAPTOP D&N
+*/
+
+.blog_comment{
+    margin-bottom: 78px;
+}
+.comment_title {
+    display: flex;
+    flex-flow: row wrap;
+    text-align: left;
+    margin-top: 45px;
+    margin-bottom: 36px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+
+    line-height: 47px;
+    color: #000000;
+}
+
+.comment_title h1 {
+}
+
+.comment_box{
+    margin-bottom: 56px;
+}
+
+.comment_content{
+    margin-top: 26px;
+    font-size: 30px;
+    text-align: left;
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.comment_title h1{
+    font-size: 40px;
+}
+
+
+
+.comment_text{
+    flex: 1;
+    margin-left: 41px;
+    background-color: #F4F4F4;
+    width: 100%;
+    height: 65px;
+    color: #8C8C8C;
+    padding-top: 21px;
+    padding-left: 24px;
+    font-size:  20px;
+}
+
+.comment_input{
+    width: 100%;
+    height: 70px;
+    font-size: 20px;
+    padding-left: 30px;
+}
+
+.Avatar{
+    width:65px; 
+    height: 65px;
+    border-radius: 50%
+}
+
+.product_image{
+    height: 500px
+}
