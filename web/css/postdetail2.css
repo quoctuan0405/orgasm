@@ -1,0 +1,202 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Sep 21, 2021, 11:04:57 AM
+    Author     : LAPTOP D&N
+*/
+.banner {
+    height: 14vw;
+    background-image: url(https://i.postimg.cc/BZmgq0fT/pexels-dmitriy-ganin-7538060.jpg);
+    text-align: center;
+    margin: 0%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.banner .te {
+    padding: 5%;
+}
+
+.banner span {
+    color: white;
+    font-size: 50px;
+    font-weight: bold;
+}
+
+.main {
+    padding-left: 70px;
+    padding-top: 42px;
+    padding-bottom: 75px;
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.menu {
+    font-size: 24px;
+    line-height: 38px;
+    color: black;
+}
+
+.menu form input {
+    margin: 0px;
+    height: 70px;
+    width: 276px;
+    border-radius: 0px;
+
+    /* text-align: center; */
+    font-size: 20px;
+    border: rgb(196, 193, 193) solid 2px;
+    padding-left: 10px;
+}
+
+.menu span {
+    padding-left: 40px;
+    margin: 0px;
+    font-weight: bold;
+    font-size: 30px;
+    line-height: 35px;
+    margin-top: 40px;
+    margin-bottom: 38px;
+    display: block;
+}
+
+.menu ul {
+    margin: 0;
+    padding: 0;
+    padding-left: 40px;
+}
+
+.menu ul li {
+    margin: 10px 0px;
+    font-size: 20px;
+    list-style: none;
+}
+
+.menu ul li a {
+    text-decoration: none;
+    color: black;
+}
+
+.image img {
+    width: 100%;
+}
+
+.detail{
+    margin-right: 50px;
+    
+    flex: 1;
+}
+.title {
+    display: flex;
+    flex-flow: row wrap;
+    text-align: left;
+    margin-top: 45px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    margin-bottom: 45px;
+    line-height: 47px;
+    color: #62B13E;
+}
+
+.title h1 {
+}
+
+.button-group {
+    margin-left: auto;
+    width: max-content;
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.delete-product-form button {
+    background: none;
+    box-shadow: 0 0 5px #999;
+    border: none;
+    cursor: pointer;
+    width: 51px;
+    height: 51px;
+    border-radius: 100px;
+    padding: 0;
+    margin-left: 10px;
+}
+
+.delete-product-form button img{
+    width: 51px;
+}
+
+.delete-product-form button:hover {
+    transition: .2s;
+    box-shadow: 0 0 3px #999;
+}
+
+.delete-product-form button:active {
+    transition: .2s;
+    box-shadow: 0 0 2px #999;
+}
+
+.edit-button {
+    display: block;
+    box-shadow: 0 0 5px #999;
+    padding: 10px 12px 8px 14px;
+    border-radius: 100px;
+    width: max-content;
+}
+
+.edit-button img {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.edit-button:hover {
+    transition: .2s;
+    box-shadow: 0 0 3px #999;
+}
+
+.edit-button:active {
+    transition: .2s;
+    box-shadow: 0 0 2px #999;
+}
+
+.content {
+    margin-top: 25px;
+    text-align: left;
+    color: #8c8c8c;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 25px;
+    line-height: 40px;
+    margin-bottom: 81px;
+}
+
+.detail-box{
+    margin-left: 30px;
+}
+
+.category-header{
+    color: #62B13E;
+}
+
+.mypost-header{
+    font-size: 30px;
+    color: #62B13E;
+    padding-top: 61px;
+}
+
+.mypost-header p1{
+    padding-bottom: 31px;
+    font-weight: bold;
+}
+
+.mypost-header p2{
+    padding-bottom: 31px;
+    color: #000000;
+    margin-top: 31px;
+    font-size: 20px;
+}
+
