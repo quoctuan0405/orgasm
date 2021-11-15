@@ -1,0 +1,269 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Oct 20, 2021, 3:16:19 PM
+    Author     : LAPTOP D&N
+*/
+
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Oct 18, 2021, 9:41:12 AM
+    Author     : LAPTOP D&N
+*/
+
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Oct 17, 2021, 10:02:05 AM
+    Author     : LAPTOP D&N
+*/
+.user_blog {
+    padding: 38px 46px;
+    width: 100%;
+    min-height: 250px;
+    margin-top: 27px;
+    margin-bottom: 40px;
+}
+
+.user_blog .title-block .title {
+    font-weight: bold;
+    font-size: 30px;
+    line-height: 35px;
+    color: #62B13E;
+    margin-bottom: 35px;
+}
+
+body {
+    background-color: #8080801a;
+}
+
+.main {
+    padding-left: 90px;
+    padding-right: 90px;
+    position: relative;
+    margin-top: -45px;
+}
+
+.banner {
+    background: #62B13E;
+    width: 100%;
+    height: 180px;
+    position: relative;
+}
+
+.banner .title {
+    position: absolute;
+    left: 87px;
+    top: 47px;
+    color: white;
+    font-weight: bold;
+    font-size: 35px;
+    line-height: 41px;
+}
+
+.main .pic {
+    margin: 0 auto;
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.main .pic .left {
+    width: 379px;
+    height: 480px;
+    text-align: center;
+    background-color: white;
+    margin-right: 28px;
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+}
+
+.main .pic .left .avatar {
+    width: 378px;
+    height: 265px;
+    background-color: #aaa;
+    clip-path: circle();
+    margin: 35px auto 25px auto;
+    background-size: 325px;
+}
+
+.main .pic .left h4 {
+    font-weight: bold;
+    font-size: 30px;
+    line-height: 35px;
+    text-align: center;
+    color: #62B13E;
+}
+
+.main .pic .left p {
+    color: #aaa;
+    margin: 10px;
+    font-size: 20px;
+    line-height: 29px;
+    text-align: center;
+    color: #8C8C8C;
+}
+
+.main .pic .right {
+    flex: 1;
+    height: 480px;
+    background-color: white;
+    padding: 30px 40px;
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+}
+
+.title-block {
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.main .pic .right .title-block {
+    margin-bottom: 29px;
+}
+
+.main .pic .right .title-block .title {
+    font-weight: bold;
+    font-size: 30px;
+    line-height: 35px;
+    color: #62B13E;
+}
+
+.title-block .edit-button {
+    margin-left: auto;
+    box-shadow: 0 0 5px #999;
+    padding: 11px 12px 8px 14px;
+    border-radius: 100px;
+}
+
+.title-block .edit-button:hover {
+    transition: .2s;
+    box-shadow: 0 0 3px #999;
+}
+
+.title-block .edit-button:active {
+    transition: .2s;
+    box-shadow: 0 0 2px #999;
+}
+
+.main .pic .right .detail {
+    padding-left: 29px;
+}
+
+.main .pic .right .row {
+    display: flex;
+    flex-flow: row wrap;
+    padding-top: 14px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid #eee;
+}
+
+.main .pic .right .row:last-of-type {
+    border-bottom: none;
+}
+
+.main .pic .right .row .property {
+    font-weight: bold;
+    font-size: 22px;
+    line-height: 26px;
+    color: #464646;
+    width: 288px;
+}
+
+.main .pic .right .row .value {
+    font-size: 22px;
+    line-height: 26px;
+    color: #8C8C8C;
+}
+
+.profile {
+    padding: 38px 46px;
+    width: 100%;
+    min-height: 250px;
+    background-color: white;
+    margin-top: 27px;
+    margin-bottom: 40px;
+}
+
+.profile .title-block .title {
+    font-weight: bold;
+    font-size: 30px;
+    line-height: 35px;
+    color: #62B13E;
+}
+
+.profile .tus {
+    color: rgb(172, 165, 165);
+    text-align: justify;
+    padding-left: 46px;
+    padding-top: 31px;
+    font-size: 22px;
+    line-height: 40px;
+    color: #8C8C8C;
+}
+
+.boxBorder {
+    padding-top: 30px;
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.row {
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.box1 {
+    width: 430px;
+    text-align: center;
+    margin-right: 65px;
+    margin-bottom: 22px;
+    
+    box-shadow: 0 0 10px #ccc;
+    text-decoration: none;
+}
+
+.box1:hover {
+    transition: .2s;
+    box-shadow: 0 0 5px #999;
+    cursor: pointer;
+}
+
+.box1:active {
+    transition: .2s;
+    box-shadow: 0 0 2px #999;
+}
+
+.box1 div:nth-child(1) {
+    padding: 20px;
+}
+
+.boxBorder .row .box1 .image1 {
+    height: 363px;
+}
+
+.boxBorder .row .box1 .text {
+    margin-top: 20px;
+    
+}
+
+.boxBorder .row .box1 .text h4 {
+    font-size: 20px;
+    margin-bottom: 6px;
+    color: black;
+}
+
+.boxBorder .row .box1 .text p {
+    font-size: 18px;
+    line-height: 38px;  
+    color: #BFBFBF;
+}
+
+
