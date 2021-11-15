@@ -1,0 +1,260 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Oct 18, 2021, 7:57:57 AM
+    Author     : dangd
+*/
+.banner {
+    height: 14vw;
+    background-image: url(https://i.postimg.cc/BZmgq0fT/pexels-dmitriy-ganin-7538060.jpg);
+    text-align: center;
+    margin: 0%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.banner .te {
+    padding: 5%;
+}
+
+.banner span {
+    color: white;
+    font-size: 50px;
+    font-weight: bold;
+}
+
+.post-body {
+    display: flex;
+    flex-flow: row wrap;
+    padding-top: 50px;
+    padding-bottom: 87px;
+}
+
+.main{
+    padding-left: 63px;
+}
+
+.post-tag a {
+    text-decoration: none;
+}
+
+.box {
+    width: 276px;
+}
+
+.input {
+    width: 276px;
+    height: 70px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 23px;
+    padding-left: 12px;
+
+    color: #000000;
+}
+
+.category {
+    padding-top: 38px;
+}
+
+.category-header {
+    width: 147px;
+    height: 35px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 30px;
+    line-height: 35px;
+    padding-left: 34px;
+
+    color: #62B13E;
+}
+
+.Head{    
+    list-style: none;
+    padding-top: 24px;
+}
+
+.cate {
+    width: 100px;
+    height: 23px;
+    text-decoration: none;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 23px;
+
+    color: #000000;
+}
+
+.management {
+    padding-top: 61px;
+}
+
+.label {
+    width: 241px;
+    height: 35px;
+    padding-left: 34px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 30px;
+    line-height: 35px;
+
+    color: #62B13E;
+}
+
+.my-ports{
+    list-style: none;
+}
+
+.my-ports a {
+    width: 100px;
+    height: 23px;
+    text-decoration: none;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 23px;
+
+    color: #000000;
+}
+
+.post-tag {
+    padding-left: 64px;
+}
+
+.tag-button {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    width: 937px;
+}
+
+.tag-button ul {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 25px;
+    margin: 0;
+    padding: 0;
+
+    color: #62B13E;
+}
+
+.tag-button button {
+    width: 135px;
+    height: 40px;
+    background: #62B13E;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+    border: none;
+    box-shadow: 0 0 3px #444;
+    cursor: pointer;
+    color: #FFFFFF;
+}
+
+.post {
+    width: 937px;
+    height: 122px;
+    border: 1px solid #eee;
+    margin-top: 21px;
+    display: flex;
+    flex-flow: row wrap;
+    padding-left: 20px;
+}
+
+.thumbnail img {
+    width: 47px;
+    height: 47px;
+    border-radius: 100%;
+    margin-top: 13px;
+}
+
+.post-content-body{
+    width: 850px;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    padding-top: 25px;
+}
+
+.post-title ul {
+    margin: 0;
+}
+
+.post-title li {
+    list-style: none;  
+}
+
+.post-title li:first-child{
+    padding-bottom: 23px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+
+    color: #4A7F2E;
+}
+
+.post-title li:last-child {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 23px;
+
+    color: #464646;
+}
+
+.hastag {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+
+    color: #62B13E; 
+}
+
+.pagination {
+    margin-left: auto;
+    margin-top: 83px;
+    width: max-content;
+}
+
+.pagination a {
+    width: 58px;
+    height: 58px;
+    text-align: center;
+    line-height: 58px;
+    text-decoration: none;
+    background: #c4c4c4;
+    margin-left: 31px;
+    font-weight: bold;
+    font-size: 25px;
+    color: white;
+}
+
+.pagination .current {
+    background-color: #62B13E;
+}
+
+.row {
+    display: flex;
+    flex-flow: row wrap;
+}
