@@ -1,0 +1,106 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Oct 16, 2021, 9:55:55 PM
+    Author     : Administrator
+*/
+
+.banner {
+    height: 14vw;
+    background-image: url(https://i.postimg.cc/3RBZ0M4H/pexels-photomix-company-1002703.jpg);
+    text-align: center;
+    margin: 0%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.banner .te {
+    padding: 5%;
+}
+
+.banner span {
+    color: white;
+    font-size: 50px;
+    font-weight: bold;
+}
+
+
+.order {
+    padding-top: 49px;
+    padding-left: 111px;  
+    padding-right: 111px;
+}
+
+.order table {
+    list-style-type: none;
+    text-decoration: none;
+    border: 1px solid #BFBFBF;
+    box-sizing: border-box;
+    width: 1218px;
+}
+
+.order thead th {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 30px;
+    padding-top: 61px;
+    padding-bottom: 61px;
+
+}
+
+.order td{
+    height: 157px;
+    text-align: center;
+}
+
+.order th:first-child{
+    width: 500px;
+    text-align: left;
+    padding-left: 61px;
+}
+
+.order td:first-child{
+    width: 500px;
+    text-align: left;    
+    padding-left: 61px;
+    display: flex;
+    flex-flow: row wrap;
+    padding-top: 28px;
+}
+
+.image{
+    height: 100px;
+    width: 100px;
+}
+
+.order tbody span{
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 25px;
+    padding-left: 22px;
+
+}
+
+.quantity-box{
+    width: 152px;
+    height: 53px;
+    text-align: center;
+}
+
+.order tbody p{
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 30px;
+}
+
+.product-name{
+    padding-top: 30px;
+    padding-left: 10px;
+}
