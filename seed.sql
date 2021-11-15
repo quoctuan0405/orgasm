@@ -23,6 +23,7 @@ CREATE TABLE Users (
 	emailVerified bit,
 	verifyToken nvarchar(200),
 	role int not null FOREIGN KEY REFERENCES Roles(id),
+	deleted bit default 0,
 );
 
 CREATE TABLE ProductCategories (
@@ -79,6 +80,7 @@ CREATE TABLE Blogs (
 
 CREATE TABLE Posts (
 	id int identity(1, 1) not null primary key,
+	image nvarchar(100),
 	title nvarchar(100) not null,
 	createdAt Date,
 	content nvarchar(2047),
@@ -166,7 +168,7 @@ INSERT INTO Orders (status, buyerId, createdAt, updatedAt) VALUES (2, 1, '2021-0
 INSERT INTO Orders (status, buyerId, createdAt, updatedAt) VALUES (2, 1, '2021-09-01', '2021-02-01');
 
 INSERT INTO OrderProduct (orderId, productId, quantity) VALUES (1, 1, 2);
-INSERT INTO OrderProduct (orderId, productId, quantity) VALUES (1, 2, 1);
+INSERT INTO OrderProduct (orderId, productId, quantity) VALUES (1, 6, 1);
 INSERT INTO OrderProduct (orderId, productId, quantity) VALUES (1, 3, 1);
 INSERT INTO OrderProduct (orderId, productId, quantity) VALUES (1, 2, 1);
 INSERT INTO OrderProduct (orderId, productId, quantity) VALUES (1, 5, 3);
@@ -174,11 +176,11 @@ INSERT INTO OrderProduct (orderId, productId, quantity) VALUES (1, 5, 3);
 INSERT INTO OrderProduct (orderId, productId, quantity) VALUES (2, 1, 2);
 INSERT INTO OrderProduct (orderId, productId, quantity) VALUES (2, 2, 3);
 INSERT INTO OrderProduct (orderId, productId, quantity) VALUES (2, 3, 5);
-INSERT INTO OrderProduct (orderId, productId, quantity) VALUES (2, 2, 7);
+INSERT INTO OrderProduct (orderId, productId, quantity) VALUES (2, 8, 7);
 INSERT INTO OrderProduct (orderId, productId, quantity) VALUES (2, 5, 2);
 
 INSERT INTO OrderProduct (orderId, productId, quantity) VALUES (3, 1, 6);
-INSERT INTO OrderProduct (orderId, productId, quantity) VALUES (3, 2, 7);
+INSERT INTO OrderProduct (orderId, productId, quantity) VALUES (3, 4, 7);
 INSERT INTO OrderProduct (orderId, productId, quantity) VALUES (3, 3, 8);
 INSERT INTO OrderProduct (orderId, productId, quantity) VALUES (3, 2, 9);
 INSERT INTO OrderProduct (orderId, productId, quantity) VALUES (3, 5, 1);
@@ -186,23 +188,23 @@ INSERT INTO OrderProduct (orderId, productId, quantity) VALUES (3, 5, 1);
 INSERT INTO OrderProduct (orderId, productId, quantity) VALUES (4, 1, 2);
 INSERT INTO OrderProduct (orderId, productId, quantity) VALUES (4, 2, 3);
 INSERT INTO OrderProduct (orderId, productId, quantity) VALUES (4, 3, 2);
-INSERT INTO OrderProduct (orderId, productId, quantity) VALUES (4, 2, 3);
+INSERT INTO OrderProduct (orderId, productId, quantity) VALUES (4, 6, 3);
 INSERT INTO OrderProduct (orderId, productId, quantity) VALUES (4, 5, 4);
 
 INSERT INTO OrderProduct (orderId, productId, quantity) VALUES (5, 1, 4);
 INSERT INTO OrderProduct (orderId, productId, quantity) VALUES (5, 2, 1);
 INSERT INTO OrderProduct (orderId, productId, quantity) VALUES (5, 3, 1);
-INSERT INTO OrderProduct (orderId, productId, quantity) VALUES (5, 2, 2);
+INSERT INTO OrderProduct (orderId, productId, quantity) VALUES (5, 6, 2);
 INSERT INTO OrderProduct (orderId, productId, quantity) VALUES (5, 5, 6);
 
 INSERT INTO OrderProduct (orderId, productId, quantity) VALUES (6, 1, 5);
 INSERT INTO OrderProduct (orderId, productId, quantity) VALUES (6, 2, 4);
 INSERT INTO OrderProduct (orderId, productId, quantity) VALUES (6, 3, 7);
-INSERT INTO OrderProduct (orderId, productId, quantity) VALUES (6, 2, 2);
+INSERT INTO OrderProduct (orderId, productId, quantity) VALUES (6, 7, 2);
 INSERT INTO OrderProduct (orderId, productId, quantity) VALUES (6, 5, 3);
 
 INSERT INTO OrderProduct (orderId, productId, quantity) VALUES (7, 1, 3);
-INSERT INTO OrderProduct (orderId, productId, quantity) VALUES (7, 2, 4);
+INSERT INTO OrderProduct (orderId, productId, quantity) VALUES (7, 6, 4);
 INSERT INTO OrderProduct (orderId, productId, quantity) VALUES (7, 3, 6);
 INSERT INTO OrderProduct (orderId, productId, quantity) VALUES (7, 2, 3);
 INSERT INTO OrderProduct (orderId, productId, quantity) VALUES (7, 5, 2);
@@ -210,7 +212,7 @@ INSERT INTO OrderProduct (orderId, productId, quantity) VALUES (7, 5, 2);
 INSERT INTO OrderProduct (orderId, productId, quantity) VALUES (8, 3, 2);
 INSERT INTO OrderProduct (orderId, productId, quantity) VALUES (8, 4, 1);
 INSERT INTO OrderProduct (orderId, productId, quantity) VALUES (8, 7, 1);
-INSERT INTO OrderProduct (orderId, productId, quantity) VALUES (8, 4, 1);
+INSERT INTO OrderProduct (orderId, productId, quantity) VALUES (8, 6, 1);
 INSERT INTO OrderProduct (orderId, productId, quantity) VALUES (8, 5, 3);
 
 INSERT INTO OrderProduct (orderId, productId, quantity) VALUES (9, 8, 2);
@@ -240,7 +242,7 @@ INSERT INTO OrderProduct (orderId, productId, quantity) VALUES (12, 8, 6);
 INSERT INTO OrderProduct (orderId, productId, quantity) VALUES (13, 1, 2);
 INSERT INTO OrderProduct (orderId, productId, quantity) VALUES (13, 2, 3);
 INSERT INTO OrderProduct (orderId, productId, quantity) VALUES (13, 3, 4);
-INSERT INTO OrderProduct (orderId, productId, quantity) VALUES (13, 2, 7);
+INSERT INTO OrderProduct (orderId, productId, quantity) VALUES (13, 10, 7);
 INSERT INTO OrderProduct (orderId, productId, quantity) VALUES (13, 5, 8);
 
 INSERT INTO OrderProduct (orderId, productId, quantity) VALUES (14, 1, 2);
@@ -260,11 +262,23 @@ INSERT INTO Blogs (title, createdAt, category, authorId, image, content) VALUES 
 INSERT INTO Blogs (title, createdAt, category, authorId, image, content) VALUES ('The Moment You Need To Remove Garlic From The Menu', '2021-06-09', 3, 1, 'https://i.postimg.cc/zvGFndKH/pexels-lo-2329440.jpg', 'Sed porttitor lectus nibh. Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Curabitur non nulla sit amet nisl tempus convallis quis ac lectus. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a. Vivamus magna justo, lacinia eget consectetur sed, convallis at tellus. Sed porttitor lectus nibh. Donec sollicitudin molestie malesuada. Curabitur non nulla sit amet nisl tempus convallis quis ac lectus. Proin eget tortor risus. Donec rutrum congue leo eget malesuada. Curabitur non nulla sit amet nisl tempus convallis quis ac lectus. Donec sollicitudin molestie malesuada. Nulla quis lorem ut libero malesuada feugiat. Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem.');
 INSERT INTO Blogs (title, createdAt, category, authorId, image, content) VALUES ('9 Kinds Of Vegetable Protect The Liver', '2021-06-09', 1, 2, 'https://i.postimg.cc/zvGFndKH/pexels-lo-2329440.jpg', 'Sed porttitor lectus nibh. Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Curabitur non nulla sit amet nisl tempus convallis quis ac lectus. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a. Vivamus magna justo, lacinia eget consectetur sed, convallis at tellus. Sed porttitor lectus nibh. Donec sollicitudin molestie malesuada. Curabitur non nulla sit amet nisl tempus convallis quis ac lectus. Proin eget tortor risus. Donec rutrum congue leo eget malesuada. Curabitur non nulla sit amet nisl tempus convallis quis ac lectus. Donec sollicitudin molestie malesuada. Nulla quis lorem ut libero malesuada feugiat. Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem.');
 
-INSERT INTO Posts (title, createdAt, category, authorId, content) VALUES ('Do u guys have some #tomatos?', '2021-06-05', 1, 2, 'I really need some tomatos.');
-INSERT INTO Posts (title, createdAt, category, authorId, content) VALUES ('I have some great #potatos?', '2021-04-12', 2, 1, 'I really want to sell some potatos.');
-INSERT INTO Posts (title, createdAt, category, authorId, content) VALUES ('Do u guys have some #vegetable?', '2021-08-24', 3, 2, 'I really need some vegetable.');
-INSERT INTO Posts (title, createdAt, category, authorId, content) VALUES ('I have some great #cucumbers?', '2021-04-06', 3, 1, 'I really want to sell cucumbers.');
-INSERT INTO Posts (title, createdAt, category, authorId, content) VALUES ('Do u guys have some #bananas?', '2021-02-03', 4, 2, 'I really need some bananas.');
+INSERT INTO Posts (title, createdAt, category, authorId, image, content) VALUES ('Do u guys have some #tomatos?', '2021-06-05', 1, 2, 'https://i.postimg.cc/BZmgq0fT/pexels-dmitriy-ganin-7538060.jpg', 'I really need some tomatos.');
+INSERT INTO Posts (title, createdAt, category, authorId, image, content) VALUES ('I have some great #potatos?', '2021-04-12', 2, 1, 'https://i.postimg.cc/sgkmt4db/pexels-rajesh-tp-1633525.jpg', 'I really want to sell some potatos.');
+INSERT INTO Posts (title, createdAt, category, authorId, image, content) VALUES ('Do u guys have some #vegetable?', '2021-08-24', 3, 2, 'https://i.postimg.cc/k5Ws9R7G/pexels-rauf-allahverdiyev-1367243.jpg', 'I really need some vegetable.');
+INSERT INTO Posts (title, createdAt, category, authorId, image, content) VALUES ('I have some great #cucumbers?', '2021-04-06', 3, 1, 'https://i.postimg.cc/zvGFndKH/pexels-lo-2329440.jpg', 'I really want to sell cucumbers.');
+INSERT INTO Posts (title, createdAt, category, authorId, image, content) VALUES ('Do u guys have some #bananas?', '2021-02-03', 4, 2, 'https://i.postimg.cc/zvGFndKH/pexels-lo-2329440.jpg', 'I really need some bananas.');
+INSERT INTO Posts (title, createdAt, category, authorId, image, content) VALUES ('Do u guys have some #cupofcoffee?', '2021-02-03', 2, 2, 'https://i.postimg.cc/zvGFndKH/pexels-lo-2329440.jpg', 'I really need some bananas.');
+INSERT INTO Posts (title, createdAt, category, authorId, image, content) VALUES ('Do u guys have some #me2?', '2021-02-03', 3, 2, 'https://i.postimg.cc/zvGFndKH/pexels-lo-2329440.jpg', 'I really need some bananas.');
+INSERT INTO Posts (title, createdAt, category, authorId, image, content) VALUES ('Do u guys have some #crabpoolsecurity?', '2021-02-03', 4, 2, 'https://i.postimg.cc/zvGFndKH/pexels-lo-2329440.jpg', 'I really need some bananas.');
+INSERT INTO Posts (title, createdAt, category, authorId, image, content) VALUES ('Do u guys wanna buy some #bottleofwater?', '2021-02-03', 2, 2, 'https://i.postimg.cc/zvGFndKH/pexels-lo-2329440.jpg', 'I really need some bananas.');
+INSERT INTO Posts (title, createdAt, category, authorId, image, content) VALUES ('Do u guys wanna buy some #glasses?', '2021-02-03', 3, 2, 'https://i.postimg.cc/zvGFndKH/pexels-lo-2329440.jpg', 'I really need some bananas.');
+INSERT INTO Posts (title, createdAt, category, authorId, image, content) VALUES ('Do u guys wanna buy some #bananas?', '2021-02-03', 3, 2, 'https://i.postimg.cc/zvGFndKH/pexels-lo-2329440.jpg', 'I really need some bananas.');
+INSERT INTO Posts (title, createdAt, category, authorId, image, content) VALUES ('Do u guys wanna buy some #tea?', '2021-02-03', 4, 2, 'https://i.postimg.cc/zvGFndKH/pexels-lo-2329440.jpg', 'I really need some bananas.');
+INSERT INTO Posts (title, createdAt, category, authorId, image, content) VALUES ('Do u guys wanna buy some #chinsu?', '2021-02-03', 4, 2, 'https://i.postimg.cc/zvGFndKH/pexels-lo-2329440.jpg', 'I really need some bananas.');
+INSERT INTO Posts (title, createdAt, category, authorId, image, content) VALUES ('Do u guys wanna buy some #longywater?', '2021-02-03', 3, 2, 'https://i.postimg.cc/zvGFndKH/pexels-lo-2329440.jpg', 'I really need some bananas.');
+INSERT INTO Posts (title, createdAt, category, authorId, image, content) VALUES ('Do u guys wanna buy some #cavebanana?', '2021-02-03', 2, 2, 'https://i.postimg.cc/zvGFndKH/pexels-lo-2329440.jpg', 'I really need some bananas.');
+INSERT INTO Posts (title, createdAt, category, authorId, image, content) VALUES ('Do u guys wanna buy some #pontuli?', '2021-02-03', 1, 2, 'https://i.postimg.cc/zvGFndKH/pexels-lo-2329440.jpg', 'I really need some bananas.');
+
 
 INSERT INTO BlogComments (content, createdAt, authorId, blogId) VALUES ('Great!!!', '2021-04-22', 2, 1);
 INSERT INTO BlogComments (content, createdAt, authorId, blogId) VALUES ('Good!', '2021-04-22', 1, 2);

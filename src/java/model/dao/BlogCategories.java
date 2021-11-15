@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model;
+package model.dao;
 
 import model.entity.BlogCategory;
 import java.sql.Connection;
@@ -12,13 +12,20 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import model.IModel;
+import model.Model;
 
 /**
  *
  * @author Administrator
  */
 public class BlogCategories {
-
+    static private IModel model = new Model();
+    
+    static public void setModel(IModel alternativeModel) {
+        model = alternativeModel;
+    }
+    
     static public List<BlogCategory> all() throws SQLException {
         List<BlogCategory> list = new ArrayList<BlogCategory>();
 
@@ -27,7 +34,7 @@ public class BlogCategories {
         ResultSet rs = null;
         Connection conn = null;
         try {
-            conn = Model.getConnection();
+            conn = model.getConnection();
             ps = conn.prepareStatement(query);
             rs = ps.executeQuery();
             while (rs.next()) {

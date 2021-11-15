@@ -37,6 +37,11 @@ public class Role {
     public void setName(String name) {
         this.name = name;
     }
-    
-    
+
+    @Override
+    public boolean equals(Object obj) {
+        Role role = (Role) obj;
+        
+        return role.id == this.id && role.name.equals(this.name);
+    }
 }

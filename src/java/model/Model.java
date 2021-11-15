@@ -12,19 +12,13 @@ import java.sql.DriverManager;
  *
  * @author Admin
  */
-public class Model {
-    private static final String serverName = "ADMIN";
-    private static final String dbName = "orgasm";
-    private static final String portNumber = "1433";
-    private static final String user = "sa";
-    private static final String password = "root";
-    
-    public static Connection getConnection() throws Exception {
+public class Model implements IModel {
+    public Connection getConnection() throws Exception {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 
-            String url = "jdbc:sqlserver://" + serverName + ":" + portNumber + ";databaseName=" + dbName;
-            Connection conn = DriverManager.getConnection(url, user, password);
+            String url = "jdbc:sqlserver://" + ModelConfig.serverName + ":" + ModelConfig.portNumber + ";databaseName=" + ModelConfig.dbName;
+            Connection conn = DriverManager.getConnection(url, ModelConfig.user, ModelConfig.password);
             
             return conn;
             

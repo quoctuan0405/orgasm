@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model;
+package model.dao;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -12,13 +12,21 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import model.Comment;
+import model.IModel;
+import model.Model;
 
 /**
  *
  * @author LAPTOP D&N
  */
 public class Comments {
-
+    static private IModel model = new Model();
+    
+    static public void setModel(IModel alternativeModel) {
+        model = alternativeModel;
+    }
+    
     static public List<Comment> getAllComment() throws SQLException {
         List<Comment> list = new ArrayList<>();
         String query = "SELECT * FROM BlogComments \n"
@@ -29,7 +37,7 @@ public class Comments {
         ResultSet rs = null;
             
         try {
-            conn = Model.getConnection();
+            conn = model.getConnection();
             ps = conn.prepareStatement(query);
             rs = ps.executeQuery();
             
@@ -66,7 +74,7 @@ public class Comments {
         Connection conn = null;
         
         try {
-            conn = Model.getConnection();
+            conn = model.getConnection();
             
             ps = conn.prepareStatement(query);
             ps.setInt(1, blogid);
@@ -111,7 +119,7 @@ public class Comments {
                     + "(authorId, blogId, createdAt, content)\n" 
                     + "VALUES (?,?,?,?)";
 
-            conn = Model.getConnection();
+            conn = model.getConnection();
             ps = conn.prepareStatement(query);
             ps.setInt(1, authorId);
             ps.setInt(2, blogId);

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model;
+package model.dao;
 
 import model.entity.Blog;
 import java.sql.Connection;
@@ -13,13 +13,20 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import model.IModel;
+import model.Model;
 
 /**
  *
  * @author Administrator
  */
 public class Blogs {
-
+    static private IModel model = new Model();
+    
+    static public void setModel(IModel alternativeModel) {
+        model = alternativeModel;
+    }
+    
     static public List<Blog> all() throws SQLException {
         List<Blog> list = new ArrayList<Blog>();
 
@@ -30,7 +37,7 @@ public class Blogs {
         Connection conn = null;
 
         try {
-            conn = Model.getConnection();
+            conn = model.getConnection();
             ps = conn.prepareStatement(query);
             rs = ps.executeQuery();
             while (rs.next()) {
@@ -69,7 +76,7 @@ public class Blogs {
         Connection conn = null;
 
         try {
-            conn = Model.getConnection();
+            conn = model.getConnection();
             ps = conn.prepareStatement(query);
             ps.setString(1, id);
             rs = ps.executeQuery();
@@ -108,7 +115,7 @@ public class Blogs {
         Connection conn = null;
 
         try {
-            conn = Model.getConnection();
+            conn = model.getConnection();
             ps = conn.prepareStatement(query);
             ps.setString(1, "%" + search + "%");
             rs = ps.executeQuery();
@@ -146,7 +153,7 @@ public class Blogs {
         Connection conn = null;
 
         try {
-            conn = Model.getConnection();
+            conn = model.getConnection();
             ps = conn.prepareStatement(query);
             rs = ps.executeQuery();
             while (rs.next()) {
@@ -180,7 +187,7 @@ public class Blogs {
         Connection conn = null;
 
         try {
-            conn = Model.getConnection();
+            conn = model.getConnection();
             ps = conn.prepareStatement(query);
             ps.setInt(1, (page - 1) * 4);
             rs = ps.executeQuery();
@@ -219,7 +226,7 @@ public class Blogs {
         Connection conn = null;
 
         try {
-            conn = Model.getConnection();
+            conn = model.getConnection();
             ps = conn.prepareStatement(query);
             ps.setInt(1, id);
             rs = ps.executeQuery();
@@ -257,7 +264,7 @@ public class Blogs {
 
         String query = "SELECT * FROM Blogs WHERE authorId = ? ORDER BY id DESC";
         try {
-            conn = Model.getConnection();
+            conn = model.getConnection();
             ps = conn.prepareStatement(query);
             ps.setInt(1, id);
             rs = ps.executeQuery();
@@ -295,7 +302,7 @@ public class Blogs {
 
             String query = "INSERT INTO Blogs (image, title, createdAt, content, category, authorId) VALUES (?, ?, ?, ?, ?, ?)";
 
-            conn = Model.getConnection();
+            conn = model.getConnection();
             ps = conn.prepareStatement(query);
 
             ps.setString(1, image);
@@ -328,7 +335,7 @@ public class Blogs {
         PreparedStatement ps = null;
         
         try {
-            conn = Model.getConnection();
+            conn = model.getConnection();
             ps = conn.prepareStatement(query);
             
             ps.setString(1, image);
@@ -360,7 +367,7 @@ public class Blogs {
             String deleteAssociatedCommentQuery = "DELETE FROM BlogComments WHERE blogId = ?";
             String deleteBlogQuery = "DELETE FROM Blogs WHERE id = ?";
             
-            conn = Model.getConnection();
+            conn = model.getConnection();
             psBlog = conn.prepareStatement(deleteBlogQuery);
             psComment = conn.prepareStatement(deleteAssociatedCommentQuery);
             psBlog.setString(1, id);
@@ -387,6 +394,60 @@ public class Blogs {
             if (conn != null) {
                 conn.close();
             }
+        }
+    }
+    
+    static public List<Blog> getBlogByUser(int id) throws SQLException {
+
+        List<Blog> list = new ArrayList<>();
+
+        String query = "select * from Blogs\n"
+                + "JOIN Users ON Users.id = Blogs.authorid\n"
+                + "WHERE authorid=?";
+
+        PreparedStatement ps = null;
+        Connection conn = null;
+        ResultSet rs = null;
+
+        try {
+
+            conn = model.getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                list.add(new Blog(rs.getInt("id"),
+                        rs.getString("image"),
+                        rs.getString("title"),
+                        rs.getDate("createdAt"),
+                        rs.getString("content"),
+                        rs.getInt("category"),
+                        rs.getInt("authorid")));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+
+        return list;
+    }
+    
+    public static void main(String[] args) throws SQLException {
+        List<Blog> blogs = Blogs.all();
+        
+        for (int i = 0; i < blogs.size(); i++) {
+            System.out.println(blogs.get(i).getId());
         }
     }
 }

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model;
+package model.dao;
 
 import model.entity.Product;
 import model.entity.ProductStats;
@@ -13,24 +13,31 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import model.IModel;
+import model.Model;
 
 /**
  *
  * @author Admin
  */
-public class Products extends Model {
+public class Products {
+    static private IModel model = new Model();
+    
+    static public void setModel(IModel alternativeModel) {
+        model = alternativeModel;
+    }
 
     public static List<Product> getPremiumProduct() throws SQLException {
         List<Product> list = new ArrayList<Product>();
-        String query = "select top 4 * from Products\n"
-                + "order by price desc, name asc";
+        String query = "select * from Products\n"
+                + "order by price desc, name asc LIMIT 4";
 
         PreparedStatement ps = null;
         ResultSet rs = null;
         Connection conn = null;
 
         try {
-            conn = Model.getConnection();
+            conn = model.getConnection();
             ps = conn.prepareStatement(query);
             rs = ps.executeQuery();
             while (rs.next()) {
@@ -74,7 +81,7 @@ public class Products extends Model {
         Connection conn = null;
 
         try {
-            conn = Model.getConnection();
+            conn = model.getConnection();
             ps = conn.prepareStatement(query);
             ps.setString(1, "%" + txtSearch + "%");
             rs = ps.executeQuery();
@@ -125,7 +132,7 @@ public class Products extends Model {
         Connection conn = null;
 
         try {
-            conn = Model.getConnection();
+            conn = model.getConnection();
             ps = conn.prepareStatement(query);
 
             ps.setInt(1, userId);
@@ -158,7 +165,7 @@ public class Products extends Model {
         return list;
     }
 
-    static public Product getProductByID(String id) throws SQLException {
+    static public Product getProductByID(int id) throws SQLException {
         String query = "select * from Products\n"
                 + "where id=?";
 
@@ -167,9 +174,9 @@ public class Products extends Model {
         Connection conn = null;
 
         try {
-            conn = Model.getConnection();
+            conn = model.getConnection();
             ps = conn.prepareStatement(query);
-            ps.setString(1, id);
+            ps.setInt(1, id);
             rs = ps.executeQuery();
             while (rs.next()) {
                 return new Product(
@@ -209,7 +216,7 @@ public class Products extends Model {
         Connection conn = null;
 
         try {
-            conn = Model.getConnection();
+            conn = model.getConnection();
             ps = conn.prepareStatement(query);
             rs = ps.executeQuery();
             while (rs.next()) {
@@ -243,7 +250,7 @@ public class Products extends Model {
         Connection conn = null;
 
         try {
-            conn = Model.getConnection();
+            conn = model.getConnection();
             ps = conn.prepareStatement(query);
             ps.setInt(1, (page - 1) * 4);
             rs = ps.executeQuery();
@@ -292,7 +299,7 @@ public class Products extends Model {
         Connection conn = null;
 
         try {
-            conn = Model.getConnection();
+            conn = model.getConnection();
 
             feedbackPS = conn.prepareStatement(deleteAssociatedFeedbackQuery);
             orderProductPS = conn.prepareStatement(deleteAssociatedOrderProductQuery);
@@ -332,7 +339,7 @@ public class Products extends Model {
         Connection conn = null;
 
         try {
-            conn = Model.getConnection();
+            conn = model.getConnection();
             ps = conn.prepareStatement(query);
             ps.setString(1, name);
             ps.setString(2, price);
@@ -364,7 +371,7 @@ public class Products extends Model {
         Connection conn = null;
 
         try {
-            conn = Model.getConnection();
+            conn = model.getConnection();
             ps = conn.prepareStatement(query);
             ps.setString(1, name);
             ps.setString(2, quantity);
@@ -396,7 +403,7 @@ public class Products extends Model {
         Connection conn = null;
 
         try {
-            conn = Model.getConnection();
+            conn = model.getConnection();
             ps = conn.prepareStatement(query);
             ps.setInt(1, creatorId);
             rs = ps.executeQuery();
@@ -426,6 +433,55 @@ public class Products extends Model {
         }
 
         return list;
+    }
+    
+    static public List<Product> getProductByUser(int id) throws SQLException {
+        
+        List<Product> list = new ArrayList<>();
+        
+        String query = "select * from Products\n"
+                + "JOIN Users ON Users.id = Products.creatorId\n"
+                + "WHERE creatorId=?";
+        
+        PreparedStatement ps = null;
+        Connection conn = null;
+        ResultSet rs = null;
+        
+        try {
+
+            conn = model.getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                list.add(new Product(rs.getInt("id"), 
+                            rs.getString("name"), 
+                            rs.getInt("quantity"), 
+                            rs.getDouble("price"), 
+                            rs.getInt("category"), 
+                            rs.getString("thumbnail"), 
+                            rs.getString("description"), 
+                            rs.getString("unit"), 
+                            rs.getInt("creatorId")));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        
+        return list;
+        
     }
 
     public static void main(String[] args) throws SQLException {

@@ -157,4 +157,12 @@ public class User {
     public void setShortDescription(String shortDescription) {
         this.shortDescription = shortDescription;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        User user = (User) obj;
+        
+        return user.id == this.id && user.username.equals(this.username);
+    }
+    
 }

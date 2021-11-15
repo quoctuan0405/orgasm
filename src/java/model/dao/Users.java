@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model;
+package model.dao;
 
 import model.entity.User;
 import java.sql.Connection;
@@ -12,27 +12,35 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import model.IModel;
+import model.Model;
 import utility.PasswordAuthentication;
 
 /**
  *
  * @author Admin
  */
-public class Users extends Model {
+public class Users {
+    static private IModel model = new Model();
+    
+    static public void setModel(IModel alternativeModel) {
+        model = alternativeModel;
+    }
 
     static public List<User> all() throws SQLException {
         List<User> list = new ArrayList<User>();
 
         String query = "SELECT Users.id AS id, email, username, password, avatar, shortDescription, profile, address, phone, gender, status, emailVerified, verifyToken, Roles.name AS role "
                 + "FROM Users "
-                + "JOIN Roles ON Users.role = Roles.id";
+                + "JOIN Roles ON Users.role = Roles.id "
+                + "WHERE deleted = 0";
 
         PreparedStatement ps = null;
         ResultSet rs = null;
         Connection conn = null;
 
         try {
-            conn = Model.getConnection();
+            conn = model.getConnection();
             ps = conn.prepareStatement(query);
             rs = ps.executeQuery();
             while (rs.next()) {
@@ -73,14 +81,14 @@ public class Users extends Model {
         String query = "SELECT Users.id AS id, email, username, password, avatar, shortDescription, profile, address, phone, gender, status, emailVerified, verifyToken, Roles.name AS role "
                 + "FROM Users "
                 + "JOIN Roles ON Users.role = Roles.id "
-                + "WHERE username = ?";
+                + "WHERE username = ? AND deleted = 0";
 
         PreparedStatement ps = null;
         ResultSet rs = null;
         Connection conn = null;
 
         try {
-            conn = Model.getConnection();
+            conn = model.getConnection();
             ps = conn.prepareStatement(query);
             ps.setString(1, username);
 
@@ -123,14 +131,14 @@ public class Users extends Model {
         String query = "SELECT Users.id AS id, email, username, password, profile, avatar, shortDescription, address, phone, gender, status, emailVerified, verifyToken, Roles.name AS role "
                 + "FROM Users "
                 + "JOIN Roles ON Users.role = Roles.id "
-                + "WHERE Users.id = ?";
+                + "WHERE Users.id = ? AND deleted = 0";
 
         PreparedStatement ps = null;
         ResultSet rs = null;
         Connection conn = null;
 
         try {
-            conn = Model.getConnection();
+            conn = model.getConnection();
             ps = conn.prepareStatement(query);
             ps.setInt(1, id);
 
@@ -192,7 +200,7 @@ public class Users extends Model {
 
             String query = "INSERT INTO Users (email, username, password, role, verifyToken) VALUES (?, ?, ?, ?, ?)";
 
-            conn = Model.getConnection();
+            conn = model.getConnection();
             ps = conn.prepareStatement(query);
             ps.setString(1, email);
             ps.setString(2, username);
@@ -218,14 +226,14 @@ public class Users extends Model {
         return null;
     }
 
-    static public User updateProfile(String phone, String gender, String status, String shortDescription, String profile, String avatar, String address, int id) throws SQLException {
-        String query = "UPDATE Users set  phone=?, gender=?, status=?, shortDescription=?, profile=?, avatar=?, address=?  where id = ?";
+    static public void updateProfile(String phone, String gender, String status, String shortDescription, String profile, String avatar, String address, int id) throws SQLException, Exception {
+        String query = "UPDATE Users SET phone=?, gender=?, status=?, shortDescription=?, profile=?, avatar=?, address=?  where id = ? AND deleted = 0";
 
         PreparedStatement ps = null;
         Connection conn = null;
 
         try {
-            conn = Model.getConnection();
+            conn = model.getConnection();
             ps = conn.prepareStatement(query);
             ps.setString(1, phone);
             ps.setString(2, gender);
@@ -238,7 +246,7 @@ public class Users extends Model {
             ps.executeUpdate();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            throw e;
         } finally {
             if (ps != null) {
                 ps.close();
@@ -247,8 +255,6 @@ public class Users extends Model {
                 conn.close();
             }
         }
-
-        return null;
     }
 
     public static boolean delete(int userId) throws SQLException {
@@ -257,9 +263,9 @@ public class Users extends Model {
         Connection conn = null;
 
         try {
-            String query = "DELETE FROM Users WHERE id = ?";
+            String query = "UPDATE Users SET deleted = 1 WHERE id = ?";
 
-            conn = Model.getConnection();
+            conn = model.getConnection();
             ps = conn.prepareStatement(query);
             ps.setInt(1, userId);
 
@@ -290,9 +296,9 @@ public class Users extends Model {
             PasswordAuthentication passwordAuthentication = new PasswordAuthentication();
             String hashedPassword = passwordAuthentication.hash(password.toCharArray());
 
-            String query = "UPDATE Users SET password = ? WHERE username = ?";
+            String query = "UPDATE Users SET password = ? WHERE username = ? AND deleted = 0";
 
-            conn = Model.getConnection();
+            conn = model.getConnection();
             ps = conn.prepareStatement(query);
             ps.setString(1, hashedPassword);
             ps.setString(2, username);
@@ -316,20 +322,19 @@ public class Users extends Model {
     }
 
     static public User verifyEmail(int id, String token) throws SQLException {
-
         PreparedStatement ps = null;
         Connection conn = null;
 
         try {
             User user = Users.findById(id);
 
-            if (!user.getVerifyToken().equals(token)) {
+            if (user == null || !user.getVerifyToken().equals(token)) {
                 return null;
             }
 
-            String query = "UPDATE Users SET emailVerified = 1, verifyToken = null WHERE id = ?";
+            String query = "UPDATE Users SET emailVerified = 1, verifyToken = null WHERE id = ? AND deleted = 0";
 
-            conn = Model.getConnection();
+            conn = model.getConnection();
             ps = conn.prepareStatement(query);
             ps.setInt(1, id);
 
@@ -353,14 +358,105 @@ public class Users extends Model {
 
         return null;
     }
+    
+    static public User setToken(int userId, String token) throws SQLException {
+        PreparedStatement ps = null;
+        Connection conn = null;
+
+        try {
+            User user = Users.findById(userId);
+
+            if (user == null) {
+                return null;
+            }
+
+            String query = "update users set verifyToken = ?, emailVerified = 0 where id = ? AND deleted = 0";
+
+            conn = model.getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, token);
+            ps.setInt(2, userId);
+
+            ps.executeUpdate();
+
+            user.setEmailVerified(false);
+            user.setVerifyToken(null);
+
+            return user;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            
+        } finally {
+            if (ps != null) {
+                ps.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+
+        return null;
+    }
+    
+    static public User getUserByProduct(int id) throws SQLException {
+        String query = "select * from Users \n"
+                + "JOIN Products ON Users.id = Products.creatorId \n"
+                + "WHERE creatorId=?";
+
+        PreparedStatement ps = null;
+        Connection conn = null;
+        ResultSet rs = null;
+
+        try {
+
+            conn = model.getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                return new User(rs.getInt("id"),
+                        rs.getString("email"),
+                        rs.getString("username"),
+                        rs.getString("profile"),
+                        rs.getString("role"),
+                        rs.getString("address"),
+                        rs.getString("phone"),
+                        rs.getString("gender"),
+                        rs.getString("status"),
+                        rs.getString("password"),
+                        rs.getString("avatar"),
+                        rs.getString("shortDescription"),
+                        rs.getBoolean("emailVerified"),
+                        rs.getString("verifyToken")
+                );
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+
+        return null;
+    }
 
 //    public static void main(String[] args) {
-//        List<User> list = Users.all();
+//        try {
+//            List<User> list = Users.all();
 //        
 //        for (int i = 0; i < list.size(); i++) {
 //            System.out.println(list.get(i).getAvatar());
 //        }
-
+//
 //        User user1 = Users.findByUsername("username");
 //        System.out.println(user1.getAddress());
 //        
@@ -375,5 +471,9 @@ public class Users extends Model {
 //        Users.changePassword("username", "password1");
 //        User user5 = Users.verify("username", "password1");
 //        System.out.println(user5.getAddress());
+//
+//        } catch (Exception e) {
+//            System.out.println(e.getStackTrace());
+//        }
 //    }
 }

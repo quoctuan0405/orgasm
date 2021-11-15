@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model;
+package model.dao;
 
 import model.entity.Role;
 import java.sql.Connection;
@@ -12,12 +12,20 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import model.IModel;
+import model.Model;
 
 /**
  *
  * @author Admin
  */
 public class Roles extends Model {
+    static private IModel model = new Model();
+    
+    static public void setModel(IModel alternativeModel) {
+        model = alternativeModel;
+    }
+    
     static public List<Role> all() throws SQLException {
         List<Role> list = new ArrayList<Role>();
     
@@ -28,14 +36,14 @@ public class Roles extends Model {
         Connection conn = null;
 
         try {
-             conn = Model.getConnection();
+             conn = model.getConnection();
              ps = conn.prepareStatement(query);
              rs = ps.executeQuery();
             while (rs.next()) {
                 list.add(new Role(rs.getInt("id"), rs.getString("name")));
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new SQLException("Can't connect to database");
         } finally {
             if(rs != null) {
                 rs.close();
