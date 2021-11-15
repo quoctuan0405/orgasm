@@ -1,0 +1,190 @@
+
+
+.banner {
+    height: 14vw;
+    background-image: url(https://i.postimg.cc/3RBZ0M4H/pexels-photomix-company-1002703.jpg);
+    text-align: center;
+    margin: 0%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.banner .te {
+    padding: 5%;
+}
+
+.banner span {
+    color: white;
+    font-size: 50px;
+    font-weight: bold;
+}
+
+.cart {
+    padding-top: 49px;
+    padding-left: 111px;  
+    padding-right: 111px;
+}
+
+.cart table {
+    list-style-type: none;
+    text-decoration: none;
+    border: 1px solid #BFBFBF;
+    box-sizing: border-box;
+    width: 1218px;
+}
+
+.cart thead th {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 30px;
+    padding-top: 61px;
+    padding-bottom: 61px;
+
+}
+
+.cart td{
+    height: 157px;
+    text-align: center;
+}
+
+.cart th:first-child{
+    width: 500px;
+    text-align: left;
+    padding-left: 61px;
+}
+
+.cart td:first-child{
+    width: 500px;
+    text-align: left;    
+    padding-left: 61px;
+    display: flex;
+    flex-flow: row wrap;
+    padding-top: 28px;
+}
+
+.image{
+    height: 100px;
+    width: 100px;
+}
+
+.cart tbody td{
+    border-top: 1px solid #BFBFBF;
+}
+
+.cart tbody span{
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 25px;
+    padding-left: 22px;
+
+}
+
+.quantity-box{
+    width: 122px;
+    height: 53px;
+    text-align: center;
+}
+
+.cart tbody button a{
+    text-decoration: none;
+    color: black;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 30px;
+}
+
+.cart tbody p{
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 30px;
+}
+
+.cart tbody button{
+    border: none;
+    background: white;
+    cursor: pointer;
+}
+
+.product-name{
+    padding-top: 30px;
+    padding-left: 10px;
+}
+
+.buttons{
+    padding-top: 49px;
+    padding-bottom: 89px;
+    width: 1218px;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+}
+
+.buttons button{
+    height: 53px;
+    width: 292px;
+    text-align: center;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 25px;
+    color: #FFFFFF;
+    background: #62B13E;
+    border: none;
+    box-shadow: 0 0 3px #444;
+    cursor: pointer;
+}
+
+.cart-total {
+    width: 543px;
+    height: 214px;
+    background: #F4F4F4;
+    padding-left: 45px;
+    padding-right: 32px;
+    padding-top: 37px;
+    padding-bottom: 24px;
+    margin-bottom: 104px;
+    margin-left: auto;
+}
+
+.cart-total div p:first-child{
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 30px;
+    color: #000000;
+}
+
+.cart-total div p:last-child{
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 30px;
+    color: #62B13E;
+}
+
+.cart-total div:first-child{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    padding-bottom: 65px;
+}
+
+.cart-total button{
+    background: #62B13E;
+    height: 53px;
+    width: 466px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 25px;
+    text-align: center;
+    color: #FFFFFF;
+    border: none;
+    box-shadow: 0 0 3px #444;
+    cursor: pointer;
+}

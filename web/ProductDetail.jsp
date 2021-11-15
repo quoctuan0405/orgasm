@@ -10,9 +10,9 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>${detail.name}</title>
-        
+
         <link href="${pageContext.request.contextPath}/css/common.css" rel="stylesheet">
-        
+
         <link href="${pageContext.request.contextPath}/css/productDetail.css" rel="stylesheet">
     </head>
     <body>
@@ -26,25 +26,26 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="product-content">
                     <div class="product-name">
                         <p>${detail.name}</p>
                     </div>
-                    
+
                     <div class="product-price">
                         <p class="">$${detail.price}</p>
-                   </div>
-                    
+                    </div>
+
                     <div class="product-description">
                         <p>${detail.description}</p>
                     </div>
-                    
+
                     <div class="purchase-info">
-                        <form action="${pageContext.request.contextPath}/cart" method="POST">
-                            <input type="number" min="0" value="1" class="purchase-box">
-                            <button type="submit" class="btn">
-                                Add to Cart <i class = "fas fa-shopping-cart"></i>
+                        <form id="addToCartForm" action="${pageContext.request.contextPath}/addtocart" method="POST">
+                            <input type="hidden" name="productId" value="${product.id}" />
+                            <input type="number" name="productQuantity" id="addToCartProductQuantity" min="0" value="1" class="purchase-box">
+                            <button type="button" onclick="buy('${product.id}', '${product.quantity}')" class="btn">
+                                Add to Cart
                             </button>
                         </form>
                     </div>                    
@@ -52,5 +53,19 @@
             </div>                        
         </div>
         <%@include file="components/Footer.jsp"%>
+        <script type="text/javascript">
+            function buy(id, quantity) {
+                const addToCartForm = document.querySelector("#addToCartForm");
+                const addToCartProductQuantity = document.querySelector("#addToCartProductQuantity").value;
+
+                if (addToCartProductQuantity > quantity) {
+                    alert("Khong du hang");
+                    return;
+
+                } else {
+                    addToCartForm.submit();
+                }
+            }
+        </script> 
     </body>
 </html>

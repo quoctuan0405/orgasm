@@ -19,7 +19,7 @@
                 </li>
                 <c:if test="${sessionScope.acc != null}">
                     <li>
-                        <a href="${pageContext.request.contextPath}/cart">Cart</a>
+                        <a href="${pageContext.request.contextPath}/Cart.jsp">Cart</a>
                     </li>
                     <li>
                         <a href="${pageContext.request.contextPath}/profile">Profile</a>
