@@ -17,11 +17,11 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.entity.Blog;
-import model.BlogCategories;
+import model.dao.BlogCategories;
 import model.entity.BlogCategory;
-import model.Blogs;
+import model.dao.Blogs;
 import model.entity.User;
-import model.Users;
+import model.dao.Users;
 
 /**
  *

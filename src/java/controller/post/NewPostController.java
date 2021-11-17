@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controller.blogs;
+package controller.post;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -17,18 +17,46 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import model.dao.BlogCategories;
-import model.entity.BlogCategory;
-import model.dao.Blogs;
-import model.entity.User;
+import model.dao.Posts;
+import model.dao.ProductCategories;
 import model.dao.Users;
+import model.entity.ProductCategory;
+import model.entity.User;
 
 /**
  *
- * @author Administrator
+ * @author Puta
  */
-@WebServlet(name = "NewBlogController", urlPatterns = {"/addblog"})
-public class NewBlogController extends HttpServlet {
+@WebServlet(name = "NewPostController", urlPatterns = {"/newpost"})
+public class NewPostController extends HttpServlet {
+
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet NewPostController</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet NewPostController at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
+        }
+    }
+
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -53,24 +81,24 @@ public class NewBlogController extends HttpServlet {
         try {
             user = Users.findById(userId);
         } catch (SQLException ex) {
-            Logger.getLogger(NewBlogController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(NewPostController.class.getName()).log(Level.SEVERE, null, ex);
         }
         if (user == null) {
             response.sendRedirect(request.getContextPath() + "/signup");
             return;
         }
         
-        List<BlogCategory> listBlogCategory = null;
+        List<ProductCategory> listPostCategory = null;
         try {
-            listBlogCategory = BlogCategories.all();
+            listPostCategory = ProductCategories.allCategory();
         } catch (SQLException ex) {
-            Logger.getLogger(NewBlogController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(NewPostController.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        request.setAttribute("listBlogCategory", listBlogCategory);
+        request.setAttribute("listPostCategory", listPostCategory);
         request.setAttribute("user", user);
         request.setAttribute("type", "add");
-        request.getRequestDispatcher("/UpsertBlog.jsp").forward(request, response);
+        request.getRequestDispatcher("/PostManagement.jsp").forward(request, response);
     }
 
     /**
@@ -85,7 +113,6 @@ public class NewBlogController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String title = request.getParameter("title");
-        String image = request.getParameter("image");
         String category = request.getParameter("category");
         String content = request.getParameter("content");
         
@@ -98,22 +125,23 @@ public class NewBlogController extends HttpServlet {
         try {
             user = Users.findById(userId);
         } catch (SQLException ex) {
-            Logger.getLogger(NewBlogController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(NewPostController.class.getName()).log(Level.SEVERE, null, ex);
         }
         if (user == null) {
             response.sendRedirect(request.getContextPath() + "/signup");
             return;
         }
         try {
-            if (!title.isEmpty() && !image.isEmpty() && !content.isEmpty())
+            if (!title.isEmpty() && !content.isEmpty())
             {
-                Blogs.addBlog(image, title, date, content, category, userId);
-                response.sendRedirect("myblog");
-            }
-            else 
+                Posts.addPost(title, date, content, category, userId);
+                response.sendRedirect("mypost");
+
+            } 
+            else
             {
-                if (title.isEmpty() && content.isEmpty() && image.isEmpty()){
-                    request.setAttribute("message", "You must input all information to create new post");
+                if (title.isEmpty() && content.isEmpty()){
+                    request.setAttribute("message", "You must input title and content");
                 } else {
                     if (title.isEmpty()){
                         request.setAttribute("message", "You must input title");
@@ -121,23 +149,20 @@ public class NewBlogController extends HttpServlet {
                     if (content.isEmpty()){
                         request.setAttribute("message", "You must input content");
                     }
-                    if (image.isEmpty()){
-                        request.setAttribute("message", "You must input link image");
-                    }
                 }
-                List<BlogCategory> listBlogCategory = null;
+                List<ProductCategory> listPostCategory = null;
                 try {
-                    listBlogCategory = BlogCategories.all();
+                    listPostCategory = ProductCategories.allCategory();
                 } catch (SQLException ex) {
-                    Logger.getLogger(NewBlogController.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(NewPostController.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                request.setAttribute("listBlogCategory", listBlogCategory);
+                request.setAttribute("listPostCategory", listPostCategory);
                 request.setAttribute("user", user);
                 request.setAttribute("type", "add");
-                request.getRequestDispatcher("UpsertBlog.jsp").forward(request, response);
+                request.getRequestDispatcher("PostManagement.jsp").forward(request, response);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(NewBlogController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(NewPostController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

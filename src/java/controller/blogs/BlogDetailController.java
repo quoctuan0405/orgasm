@@ -13,14 +13,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import model.Blogs;
+import model.dao.Blogs;
 import model.entity.Blog;
-import model.BlogCategories;
+import model.dao.BlogCategories;
 import model.Comment;
-import model.Comments;
+import model.dao.Comments;
 import model.entity.BlogCategory;
 import model.entity.User;
-import model.Users;
+import model.dao.Users;
 
 /**
  *
@@ -41,7 +41,6 @@ public class BlogDetailController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
-
         HttpSession session = request.getSession();
 
         try {

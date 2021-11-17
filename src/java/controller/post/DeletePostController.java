@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controller.blogs;
+package controller.post;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -17,19 +17,47 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import model.entity.Blog;
-import model.dao.BlogCategories;
-import model.entity.BlogCategory;
-import model.dao.Blogs;
-import model.entity.User;
+import model.dao.Posts;
+import model.dao.ProductCategories;
 import model.dao.Users;
+import model.entity.Post;
+import model.entity.ProductCategory;
+import model.entity.User;
 
 /**
  *
  * @author Puta
  */
-@WebServlet(name = "DeleteBlogController", urlPatterns = {"/deleteblog"})
-public class DeleteBlogController extends HttpServlet {
+@WebServlet(name = "DeletePostController", urlPatterns = {"/deletepost"})
+public class DeletePostController extends HttpServlet {
+
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet DeletePostController</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet DeletePostController at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
+        }
+    }
+
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -54,7 +82,7 @@ public class DeleteBlogController extends HttpServlet {
         try {
             user = Users.findById(userId);
         } catch (SQLException ex) {
-            Logger.getLogger(DeleteBlogController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DeletePostController.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         if (user == null) {
@@ -64,22 +92,21 @@ public class DeleteBlogController extends HttpServlet {
         
         int id = Integer.parseInt(request.getParameter("id"));
         
-        Blog blog = null;
-        List<BlogCategory> listBlogCategory = null;
-        
+        List<ProductCategory> listPostCategory = null;
+        Post post = null;
         try {
-            listBlogCategory = BlogCategories.all();
-            blog = Blogs.getBlogByID(id);
+            post = Posts.getPostByID(id);
+            listPostCategory = ProductCategories.allCategory();
         } catch (SQLException ex) {
-            Logger.getLogger(DeleteBlogController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DeletePostController.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+        request.setAttribute("listPostCategory", listPostCategory);
+        request.setAttribute("post", post);
         request.setAttribute("user", user);
-        request.setAttribute("listBlogCategory", listBlogCategory);
-        request.setAttribute("blog", blog);
         request.setAttribute("type", "delete");
         
-        request.getRequestDispatcher("/UpsertBlog.jsp").forward(request, response);
+        request.getRequestDispatcher("PostManagement.jsp").forward(request, response);
     }
 
     /**
@@ -93,16 +120,15 @@ public class DeleteBlogController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
         String id = request.getParameter("id");
         
         try {
-            Blogs.delete(id);
+            Posts.delete(id);
         } catch (SQLException ex) {
-            Logger.getLogger(DeleteBlogController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DeletePostController.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        response.sendRedirect(request.getContextPath() + "/myblog"); 
+        response.sendRedirect("mypost"); 
     }
 
     /**
