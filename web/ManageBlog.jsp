@@ -67,6 +67,7 @@
             </td>
         </tr>
     </table>
+        <p class="message" style="font-size: 25px; color: red;">${message}</p>
         <div class="button-manage">
         <c:if test='${type == "edit" }'>
             <button>Save</button>
