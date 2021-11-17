@@ -17,11 +17,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.entity.Blog;
-import model.BlogCategories;
+import model.dao.BlogCategories;
 import model.entity.BlogCategory;
-import model.Blogs;
+import model.dao.Blogs;
 import model.entity.User;
-import model.Users;
+import model.dao.Users;
 
 /**
  *

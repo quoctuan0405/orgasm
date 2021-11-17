@@ -1,0 +1,289 @@
+.banner {
+    height: 14vw;
+    background-image: url(https://i.postimg.cc/BZmgq0fT/pexels-dmitriy-ganin-7538060.jpg);
+    text-align: center;
+    margin: 0%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.banner .te {
+    padding: 5%;
+}
+
+.banner span {
+    color: white;
+    font-size: 50px;
+    font-weight: bold;
+}
+
+.post-body {
+    display: flex;
+    flex-flow: row wrap;
+    padding-top: 50px;
+    padding-bottom: 87px;
+}
+
+.main{
+    padding-left: 63px;
+}
+
+.box {
+    width: 276px;
+}
+
+.input {
+    width: 276px;
+    height: 70px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 23px;
+    padding-left: 12px;
+
+    color: #000000;
+}
+
+.category {
+    padding-top: 38px;
+}
+
+.category-header {
+    width: 147px;
+    height: 35px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 30px;
+    line-height: 35px;
+    padding-left: 34px;
+
+    color: #62B13E;
+}
+
+.Head{    
+    list-style: none;
+    padding-top: 24px;
+}
+
+.cate {
+    width: 100px;
+    height: 23px;
+    text-decoration: none;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 23px;
+
+    color: #000000;
+}
+
+.management {
+    padding-top: 61px;
+}
+
+.label {
+    width: 241px;
+    height: 35px;
+    padding-left: 34px;
+}
+
+.title {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 30px;
+    line-height: 35px;
+    color: #62B13E;
+}
+
+.my-ports{
+    list-style: none;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 25px;
+    margin: 0;
+    padding: 0;
+    color: #62B13E;
+}
+
+.my-ports a {
+    width: 100px;
+    height: 23px;
+    text-decoration: none;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 23px;
+
+    color: #000000;
+}
+
+.post-tag {
+    width: 937px;
+    padding-left: 64px;
+}
+
+.post-tag a {
+    text-decoration: none;
+}
+
+.tag-button {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    width: 937px;
+}
+
+.tag-button ul {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 25px;
+    margin: 0;
+    padding: 0;
+
+    color: #62B13E;
+}
+
+.tag-button button {
+    width: 135px;
+    height: 40px;
+    background: #62B13E;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+    border: none;
+    box-shadow: 0 0 3px #444;
+    cursor: pointer;
+    color: #FFFFFF;
+}
+
+.post {
+    width: 937px;
+    height: 122px;
+    border: 1px solid #eee;
+    margin-top: 21px;
+    display: flex;
+    flex-flow: row wrap;
+    padding-left: 20px;
+}
+
+.thumbnail img {
+    width: 100px;
+    height: 100px;
+    border-radius: 100%;
+    margin-top: 13px;
+}
+
+.post-content-body{
+    width: 750px;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    padding-top: 25px;
+}
+.hastag {
+    margin-left: auto;
+    width: max-content;
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.delete-product-form button {
+    background: none;
+    box-shadow: 0 0 5px #999;
+    border: none;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    border-radius: 100px;
+    padding: 0;
+    margin-left: 10px;
+}
+
+.delete-product-form button img{
+    width: 40px;
+}
+
+.delete-product-form button:hover {
+    transition: .2s;
+    box-shadow: 0 0 3px #999;
+}
+
+.delete-product-form button:active {
+    transition: .2s;
+    box-shadow: 0 0 2px #999;
+}
+
+.edit-button {
+    display: block;
+    box-shadow: 0 0 5px #999;
+    padding: 8px 9px 4px 11px;
+    border-radius: 100px;
+    width: max-content;
+}
+
+.edit-button img {
+    display: block;
+    margin-bottom: 5px;
+    width: 18px;
+}
+
+.edit-button:hover {
+    transition: .2s;
+    box-shadow: 0 0 3px #999;
+}
+
+.edit-button:active {
+    transition: .2s;
+    box-shadow: 0 0 2px #999;
+}
+
+.post-title ul {
+    margin: 0;
+}
+
+.post-title li {
+    list-style: none;  
+}
+
+.post-title li:first-child{
+    padding-bottom: 23px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+
+    color: #4A7F2E;
+}
+
+.post-title li:last-child {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 23px;
+
+    color: #464646;
+}
+
+.hastag a {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+
+    color: #62B13E; 
+}
+

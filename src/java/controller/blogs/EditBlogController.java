@@ -18,11 +18,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.entity.Blog;
-import model.BlogCategories;
+import model.dao.BlogCategories;
 import model.entity.BlogCategory;
-import model.Blogs;
+import model.dao.Blogs;
 import model.entity.User;
-import model.Users;
+import model.dao.Users;
 
 /**
  *
@@ -77,7 +77,7 @@ public class EditBlogController extends HttpServlet {
         request.setAttribute("blog", blog);
         request.setAttribute("type", "edit");
         
-        request.getRequestDispatcher("ManageBlog.jsp").forward(request, response);
+        request.getRequestDispatcher("UpsertBlog.jsp").forward(request, response);
     }
 
     /**
@@ -91,19 +91,62 @@ public class EditBlogController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
         String image = request.getParameter("image");
         String title = request.getParameter("title");
         String content = request.getParameter("content");
         String category = request.getParameter("category");
         String id = request.getParameter("id");
-            
+        int userId = (int) session.getAttribute("acc");
+        
+        User user = null;
         try {
-            Blogs.updateBlog(image, title, content, category, id);
+            user = Users.findById(userId);
         } catch (SQLException ex) {
             Logger.getLogger(EditBlogController.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        response.sendRedirect(request.getContextPath() + "/blogdetail?id=" + id);  
+        if (user == null) {
+            response.sendRedirect(request.getContextPath() + "/signup");
+            return;
+        }            
+        try {
+            if (!title.isEmpty() && !image.isEmpty() && !content.isEmpty()){
+                Blogs.updateBlog(image, title, content, category, id);
+                response.sendRedirect(request.getContextPath() + "/blogdetail?id=" + id);  
+            }
+            else {
+                if (title.isEmpty() && content.isEmpty() && image.isEmpty()){
+                    request.setAttribute("message", "You must input title, link image and content");
+                } else {
+                    if (title.isEmpty()){
+                        request.setAttribute("message", "You must input title");
+                    } 
+                    if (content.isEmpty()){
+                        request.setAttribute("message", "You must input content");
+                    }
+                    if (image.isEmpty()){
+                        request.setAttribute("message", "You must input link image");
+                    }
+                    Blog blog = null;
+                    List<BlogCategory> listBlogCategory = null;
+                    try {
+                        listBlogCategory = BlogCategories.all();
+                        int bid = Integer.parseInt(request.getParameter("id"));
+                        blog = Blogs.getBlogByID(bid);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(EditBlogController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    request.setAttribute("listBlogCategory", listBlogCategory);
+                    request.setAttribute("blog", blog);
+                    request.setAttribute("type", "edit");
+                    request.getRequestDispatcher("UpsertBlog.jsp").forward(request, response);
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(EditBlogController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
 
     /**

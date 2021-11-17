@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controller.blogs;
+package controller.post;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
@@ -16,19 +17,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import model.entity.Blog;
-import model.dao.BlogCategories;
-import model.entity.BlogCategory;
-import model.dao.Blogs;
-import model.entity.User;
+import model.dao.Posts;
+import model.dao.ProductCategories;
+import model.dao.Products;
 import model.dao.Users;
+import model.entity.Post;
+import model.entity.ProductCategory;
+import model.entity.User;
 
 /**
  *
- * @author Administrator
+ * @author Puta
  */
-@WebServlet(name = "BlogCategoryController", urlPatterns = {"/blogcategory"})
-public class BlogCategoryController extends HttpServlet {
+@WebServlet(name = "MyPost", urlPatterns = {"/mypost"})
+public class MyPostController extends HttpServlet {
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -40,34 +42,40 @@ public class BlogCategoryController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        /* Pass user's information to jsp file if that user is logged in */
-        try {
-            HttpSession session = request.getSession();
+        HttpSession session = request.getSession();
 
-            int userId = (int) session.getAttribute("acc");
-
-            User user = Users.findById(userId);
-            request.setAttribute("user", user);
-            
-        } catch (Exception ex) {
-            Logger.getLogger(BlogCategoryController.class.getName()).log(Level.SEVERE, null, ex);
+        if (session == null || session.getAttribute("acc") == null) {
+            response.sendRedirect(request.getContextPath() + "/signup");
+            return;
         }
-        
-        String id = request.getParameter("id");
-        
-        List<Blog> listBlog = null;
-        List<BlogCategory> listBlogCategory = null;
+
+        int userId = (int) session.getAttribute("acc");
+
+        User user = null;
         try {
-            listBlog = Blogs.getBlogbyCategory(id);
-            listBlogCategory = BlogCategories.all();
+            user = Users.findById(userId);
         } catch (SQLException ex) {
-            Logger.getLogger(BlogCategoryController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MyPostController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        request.setAttribute("listBlog", listBlog);
-        request.setAttribute("listBlogCategory", listBlogCategory);
-        
-        request.getRequestDispatcher("Blog.jsp").forward(request, response);
+        if (user == null) {
+            response.sendRedirect(request.getContextPath() + "/signup");
+            return;
+        }
+
+        List<Post> listPost = null;
+        List<ProductCategory> listPostCategory = null;
+        try {
+            listPost = Posts.getPostbyAuthorID(userId);
+            listPostCategory = ProductCategories.allCategory();
+        } catch (SQLException ex) {
+            Logger.getLogger(MyPostController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        request.setAttribute("listPost", listPost);
+        request.setAttribute("listPostCategory", listPostCategory);
+        request.setAttribute("user", user);
+
+        request.getRequestDispatcher("MyPost.jsp").forward(request, response);
     }
 
     /**
@@ -81,7 +89,6 @@ public class BlogCategoryController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //comment
     }
 
     /**
@@ -92,6 +99,6 @@ public class BlogCategoryController extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "Short description";
-    }// </editor-fold>
+    }
 
 }
