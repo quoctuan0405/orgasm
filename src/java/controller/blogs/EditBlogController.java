@@ -77,7 +77,7 @@ public class EditBlogController extends HttpServlet {
         request.setAttribute("blog", blog);
         request.setAttribute("type", "edit");
         
-        request.getRequestDispatcher("UpsertBlog.jsp").forward(request, response);
+        request.getRequestDispatcher("ManageBlog.jsp").forward(request, response);
     }
 
     /**
@@ -140,7 +140,7 @@ public class EditBlogController extends HttpServlet {
                     request.setAttribute("listBlogCategory", listBlogCategory);
                     request.setAttribute("blog", blog);
                     request.setAttribute("type", "edit");
-                    request.getRequestDispatcher("UpsertBlog.jsp").forward(request, response);
+                    request.getRequestDispatcher("ManageBlog.jsp").forward(request, response);
                 }
             }
         } catch (SQLException ex) {
