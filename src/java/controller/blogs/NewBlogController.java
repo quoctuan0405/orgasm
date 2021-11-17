@@ -70,7 +70,7 @@ public class NewBlogController extends HttpServlet {
         request.setAttribute("listBlogCategory", listBlogCategory);
         request.setAttribute("user", user);
         request.setAttribute("type", "add");
-        request.getRequestDispatcher("/UpsertBlog.jsp").forward(request, response);
+        request.getRequestDispatcher("/ManageBlog.jsp").forward(request, response);
     }
 
     /**
@@ -134,7 +134,7 @@ public class NewBlogController extends HttpServlet {
                 request.setAttribute("listBlogCategory", listBlogCategory);
                 request.setAttribute("user", user);
                 request.setAttribute("type", "add");
-                request.getRequestDispatcher("UpsertBlog.jsp").forward(request, response);
+                request.getRequestDispatcher("ManageBlog.jsp").forward(request, response);
             }
         } catch (SQLException ex) {
             Logger.getLogger(NewBlogController.class.getName()).log(Level.SEVERE, null, ex);
