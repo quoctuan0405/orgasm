@@ -79,7 +79,7 @@ public class DeleteBlogController extends HttpServlet {
         request.setAttribute("blog", blog);
         request.setAttribute("type", "delete");
         
-        request.getRequestDispatcher("/UpsertBlog.jsp").forward(request, response);
+        request.getRequestDispatcher("/ManageBlog.jsp").forward(request, response);
     }
 
     /**
