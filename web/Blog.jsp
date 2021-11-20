@@ -36,6 +36,7 @@
 
                 <span>Categories</span>
                 <ul>
+                    <li><a href="blog">All</a></li>
                     <c:forEach items="${listBlogCategory}" var ="o">
                         <li><a href="blogcategory?id=${o.id}">${o.name}</a></li>
                     </c:forEach>
