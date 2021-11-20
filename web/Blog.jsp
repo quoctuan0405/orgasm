@@ -30,7 +30,7 @@
 
         <div class="main">
             <div class="menu">
-                <form action="searchblog" method="post">
+                <form action="searchblog" method="get">
                     <input name="search" type="text" placeholder="Search">
                 </form>
 
