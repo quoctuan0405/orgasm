@@ -103,7 +103,7 @@ public class Posts {
     }
 
     static public void updatePost(String title, String content, String category, String id) throws SQLException {
-        String query = "UPDATE Posts set   title=?, content=?, category=?  where id = ?";
+        String query = "UPDATE Posts set title=?, content=?, category=?  where id = ?";
 
         Connection conn = null;
         PreparedStatement ps = null;
@@ -387,7 +387,7 @@ public class Posts {
                 + "join Users on Users.id = Posts.authorId\n"
                 + "join ProductCategories on Posts.category = ProductCategories.id\n"
                 + "Order by Posts.id\n"
-                + "Offset ? rows fetch next 5 rows only";
+                + "LIMIT ?, 5";
         try {
             Connection conn = model.getConnection();
             PreparedStatement ps = conn.prepareStatement(query);

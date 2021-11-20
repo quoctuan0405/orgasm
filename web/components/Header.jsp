@@ -17,14 +17,20 @@
                 <li>
                     <a href="${pageContext.request.contextPath}/blog">Blog</a>
                 </li>
+                <li>
+                    <a href="${pageContext.request.contextPath}/post">Discussion</a>
+                </li>
                 <c:if test="${sessionScope.acc != null}">
                     <li>
-                        <a href="${pageContext.request.contextPath}/Cart.jsp">Cart</a>
+                        <a href="${pageContext.request.contextPath}/cart">Cart</a>
                     </li>
                     <li>
                         <a href="${pageContext.request.contextPath}/profile">Profile</a>
                     </li>
                 </c:if>
+                <li>
+                    <a href="${pageContext.request.contextPath}/ticket">Ticket</a>
+                </li>
                 <li>
                     <a href="${pageContext.request.contextPath}/about">About us</a>
                 </li>

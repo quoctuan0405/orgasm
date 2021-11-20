@@ -1,0 +1,94 @@
+.banner {
+    padding: 65px;
+    height: 229px;
+    background-color: #62b13e;
+    text-align: center;
+    margin: 0%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+.banner span {
+    color: white;
+    font-size: 50px;
+    font-weight: bold;
+}
+table {
+    width: 1350px;
+    border: 1px solid rgb(177, 172, 172);
+    border-collapse: collapse;
+    margin: 70px auto;
+    font-size: 20px;
+}
+
+table tr:first-child td {
+    padding-left: 30px;
+    width: 100%;
+    height: 150px;
+    border: 1px solid rgb(177, 172, 172);
+    font-weight: bold;
+}
+
+table tr:first-child td input {
+    padding-left: 30px;
+    margin: 0px 42px;
+    width: 92%;
+    height: 100px;
+    border: 1px solid rgb(177, 172, 172);
+    font-weight: bold;
+    font-size: medium;
+}
+
+table tr:nth-child(2) {
+    justify-content: space-between;
+    width: 100%;
+}
+
+table tr:nth-child(2) td input {
+    width: 975px;
+    height: 40px;
+    margin: auto 75px;
+    border: 1px solid #aaa;
+    border-radius: 0;
+    padding: 0 0 0 30px;
+    font-size: 15px;
+}
+
+table tr:nth-child(2) td select {
+    width: 450px;
+    height: 40px;
+    border: 1px solid #aaa;
+    border-radius: 0;
+    margin: 30px 70px;
+    width: 150px;
+    font-size: 15px;
+    text-align: center;
+}
+
+table tr:nth-child(3) td {
+    width: 100%;
+    height: 150px;
+}
+
+table tr:nth-child(3) td input {
+    width: 1275px;
+    height: 212px;
+    margin: 30px 75px;
+    border: 1px solid #aaa;
+    border-radius: 0;
+    padding: 0 0 0 30px;
+    font-size: 15px;
+}
+
+button {
+    margin: 15px 0 0 1000px;
+    width: 165px;
+    height: 36px;
+    font-weight: bold;
+    color: white;
+    background-color: #62b13e;
+    border: 1px solid;
+    border-radius: 0;
+}
+
+

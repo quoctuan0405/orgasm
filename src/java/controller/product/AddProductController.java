@@ -16,10 +16,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import model.ProductCategories;
+import model.dao.ProductCategories;
 import model.entity.ProductCategory;
-import model.Products;
-import model.Users;
+import model.dao.Products;
+import model.dao.Users;
 
 /**
  *

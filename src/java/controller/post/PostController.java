@@ -56,9 +56,11 @@ public class PostController extends HttpServlet {
             Logger.getLogger(PostController.class.getName()).log(Level.SEVERE, "Unauthorized", e);
         }
         
-        String page = request.getParameter("page");
-        if (page == null){
-            page = "1";
+        int page = 1;
+        try {
+            page = Integer.parseInt(request.getParameter("page"));
+        } catch (Exception e) {
+            page = 1;
         }
         
         int count = Posts.total();
@@ -70,7 +72,7 @@ public class PostController extends HttpServlet {
         List<Post> postList = null;
         List<ProductCategory> categoryList = null;
         
-        postList = Posts.paging(endPage);
+        postList = Posts.paging(page);
         
         try {
             categoryList = ProductCategories.allCategory();

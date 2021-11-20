@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.entity.User;
-import model.Users;
+import model.dao.Users;
 import utility.Mail;
 import utility.Token;
 
@@ -75,6 +75,7 @@ public class SignupController extends HttpServlet {
             
             Mail.sendVerifyEmail("http://localhost:8080" + request.getContextPath() + "/mail/verify?token=" + token + "&userId=" + user.getId(), email);
 
+            request.setAttribute("user", user);
             request.getRequestDispatcher("/VerifyMail.jsp").forward(request, response);
             
         } catch (Exception e) {

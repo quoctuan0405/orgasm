@@ -7,6 +7,7 @@ package model;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.Statement;
 
 /**
  *
@@ -14,18 +15,21 @@ import java.sql.DriverManager;
  */
 public class Model implements IModel {
     public Connection getConnection() throws Exception {
-        try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-
-            String url = "jdbc:sqlserver://" + ModelConfig.serverName + ":" + ModelConfig.portNumber + ";databaseName=" + ModelConfig.dbName;
-            Connection conn = DriverManager.getConnection(url, ModelConfig.user, ModelConfig.password);
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/orgasm","root","");
             
-            return conn;
+            return connection;
             
-        } catch (Exception e) {
+        }catch(Exception e){
             e.printStackTrace();
         }
         
         return null;
+    }
+    
+    public static void main(String[] args) throws Exception {
+        Model model = new Model();
+        model.getConnection();
     }
 }

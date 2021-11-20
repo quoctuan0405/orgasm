@@ -21,6 +21,13 @@
         <%@include file="components/Header.jsp"%>
         
         <div class="login">
+            
+            <c:if test="${notificationMessage != null}">
+                <div class="notification">
+                    ${notificationMessage}
+                </div>
+            </c:if>
+            
             <div class="form">
                 <form method="POST">
                     <p class="title">Welcome to Orgasm</p>

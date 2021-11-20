@@ -70,7 +70,7 @@ public class NewBlogController extends HttpServlet {
         request.setAttribute("listBlogCategory", listBlogCategory);
         request.setAttribute("user", user);
         request.setAttribute("type", "add");
-        request.getRequestDispatcher("/ManageBlog.jsp").forward(request, response);
+        request.getRequestDispatcher("/UpsertBlog.jsp").forward(request, response);
     }
 
     /**
@@ -94,51 +94,12 @@ public class NewBlogController extends HttpServlet {
         HttpSession session = request.getSession();
         
         int userId = (int) session.getAttribute("acc");
-        User user = null;
         try {
-            user = Users.findById(userId);
+            Blogs.addBlog(image, title, date, content, category, userId);
         } catch (SQLException ex) {
             Logger.getLogger(NewBlogController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        if (user == null) {
-            response.sendRedirect(request.getContextPath() + "/signup");
-            return;
-        }
-        try {
-            if (!title.isEmpty() && !image.isEmpty() && !content.isEmpty())
-            {
-                Blogs.addBlog(image, title, date, content, category, userId);
-                response.sendRedirect("myblog");
-            }
-            else 
-            {
-                if (title.isEmpty() && content.isEmpty() && image.isEmpty()){
-                    request.setAttribute("message", "You must input all information to create new post");
-                } else {
-                    if (title.isEmpty()){
-                        request.setAttribute("message", "You must input title");
-                    } 
-                    if (content.isEmpty()){
-                        request.setAttribute("message", "You must input content");
-                    }
-                    if (image.isEmpty()){
-                        request.setAttribute("message", "You must input link image");
-                    }
-                }
-                List<BlogCategory> listBlogCategory = null;
-                try {
-                    listBlogCategory = BlogCategories.all();
-                } catch (SQLException ex) {
-                    Logger.getLogger(NewBlogController.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                request.setAttribute("listBlogCategory", listBlogCategory);
-                request.setAttribute("user", user);
-                request.setAttribute("type", "add");
-                request.getRequestDispatcher("ManageBlog.jsp").forward(request, response);
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(NewBlogController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        response.sendRedirect("myblog");
     }
 
     /**

@@ -26,7 +26,7 @@
                     <p class="title">Reset your password</p>
                     <div class="inputs">
                         <div>
-                            <input id="email" name="email" placeholder="Email" type="text">
+                            <input id="username" name="username" placeholder="Username" type="text">
                         </div>
                         <p class="error">${error}</p>
                     </div>

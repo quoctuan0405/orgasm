@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.entity.ProductCategory;
-import model.ProductCategories;
+import model.dao.ProductCategories;
 import model.entity.Product;
 
 /**

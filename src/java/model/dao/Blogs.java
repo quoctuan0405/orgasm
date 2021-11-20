@@ -178,9 +178,7 @@ public class Blogs {
 
     static public List<Blog> paging(int page) throws SQLException {
         List<Blog> list = new ArrayList<>();
-        String query = "SELECT * FROM Blogs \n"
-                + "ORDER BY id \n"
-                + "OFFSET ? ROWS FETCH NEXT 4 ROWS ONLY";
+        String query = "SELECT * FROM Blogs ORDER BY id LIMIT ?, 4";
 
         PreparedStatement ps = null;
         ResultSet rs = null;

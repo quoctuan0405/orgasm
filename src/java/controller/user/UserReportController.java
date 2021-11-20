@@ -18,11 +18,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.entity.ProductCategoryStats;
 import model.entity.OrderStats;
-import model.Orders;
-import model.ProductCategories;
+import model.dao.Orders;
+import model.dao.ProductCategories;
 import model.entity.ProductStats;
-import model.Products;
-import model.Users;
+import model.dao.Products;
+import model.dao.Users;
 
 /**
  *

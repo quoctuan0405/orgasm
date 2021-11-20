@@ -57,7 +57,7 @@ public class Mail {
         }
     }
     
-    static public void sendChangePasswordEmail(String verificationLink, String email) {
+    static public void sendChangePasswordEmail(String newPassword, String email) {
         Session session = Mail.prepare();
         
         // compose message
@@ -65,7 +65,7 @@ public class Mail {
             MimeMessage message = new MimeMessage(session);
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
             message.setSubject("Orgasm Website - Change your password");
-            message.setText("Please click the following link to change your password: " + verificationLink);
+            message.setText("Your new password is: " + newPassword + ". Please change login and change your password again.");
  
             // send message
             Transport.send(message);

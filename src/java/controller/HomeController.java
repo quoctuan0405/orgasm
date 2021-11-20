@@ -17,8 +17,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.entity.Product;
 import model.entity.ProductCategory;
-import model.Products;
-import model.ProductCategories;
+import model.dao.Products;
+import model.dao.ProductCategories;
 
 /**
  *

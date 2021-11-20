@@ -16,7 +16,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.entity.User;
-import model.Users;
+import model.dao.Users;
 
 /**
  *
@@ -36,6 +36,12 @@ public class LoginController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        
+        String notificationMessage = request.getParameter("notification");
+        
+        System.out.println(notificationMessage);
+        
+        request.setAttribute("notificationMessage", notificationMessage);
         
         request.getRequestDispatcher("/Login.jsp").forward(request, response);
     }

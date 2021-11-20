@@ -44,10 +44,10 @@
                 <hr/>
                 <p class="help-text">
                     <c:if test="${invalidToken != null}">
-                        <a href="#">Click here</a> to get another verification email.
+                        <a href="${pageContext.request.contextPath}/email/verify/resend?id=${user.id}">Click here</a> to get another verification email.
                     </c:if>
                     <c:if test="${invalidToken == null}">
-                        Not receive verification email? <a href="#">Click here.</a>
+                        Not receive verification email? <a href="${pageContext.request.contextPath}/email/verify/resend?id=${user.id}">Click here.</a>
                     </c:if>
                 </p>
             </div>

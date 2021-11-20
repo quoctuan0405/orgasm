@@ -125,55 +125,8 @@ public class EditPostController extends HttpServlet {
         String category = request.getParameter("category");
         String id = request.getParameter("id");
             
-        HttpSession session = request.getSession();
-
-        if (session == null || session.getAttribute("acc") == null) {
-            response.sendRedirect(request.getContextPath() + "/signup");
-            return;
-        }
-
-        int userId = (int) session.getAttribute("acc");
-        
-        User user = null;
         try {
-            user = Users.findById(userId);
-        } catch (SQLException ex) {
-            Logger.getLogger(EditPostController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        if (user == null) {
-            response.sendRedirect(request.getContextPath() + "/signup");
-            return;
-        }
-        
-        try {
-            if (!title.isEmpty() && !content.isEmpty()){
-                Posts.updatePost(title, content, category, id);
-            } else {
-                List<ProductCategory> listPostCategory = null;
-                Post post = null;
-                try {
-                    post = Posts.getPostByID(id);
-                    listPostCategory = ProductCategories.allCategory();
-                } catch (SQLException ex) {
-                    Logger.getLogger(EditPostController.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                request.setAttribute("listPostCategory", listPostCategory);
-                request.setAttribute("post", post);
-                request.setAttribute("user", user);
-                request.setAttribute("type", "edit");
-                if (title.isEmpty() && content.isEmpty()){
-                    request.setAttribute("message", "You must input title and content");
-                } else {
-                    if (title.isEmpty()){
-                        request.setAttribute("message", "You must input title");
-                    } 
-                    if (content.isEmpty()){
-                        request.setAttribute("message", "You must input content");
-                    }
-                }
-                request.getRequestDispatcher("PostManagement.jsp").forward(request, response);
-            }
+            Posts.updatePost(title, content, category, id);
         } catch (SQLException ex) {
             Logger.getLogger(EditPostController.class.getName()).log(Level.SEVERE, null, ex);
         }

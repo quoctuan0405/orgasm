@@ -1,129 +1,141 @@
-/* CREATE DATABASE */
-CREATE DATABASE orgasm;
-USE orgasm;
-
 /* CREATE TABLE */
 CREATE TABLE Roles (
-	id int identity(1, 1) not null primary key,
-	name nvarchar(100) not null unique,
+	id int AUTO_INCREMENT not null primary key,
+	name varchar(100) not null unique
 );
 
 CREATE TABLE Users (
-	id int identity(1, 1) not null primary key,
-	email nvarchar(100) not null unique,
-	username nvarchar(100) not null unique,
-	password nvarchar(100) not null,
-	address nvarchar(100),
-	phone nvarchar(100),
-	gender nvarchar(100),
-	status nvarchar(100),
-	profile nvarchar(500),
-	avatar nvarchar(200),
-	shortDescription nvarchar(25),
+	id int AUTO_INCREMENT not null primary key,
+	email varchar(100) not null unique,
+	username varchar(100) not null unique,
+	password varchar(100) not null,
+	address varchar(100),
+	phone varchar(100),
+	gender varchar(100),
+	status varchar(100),
+	profile varchar(500),
+	avatar varchar(200),
+	shortDescription varchar(25),
 	emailVerified bit,
-	verifyToken nvarchar(200),
-	role int not null FOREIGN KEY REFERENCES Roles(id),
-	deleted bit default 0,
+	verifyToken varchar(200),
+	role int not null, FOREIGN KEY(role) REFERENCES Roles(id),
+	deleted bit default 0
 );
 
 CREATE TABLE ProductCategories (
-	id int identity(1, 1) not null primary key,
-	name nvarchar(50) unique
+	id int AUTO_INCREMENT not null primary key,
+	name varchar(50) unique
 );
 
 CREATE TABLE Products (
-	id int identity(1, 1) not null primary key,
-	name nvarchar(100) not null,
+	id int AUTO_INCREMENT not null primary key,
+	name varchar(100) not null,
 	quantity decimal(19, 6) not null,
 	price decimal(19, 6) not null,
-	category int not null FOREIGN KEY REFERENCES ProductCategories(id),
-	thumbnail nvarchar(100),
-	description nvarchar(500),
-	unit nvarchar(20),
-	creatorId int not null FOREIGN KEY REFERENCES Users(id)
+	category int not null, FOREIGN KEY(category) REFERENCES ProductCategories(id),
+	thumbnail varchar(100),
+	description varchar(500),
+	unit varchar(20),
+	creatorId int not null, FOREIGN KEY(creatorId) REFERENCES Users(id)
 );
 
 CREATE TABLE OrderStatus (
-	id int identity(1, 1) not null primary key,
-	status nvarchar(50) not null unique
+	id int AUTO_INCREMENT not null primary key,
+	status varchar(50) not null unique
 );
 
 CREATE TABLE Orders (
-	id int identity(1, 1) not null primary key,
-	buyerId int not null FOREIGN KEY REFERENCES Users(id),
+	id int AUTO_INCREMENT not null primary key,
+	buyerId int not null, FOREIGN KEY(buyerId) REFERENCES Users(id),
 	createdAt Date,
 	updatedAt Date,
-	status int not null FOREIGN KEY REFERENCES OrderStatus(id),
+	status int not null, FOREIGN KEY(status) REFERENCES OrderStatus(id)
 );
 
 CREATE TABLE OrderProduct (
-	id int identity(1, 1) not null primary key,
-	orderId int not null FOREIGN KEY REFERENCES Orders(id),
-	productId int not null FOREIGN KEY REFERENCES Products(id),
+	id int AUTO_INCREMENT not null primary key,
+	orderId int not null, FOREIGN KEY(orderId) REFERENCES Orders(id),
+	productId int not null, FOREIGN KEY(productId) REFERENCES Products(id),
 	quantity int not null
 );
 
 CREATE TABLE BlogCategories (
-	id int identity(1, 1) not null primary key,
-	name nvarchar(50) unique
+	id int AUTO_INCREMENT not null primary key,
+	name varchar(50) unique
 );
 
 CREATE TABLE Blogs (
-	id int identity(1, 1) not null primary key,
-	image nvarchar(100),
-	title nvarchar(100) not null,
+	id int AUTO_INCREMENT not null primary key,
+	image varchar(100),
+	title varchar(100) not null,
 	createdAt Date,
-	content nvarchar(2047),
-	category int not null FOREIGN KEY REFERENCES BlogCategories(id),
-	authorId int not null FOREIGN KEY REFERENCES Users(id)
+	content varchar(2047),
+	category int not null, FOREIGN KEY(category) REFERENCES BlogCategories(id),
+	authorId int not null, FOREIGN KEY(authorId) REFERENCES Users(id)
 );
 
 CREATE TABLE Posts (
-	id int identity(1, 1) not null primary key,
-	image nvarchar(100),
-	title nvarchar(100) not null,
+	id int AUTO_INCREMENT not null primary key,
+	image varchar(100),
+	title varchar(100) not null,
 	createdAt Date,
-	content nvarchar(2047),
-	category int not null FOREIGN KEY REFERENCES ProductCategories(id),
-	authorId int not null FOREIGN KEY REFERENCES Users(id)
+	content varchar(2047),
+	category int not null, FOREIGN KEY(category) REFERENCES ProductCategories(id),
+	authorId int not null, FOREIGN KEY(authorId) REFERENCES Users(id)
 );
 
 CREATE TABLE ProductFeedbacks (
-	id int identity(1, 1) not null primary key,
-	orderProductId int not null FOREIGN KEY REFERENCES OrderProduct(id),
+	id int AUTO_INCREMENT not null primary key,
+	orderProductId int not null, FOREIGN KEY(orderProductId) REFERENCES OrderProduct(id),
 	createdAt Date,
 	rating int not null,
-	description nvarchar(500),
+	description varchar(500)
 );
 
 CREATE TABLE Likes (
-	id int identity(1, 1) not null primary key,
-	authorId int not null FOREIGN KEY REFERENCES Users(id),
-	blogId int not null FOREIGN KEY REFERENCES Blogs(id),
+	id int AUTO_INCREMENT not null primary key,
+	authorId int not null, FOREIGN KEY(authorId) REFERENCES Users(id),
+	blogId int not null, FOREIGN KEY(blogId) REFERENCES Blogs(id),
 	createdAt Date
-)
+);
 
 CREATE TABLE BlogComments (
-	id int identity(1, 1) not null primary key,
-	authorId int not null FOREIGN KEY REFERENCES Users(id),
-	blogId int not null FOREIGN KEY REFERENCES Blogs(id),
+	id int AUTO_INCREMENT not null primary key,
+	authorId int not null, FOREIGN KEY(authorId) REFERENCES Users(id),
+	blogId int not null, FOREIGN KEY(blogId) REFERENCES Blogs(id),
 	createdAt Date,
-	content nvarchar(300)
-)
+	content varchar(300)
+);
 
 CREATE TABLE PostComment (
-	id int identity(1, 1) not null primary key,
-	authorId int not null FOREIGN KEY REFERENCES Users(id),
-	postId int not null FOREIGN KEY REFERENCES Posts(id),
+	id int AUTO_INCREMENT not null primary key,
+	authorId int not null, FOREIGN KEY(authorId) REFERENCES Users(id),
+	postId int not null, FOREIGN KEY(postId) REFERENCES Posts(id),
 	createdAt Date,
-	content nvarchar(300)
-)
+	content varchar(300)
+);
+
+CREATE TABLE Tickets (
+	id int auto_increment not null primary key,
+	authorId int not null, FOREIGN KEY(authorId) REFERENCES Users(id),
+	createdAt Date,
+	content varchar(300),
+	title varchar(100) not null
+);
+
+CREATE TABLE TicketComments (
+	id int auto_increment not null primary key,
+	authorId int not null, FOREIGN KEY(authorId) REFERENCES Users(id),
+	ticketId int not null, FOREIGN KEY(ticketId) REFERENCES Tickets(id),
+	createdAt Date,
+	content varchar(300)
+);
 
 /* ADD SEED DATA */
 INSERT INTO Roles (name) VALUES ('user');
 INSERT INTO Roles (name) VALUES ('admin');
 
-INSERT INTO Users (username, email, profile, role, address, phone, gender, status, shortDescription, emailVerified, password, avatar) 
+INSERT INTO Users (username, email, profile, role, address, phone, gender, status, shortDescription, emailVerified, password, avatar)
 VALUES ('username', 'someone@email.com', 'Im proud to the first user in this software!', 2, '192 Avenue Street', '0933 485 222', 'Female', 'Married', 'Hi there!', 1, '$31$16$RV53nD3fRxSFviE0HWVqV0Z4hOMb4QBM3iE3Vvu5Gmc', 'https://i.postimg.cc/BZmgq0fT/pexels-dmitriy-ganin-7538060.jpg');
 INSERT INTO Users (username, email, profile, role, address, phone, gender, status, shortDescription, emailVerified, password, avatar) 
 VALUES ('username1', 'username1@email.com', 'Im proud to the second user in this software!', 1, '24 Long Street', '0942 733 834', 'Male', 'Not married', 'Hello Im Josh!', 1, '$31$16$RV53nD3fRxSFviE0HWVqV0Z4hOMb4QBM3iE3Vvu5Gmc', 'https://i.postimg.cc/CxqHHnB7/pexels-mikhail-nilov-7815116.jpg');
@@ -281,7 +293,7 @@ INSERT INTO Posts (title, createdAt, category, authorId, image, content) VALUES 
 
 
 INSERT INTO BlogComments (content, createdAt, authorId, blogId) VALUES ('Great!!!', '2021-04-22', 2, 1);
-INSERT INTO BlogComments (content, createdAt, authorId, blogId) VALUES ('Good!', '2021-04-22', 1, 2);
+INSERT INTO BlogComments (content, createdAt, authorId, blogId) VALUES ('God!', '2021-04-22', 1, 2);
 INSERT INTO BlogComments (content, createdAt, authorId, blogId) VALUES ('Awesome!!!', '2021-04-22', 3, 3);
 INSERT INTO BlogComments (content, createdAt, authorId, blogId) VALUES ('Thats right!!!', '2021-04-22', 1, 4);
 INSERT INTO BlogComments (content, createdAt, authorId, blogId) VALUES ('Oh my god!!!', '2021-04-22', 3, 5);
@@ -295,7 +307,7 @@ INSERT INTO BlogComments (content, createdAt, authorId, blogId) VALUES ('To the 
 INSERT INTO BlogComments (content, createdAt, authorId, blogId) VALUES ('OMG!!!', '2021-04-22', 1, 5);
 
 INSERT INTO PostComment (content, createdAt, authorId, postId) VALUES ('Great!!!', '2021-04-22', 2, 1);
-INSERT INTO PostComment (content, createdAt, authorId, postId) VALUES ('Good!', '2021-04-22', 2, 2);
+INSERT INTO PostComment (content, createdAt, authorId, postId) VALUES ('God!', '2021-04-22', 2, 2);
 INSERT INTO PostComment (content, createdAt, authorId, postId) VALUES ('Awesome!!!', '2021-04-22', 1, 3);
 INSERT INTO PostComment (content, createdAt, authorId, postId) VALUES ('Thats right!!!', '2021-04-22', 2, 4);
 INSERT INTO PostComment (content, createdAt, authorId, postId) VALUES ('Oh my god!!!', '2021-04-22', 1, 5);

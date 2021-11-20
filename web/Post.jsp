@@ -102,7 +102,7 @@
 
                 <div class="pagination row">
                     <c:forEach begin="1" end="${endPage}" var="o">
-                        <a href="port?page=${o}" <c:if test="${currentPage == o}">class="current"</c:if>>${o}</a>
+                        <a href="post?page=${o}" <c:if test="${currentPage == o}">class="current"</c:if>>${o}</a>
                     </c:forEach>
                 </div>
 

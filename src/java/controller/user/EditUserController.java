@@ -16,7 +16,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.entity.User;
-import model.Users;
+import model.dao.Users;
 
 /**
  *

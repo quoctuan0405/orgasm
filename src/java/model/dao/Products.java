@@ -30,7 +30,8 @@ public class Products {
     public static List<Product> getPremiumProduct() throws SQLException {
         List<Product> list = new ArrayList<Product>();
         String query = "select * from Products\n"
-                + "order by price desc, name asc LIMIT 4";
+                + "order by price desc, name asc "
+                + "limit 4";
 
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -74,7 +75,7 @@ public class Products {
         List<Product> list = new ArrayList<Product>();
 
         String query = "select * from Products\n"
-                + "where [name] like ?";
+                + "where name like ?";
 
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -243,7 +244,7 @@ public class Products {
         List<Product> list = new ArrayList<>();
         String query = "select * from Products\n"
                 + "Order by id \n"
-                + "Offset ? rows fetch next 4 rows only";
+                + "LIMIT ?, 4";
 
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -363,8 +364,8 @@ public class Products {
 
     public static void editProduct(String name, String quantity, String price, String category, String thumbnail, String description, String id) throws SQLException {
         String query = "update Products\n"
-                + "set [name] = ?, [quantity] = ?, [price] = ?,\n"
-                + "[category] = ?, [thumbnail] = ?, [description] = ?\n"
+                + "set name = ?, quantity = ?, price = ?,\n"
+                + "category = ?, thumbnail = ?, description = ?\n"
                 + "where id = ?";
 
         PreparedStatement ps = null;

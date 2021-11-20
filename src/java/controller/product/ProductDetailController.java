@@ -12,10 +12,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.entity.Product;
-import model.Products;
+import model.dao.Products;
+import model.dao.ProductFeedbacks;
+import model.entity.ProductFeedback;
+import model.dao.Users;
+import model.entity.User;
 
 /**
  *
@@ -37,20 +42,33 @@ public class ProductDetailController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        String id = request.getParameter("id");
-
+        
+        
+        User user = null;
         Product product = null;
+        List<ProductFeedback> productFeedbacks = null;
+        double AVG = 0;
         try {
-            product = Products.getProductByID(id);
+            int productId = Integer.parseInt(request.getParameter("id"));
+            
+            product = Products.getProductByID(productId);
+            user = Users.findById(product.getCreatorId());
+            
+            productFeedbacks = ProductFeedbacks.getProductFeedbacks(productId);
+            AVG = ProductFeedbacks.AVGFeedback(productId);
+            
         } catch (SQLException ex) {
             Logger.getLogger(ProductDetailController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        request.setAttribute("detail", product);
-
+        
+        request.setAttribute("product", product);
+        request.setAttribute("user", user);
+        request.setAttribute("productFeedbacks", productFeedbacks);
+        request.setAttribute("AVGStar", AVG);
+        
         request.getRequestDispatcher("ProductDetail.jsp").forward(request, response);
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

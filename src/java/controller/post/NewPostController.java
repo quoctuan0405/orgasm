@@ -121,49 +121,12 @@ public class NewPostController extends HttpServlet {
         HttpSession session = request.getSession();
         
         int userId = (int) session.getAttribute("acc");
-        User user = null;
         try {
-            user = Users.findById(userId);
+            Posts.addPost(title, date, content, category, userId);
         } catch (SQLException ex) {
             Logger.getLogger(NewPostController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        if (user == null) {
-            response.sendRedirect(request.getContextPath() + "/signup");
-            return;
-        }
-        try {
-            if (!title.isEmpty() && !content.isEmpty())
-            {
-                Posts.addPost(title, date, content, category, userId);
-                response.sendRedirect("mypost");
-
-            } 
-            else
-            {
-                if (title.isEmpty() && content.isEmpty()){
-                    request.setAttribute("message", "You must input title and content");
-                } else {
-                    if (title.isEmpty()){
-                        request.setAttribute("message", "You must input title");
-                    } 
-                    if (content.isEmpty()){
-                        request.setAttribute("message", "You must input content");
-                    }
-                }
-                List<ProductCategory> listPostCategory = null;
-                try {
-                    listPostCategory = ProductCategories.allCategory();
-                } catch (SQLException ex) {
-                    Logger.getLogger(NewPostController.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                request.setAttribute("listPostCategory", listPostCategory);
-                request.setAttribute("user", user);
-                request.setAttribute("type", "add");
-                request.getRequestDispatcher("PostManagement.jsp").forward(request, response);
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(NewPostController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        response.sendRedirect("mypost");
     }
 
     /**

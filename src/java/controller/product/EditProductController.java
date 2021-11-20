@@ -17,10 +17,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.entity.Product;
-import model.Products;
+import model.dao.Products;
 import model.entity.ProductCategory;
-import model.ProductCategories;
-import model.Users;
+import model.dao.ProductCategories;
+import model.dao.Users;
 
 /**
  *
@@ -59,7 +59,7 @@ public class EditProductController extends HttpServlet {
         }
         /***** End Authentication *****/
         
-        String productId = request.getParameter("id");       
+        int productId = Integer.parseInt(request.getParameter("id"));       
         Product product=null;
         try {
             product = Products.getProductByID(productId);

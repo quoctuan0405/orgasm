@@ -448,6 +448,65 @@ public class Users {
 
         return null;
     }
+    
+    static public User setRole(int userId, int role) throws SQLException {
+        String setRoleQuery = "UPDATE Users SET role = ? WHERE id = ?";
+        String findUserQuery = "select * from Users where id = ?";
+
+        PreparedStatement ps1 = null;
+        PreparedStatement ps2 = null;
+        Connection conn = null;
+        ResultSet rs = null;
+
+        try {
+
+            conn = model.getConnection();
+            
+            ps1 = conn.prepareStatement(setRoleQuery);
+            ps1.setInt(1, role);
+            ps1.setInt(2, userId);
+            ps1.executeUpdate();
+            
+            ps2 = conn.prepareStatement(findUserQuery);
+            ps2.setInt(1, userId);
+            rs = ps2.executeQuery();
+            while (rs.next()) {
+                return new User(rs.getInt("id"),
+                        rs.getString("email"),
+                        rs.getString("username"),
+                        rs.getString("profile"),
+                        rs.getString("role"),
+                        rs.getString("address"),
+                        rs.getString("phone"),
+                        rs.getString("gender"),
+                        rs.getString("status"),
+                        rs.getString("password"),
+                        rs.getString("avatar"),
+                        rs.getString("shortDescription"),
+                        rs.getBoolean("emailVerified"),
+                        rs.getString("verifyToken")
+                );
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps1 != null) {
+                ps1.close();
+            }
+            if (ps2 != null) {
+                ps2.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+
+        return null;
+    }
 
 //    public static void main(String[] args) {
 //        try {

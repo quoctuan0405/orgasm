@@ -63,7 +63,9 @@
                                         <p>$${a.price*t}</p>
                                     </td>
                                     <td>
-                                        <button>Give a review</button>
+                                        <a href="${pageContext.request.contextPath}/review?id=${a.id}&oid=${o.id}">
+                                            <button>Give a review</button>
+                                        </a>
                                     </td>
                                 </tr> 
                             </c:if>      

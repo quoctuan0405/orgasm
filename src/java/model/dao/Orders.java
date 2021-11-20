@@ -36,14 +36,15 @@ public class Orders extends Model {
     static public List<OrderStats> revenueByMonth(int userId) throws SQLException {
         List<OrderStats> list = new ArrayList<>();
 
-        String query = "SELECT TOP(5) Orders.updatedAt AS date, SUM(OrderProduct.quantity * Products.price) AS total "
+        String query = "SELECT Orders.updatedAt AS date, SUM(OrderProduct.quantity * Products.price) AS total "
                 + "FROM Orders "
                 + "JOIN OrderProduct ON Orders.id = OrderProduct.orderId "
                 + "JOIN Products ON Products.id = OrderProduct.productId "
                 + "JOIN Users ON Products.creatorId = Users.id "
                 + "WHERE Orders.status = 2 AND Users.id = ? "
                 + "GROUP BY MONTH(Orders.updatedAt), Orders.updatedAt "
-                + "ORDER BY MONTH(Orders.updatedAt) DESC";
+                + "ORDER BY MONTH(Orders.updatedAt) DESC "
+                + "LIMIT 5";
 
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -98,7 +99,7 @@ public class Orders extends Model {
             st.executeUpdate();
 
             //lấy ra id của Order vừa add
-            String sql1 = "select top 1 id from [Orders] order by id desc";
+            String sql1 = "select id from Orders order by id desc LIMIT 1";
             st1 = con.prepareStatement(sql1);
             rs = st1.executeQuery();
 

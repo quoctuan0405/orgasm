@@ -7,11 +7,18 @@ package controller.auth;
  */
 
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.dao.Users;
+import model.entity.User;
+import utility.Mail;
+import utility.Token;
 
 /**
  *
@@ -48,6 +55,36 @@ public class ForgotPasswordController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
+        /******* Verify that user is exists *******/
+        String username = request.getParameter("username");
+        
+        User user = null;
+        try {
+            user = Users.findByUsername(username);
+        } catch (SQLException ex) {
+            Logger.getLogger(ForgotPasswordController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        if (user == null) {
+            request.setAttribute("error", "Account not found.");
+            request.getRequestDispatcher("/ForgotPassword.jsp").forward(request, response);
+            
+            return;
+        }
+        /******* End Verify *******/
+
+        
+        String newPassword = Token.generateToken();
+        try {
+            Users.changePassword(username, newPassword);
+            
+            Mail.sendChangePasswordEmail(newPassword, user.getEmail());
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(ForgotPasswordController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        response.sendRedirect(request.getContextPath() + "/login?notification=Change password complete. Please check your email.");
         
     }
 
