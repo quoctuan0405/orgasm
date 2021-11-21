@@ -76,9 +76,11 @@
                                     
                                 <c:if test="${o.cateID == null}"><li>#all</li></c:if>
                             </ul>
-                            <a href="newpost">
-                                <button>Add to post</button>
-                            </a>
+                            <c:if test="${sessionScope.acc != null}">
+                                <a href="newpost">
+                                    <button>Add to post</button>
+                                </a>
+                            </c:if>
                         </div>
                     </c:if>
                     <c:set var="tag" value="1"></c:set>

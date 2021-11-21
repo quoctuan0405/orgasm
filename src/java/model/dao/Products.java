@@ -165,6 +165,54 @@ public class Products {
 
         return list;
     }
+    
+    static public List<ProductStats> getProductStatsAdmin() throws SQLException {
+        List<ProductStats> list = new ArrayList<ProductStats>();
+
+        String query = "SELECT Products.id AS id, Products.name AS name, Products.price AS price, SUM(OrderProduct.quantity) AS sold, Products.quantity AS remained, SUM(OrderProduct.quantity * Products.price) AS total "
+                + "FROM Orders "
+                + "JOIN OrderProduct ON Orders.id = OrderProduct.orderId "
+                + "JOIN Products ON Products.id = OrderProduct.productId "
+                + "JOIN Users ON Products.creatorId = Users.id "
+                + "WHERE Orders.status = 2 "
+                + "GROUP BY Products.id, Products.name, Products.price, Products.quantity "
+                + "ORDER BY total DESC;";
+
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Connection conn = null;
+
+        try {
+            conn = model.getConnection();
+            ps = conn.prepareStatement(query);
+
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new ProductStats(
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getDouble("price"),
+                        rs.getInt("sold"),
+                        rs.getInt("remained"),
+                        rs.getDouble("total")
+                ));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+
+        return list;
+    }
 
     static public Product getProductByID(int id) throws SQLException {
         String query = "select * from Products\n"
@@ -496,6 +544,9 @@ public class Products {
 //        for (int i = 0; i < list.size(); i++)  {
 //            System.out.println(list.get(i).getName());
 //        }
-        Products.deleteProduct(4);
+        List<Product> list = Products.getPremiumProduct();
+        for (int i = 0; i < list.size(); i++) {
+            System.out.println(list.get(i).getName());
+        }
     }
 }

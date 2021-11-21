@@ -42,6 +42,7 @@ public class HomeController extends HttpServlet {
         try {
             premiumProductList = Products.getPremiumProduct();
         } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
             Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
         }
         request.setAttribute("listPP", premiumProductList);

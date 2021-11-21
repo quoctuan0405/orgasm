@@ -41,7 +41,12 @@
                     </tr>
                     <tr>
                         <td>Gender</td>
-                        <td><input type="text" value="${user.gender}" name="gender">
+                        <td>
+                            <select name="gender" >
+                                <option ${user.gender == "Male" ? 'selected = "selected"' : ''} value="Male" >Male</option>
+                                <option ${user.gender == "Female" ? 'selected = "selected"' : ''} value="Female" >Female</option>
+                                <option ${user.gender == "Other" ? 'selected = "selected"' : ''} value="Other" >Other</option>
+                            </select>
                         </td>
                     </tr>
                     <tr>

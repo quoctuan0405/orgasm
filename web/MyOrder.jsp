@@ -23,10 +23,12 @@
                 <span>My Orders</span>
             </div>
         </div>        
+        <c:set var="z" value="1"/>
         <c:forEach items="${OrderList}" var="o">
             <div class="order">            
                 <div class="">
-                    <span>Order#${o.id}</span>
+                    <span>Order#${z}</span>
+                    <c:set var="z" value="${z+1}"/>
                     <span>${o.updatedAt}</span>
                 </div>
                 <table>                

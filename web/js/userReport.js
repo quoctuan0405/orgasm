@@ -84,6 +84,8 @@ const datatable = new simpleDatatables.DataTable("#revenue-products-table", {
     fixedHeight: true
 });
 
+console.log(datatable);
+
 let newData = {
     headings: productsReportHeader,
     data: productsReport

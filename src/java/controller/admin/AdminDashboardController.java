@@ -5,6 +5,7 @@
  */
 package controller.admin;
 
+import controller.user.UserReportController;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
@@ -16,9 +17,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import model.dao.Orders;
+import model.dao.ProductCategories;
+import model.dao.Products;
 import model.dao.Roles;
 import model.entity.User;
 import model.dao.Users;
+import model.entity.OrderStats;
+import model.entity.ProductCategoryStats;
+import model.entity.ProductStats;
 import model.entity.Role;
 
 /**
@@ -77,6 +84,17 @@ public class AdminDashboardController extends HttpServlet {
 
         request.setAttribute("users", users);
         request.setAttribute("roles", roles);
+        
+        List<ProductStats> productsReport = null;
+        try {
+            productsReport = Products.getProductStatsAdmin();
+            for (int i = 0; i < productsReport.size(); i++) {
+                System.out.println(productsReport.get(i).getName());
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserReportController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        request.setAttribute("productsReport", productsReport);
 
         request.getRequestDispatcher("/AdminDashboard.jsp").forward(request, response);
     }

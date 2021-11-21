@@ -6,3 +6,17 @@ for (selectElement of selectElements) {
         event.target.parentElement.submit();
     });
 }
+
+const datatable = new simpleDatatables.DataTable("#revenue-products-table", {
+    fixedHeight: false
+});
+console.log(productsReport);
+
+console.log(datatable);
+
+let newData = {
+    headings: productsReportHeader,
+    data: productsReport
+};
+
+datatable.insert(newData);

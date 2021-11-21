@@ -17,9 +17,15 @@
         <!-- Specific CSS file -->
         <link href="${pageContext.request.contextPath}/css/adminDashboard.css" rel="stylesheet" type="text/css">
         <link href="${pageContext.request.contextPath}/css/userProfile.css" rel="stylesheet" type="text/css">
+        <link href="${pageContext.request.contextPath}/css/userReport.css" rel="stylesheet" type="text/css">
+        
+        <!-- Simple-data table -->
+        <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css">
+        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript" defer></script>
 
         <!-- Specific JS file -->
         <script src="${pageContext.request.contextPath}/js/adminDashboard.js" defer></script>
+
     </head>
     <body>
         <%@include file="components/Header.jsp"%>
@@ -61,11 +67,27 @@
                 </div>
             </div>
             
+            <div class="revenue-products">
+                <p>Products</p>
+                <table id="revenue-products-table">
+                    
+                </table>
+            </div>
+            
             <a class="admin-link" href="${pageContext.request.contextPath}/ticketadmin">
                 <button class="admin-button">User Support Ticket</button>
             </a>
         </div>
         
         <%@include file="components/Footer.jsp"%>
+        
+        <!-- Pass data to Javascript -->
+        <script defer>
+            const productsReportHeader = ["Name", "Price", "Sold", "Remained", "Total"];
+            let productsReport = [];
+            <c:forEach items="${productsReport}" var="product">
+                productsReport.push(["${product.name}", "${product.price}", "${product.sold}", "${product.remained}", "${product.total}"]);
+            </c:forEach>
+        </script>
     </body>
 </html>

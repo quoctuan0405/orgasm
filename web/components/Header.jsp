@@ -27,10 +27,10 @@
                     <li>
                         <a href="${pageContext.request.contextPath}/profile">Profile</a>
                     </li>
+                    <li>
+                        <a href="${pageContext.request.contextPath}/ticket">Ticket</a>
+                    </li>
                 </c:if>
-                <li>
-                    <a href="${pageContext.request.contextPath}/ticket">Ticket</a>
-                </li>
                 <li>
                     <a href="${pageContext.request.contextPath}/about">About us</a>
                 </li>
