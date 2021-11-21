@@ -59,7 +59,7 @@
                                 </form>
                             </td>
                             <td>
-                                    <p>$<fmt:formatNumber pattern="##.#" value="${productInCart.quantity * productInCart.product.price}"/></p>
+                                <p>$<fmt:formatNumber pattern="##.#" value="${productInCart.quantity * productInCart.product.price}"/></p>
                             </td>
                             <td>
                                 <form action="cart" method="post">
@@ -87,18 +87,20 @@
                     </a>
                 </div>                        
             </div>
-            <div class="cart-total">
-                <jsp:useBean id="db" class="model.dao.Cart"/>
-                <div>
-                    <p>Cart Total</p>
-                    <p><fmt:formatNumber pattern="##.#" value="${t}"/>$</p>
+            <c:if test="${t!=0}">
+                <div class="cart-total">
+                    <jsp:useBean id="db" class="model.dao.Cart"/>
+                    <div>
+                        <p>Cart Total</p>
+                        <p><fmt:formatNumber pattern="##.#" value="${t}"/>$</p>
+                    </div>
+                    <div>
+                        <form action="checkout" method="post">
+                            <button type="submit">Check out</button>
+                        </form>
+                    </div>
                 </div>
-                <div>
-                    <form action="checkout" method="post">
-                        <button type="submit">Check out</button>
-                    </form>
-                </div>
-            </div>
+            </c:if>        
         </div>      
 
         <%@include file="components/Footer.jsp"%>
